@@ -8,6 +8,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.feature.RandomPatchFeature;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 import static azzy.fabric.azzyfruits.registry.ItemRegistry.*;
