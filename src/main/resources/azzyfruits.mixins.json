@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "azzy.fabric.azzyfruits.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "BaseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

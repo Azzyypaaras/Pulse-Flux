@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "azzyfruits",
+  "version": "${version}",
+
+  "name": "Forgotten Fruits",
+  "description": "Times forgotten, Magic forsaken, and Knowledge to be begotten, tales tell of fruits long forgotten, elusive plants with divine powers lost to time, unobtainable after centuries of calamity... or, are they? Not all that is forgotten is trully lost, after all, whether the legends of ritual and alchemy that may bring back that magic long left behind is up to you to find out.",
+  "authors": [
+    "Azazelthedemonlord"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "azzy.fabric.azzyfruits.ForgottenFruits"
+    ],
+    "client": [
+      "azzy.fabric.azzyfruits.ClientInit"
+    ]
+  },
+  "mixins": [
+    "azzyfruits.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.15.x"
+  },
+  "suggests": {
+  }
+}

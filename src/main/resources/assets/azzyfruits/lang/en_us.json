@@ -1,0 +1,12 @@
+{
+	"itemGroup.azzyfruits.plantstuff": "Forgotten Fruits: Foods",
+	"item.azzyfruits.cloudberry_fruit": "Cloudberry",
+	"item.azzyfruits.cloudberry_block": "Cloudberry Jelly Meld",
+	"item.azzyfruits.cloudberry_amalgam": "Cloudberry Amalgam",
+		"item.azzyfruits.cloudberry_amalgam.tooltip": "Tastes sweet, yet distinctively tart",
+	"item.azzyfruits.cloudberry_seeds": "Cloudberry Seeds",
+	"block.azzyfruits.cloudberry_block": "Cloudberry Amalgam Meld",
+	"block.azzyfruits.cloudberry_crop": "Cloudberry Plant",
+	"block.azzyfruits.cloudberry_wild": "Wild Cloudberry"
+}
+
