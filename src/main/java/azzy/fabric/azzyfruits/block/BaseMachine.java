@@ -66,9 +66,4 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
         return new MachineEntity();
     }
 
-    @Override
-    public boolean hasBlockEntity() {
-        return true;
-    }
-
 }
