@@ -21,9 +21,9 @@ import net.minecraft.world.BlockView;
 
 public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider{
 
-        private String identifier;
-        private VoxelShape bounds;
-        private ParticleEffect[] effects;
+        protected String identifier;
+        protected VoxelShape bounds;
+        protected ParticleEffect[] effects;
 
     public BaseMachine(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect ... effects) {
         super(FabricBlockSettings.of(material).breakByTool(FabricToolTags.AXES, 1).sounds(sound).nonOpaque().hardness(0.4f).lightLevel(glow).build());
@@ -63,7 +63,7 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
 
     @Override
     public BlockEntity createBlockEntity(BlockView blockView) {
-        return new MachineEntity();
+        return null;
     }
 
 }
