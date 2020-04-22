@@ -9,7 +9,7 @@
     "Azazelthedemonlord"
   ],
   "contact": {
-    "homepage": "",
+    "homepage": "https://github.com/Dragonoidzero/Azzys-Fruits",
     "sources": ""
   },
 
@@ -32,7 +32,8 @@
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
-    "minecraft": "1.15.x"
+    "minecraft": "1.15.x",
+    "libblockattributes": "*"
   },
   "suggests": {
   }

@@ -2,20 +2,14 @@ package azzy.fabric.azzyfruits.TileEntities.BlockEntity;
 
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 
-import java.util.Set;
-
-import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.*;
+import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
 
 public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory {
 

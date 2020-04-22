@@ -1,6 +1,5 @@
 package azzy.fabric.azzyfruits.block;
 
-import azzy.fabric.azzyfruits.TileEntities.BlockEntity.MachineEntity;
 import com.sun.istack.internal.Nullable;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
@@ -11,12 +10,10 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
 public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider{
