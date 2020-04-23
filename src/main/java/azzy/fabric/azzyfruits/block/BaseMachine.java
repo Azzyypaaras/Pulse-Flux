@@ -1,6 +1,6 @@
 package azzy.fabric.azzyfruits.block;
 
-import com.sun.istack.internal.Nullable;
+
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.*;
@@ -53,7 +53,6 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
     }
 
     @Override
-    @Nullable
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
     }

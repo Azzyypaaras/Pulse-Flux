@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.registry;
 
+import azzy.fabric.azzyfruits.block.BEBlocks.BasketBlock;
 import azzy.fabric.azzyfruits.block.BEBlocks.PressBlock;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,6 +12,7 @@ import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
@@ -24,8 +26,12 @@ public class BlockRegistry {
 
     public static final VoxelShape DEFAULT_SHAPE = Block.createCuboidShape(1, 0, 1, 15, 15, 15);
 
+    //misc blocks
     public static final Block CLOUDBERRY_BLOCK = register("cloudberry_block", new Block(FabricBlockSettings.of(Material.UNDERWATER_PLANT).materialColor(MaterialColor.ORANGE).nonOpaque().breakInstantly().sounds(BlockSoundGroup.SLIME).slipperiness(0.8f).build()), defaultSettings());
+
+    //Block Entities
     public static final Block PRESS_BLOCK = register("press_block", new PressBlock(null , "press", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), new Item.Settings().group(BLOCKENTITIES));
+    public static final Block BASKET_BLOCK = register("basket_block", new BasketBlock(null, "basket", Material.WOOL, BlockSoundGroup.WOOL, 0, Block.createCuboidShape(0, 0, 0, 16, 16, 16), null), new Item.Settings().group(BLOCKENTITIES));
 
     public static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);
