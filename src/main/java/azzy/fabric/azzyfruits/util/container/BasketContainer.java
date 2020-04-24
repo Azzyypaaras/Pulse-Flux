@@ -6,7 +6,7 @@ import net.minecraft.inventory.Inventory;
 
 public class BasketContainer extends GenericContainer {
 
-    protected BasketContainer(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public BasketContainer(int syncId, PlayerInventory playerInventory, Inventory inventory) {
         super(syncId, playerInventory, inventory);
     }
 

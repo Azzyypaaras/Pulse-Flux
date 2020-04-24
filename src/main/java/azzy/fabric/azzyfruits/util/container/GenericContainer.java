@@ -13,7 +13,7 @@ public class GenericContainer extends Container {
     protected int inventorySizeX = 7;
     protected int inventorySizeY = 3;
 
-    protected GenericContainer(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public GenericContainer(int syncId, PlayerInventory playerInventory, Inventory inventory) {
         super(null, syncId);
         this.inventory = inventory;
         checkContainerSize(inventory, inventorySize);

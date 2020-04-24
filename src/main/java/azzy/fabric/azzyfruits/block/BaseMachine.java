@@ -1,20 +1,25 @@
 package azzy.fabric.azzyfruits.block;
 
 
+import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.container.Container;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 
 public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider{
 
@@ -28,6 +33,19 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
         this.bounds = bounds;
         this.effects = effects;
         setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
+    }
+
+    @Override
+    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof MachineEntity) {
+                ItemScatterer.spawn(world, (BlockPos)pos, (Inventory)((MachineEntity)blockEntity));
+                // update comparators
+                world.updateHorizontalAdjacent(pos, this);
+            }
+            super.onBlockRemoved(state, world, pos, newState, moved);
+        }
     }
 
     @Override
@@ -60,6 +78,16 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
     @Override
     public BlockEntity createBlockEntity(BlockView blockView) {
         return null;
+    }
+
+    @Override
+    public boolean hasComparatorOutput(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return Container.calculateComparatorOutput(world.getBlockEntity(pos));
     }
 
 }

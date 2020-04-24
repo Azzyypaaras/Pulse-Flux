@@ -10,7 +10,7 @@ public class PressEntity extends MachineEntity{
         inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
         fluidInv = new SimpleFixedFluidInv(1, 8000);
     }
-
+    
     @Override
     public void tick(){
     }

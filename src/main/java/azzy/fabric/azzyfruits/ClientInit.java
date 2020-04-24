@@ -22,8 +22,8 @@ public class ClientInit implements ClientModInitializer {
         this.initTransparency(BlockRegistry.registryTrans);
         BlockRegistry.initPartialblocks();
         this.initPartialblocks(BlockRegistry.registryPartial);
-
-        GuiRegistry.init();
+        GuiRegistry Gr = new GuiRegistry();
+        Gr.init();
     }
 
     public static void initTransparency(ArrayList<Block> transparentblocks){

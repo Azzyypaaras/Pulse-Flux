@@ -4,22 +4,31 @@ import alexiil.mc.lib.attributes.Simulation;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
+import azzy.fabric.azzyfruits.util.container.GenericContainer;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.LockableContainerBlockEntity;
+import net.minecraft.container.Container;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 
+import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
 
-public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory {
+public class MachineEntity extends LockableContainerBlockEntity implements Tickable, InventoryWrapper, SidedInventory {
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
 
     protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
+    protected String identity = "VOID";
     protected SimpleFixedFluidInv fluidInv = new SimpleFixedFluidInv(0, 0);
     protected boolean isActive = false;
     protected int progress = 0;
@@ -27,6 +36,13 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     public MachineEntity(){
         super(PRESS_ENTITY);
+    }
+
+    //ALSO OVERRIDE THIS
+
+    @Override
+    protected Container createContainer(int syncId, PlayerInventory playerInventory) {
+        return new GenericContainer(syncId, playerInventory, (Inventory) this);
     }
 
     @Override
@@ -103,4 +119,10 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     public DefaultedList<ItemStack> getItems() {
         return inventory;
     }
+
+    @Override
+    protected Text getContainerName() {
+        return new TranslatableText("container."+MODID+".container."+identity);
+    }
+
 }

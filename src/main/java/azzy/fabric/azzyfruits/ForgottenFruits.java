@@ -3,6 +3,7 @@ package azzy.fabric.azzyfruits;
 import azzy.fabric.azzyfruits.registry.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.client.RunArgs;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -21,7 +22,8 @@ public class ForgottenFruits implements ModInitializer {
 		CropRegistry.init();
 		GeneratedRegistry.init();
 		BlockEntityRegistry.init();
-		ContainerRegistry.init();
+		ContainerRegistry Cr = new ContainerRegistry();
+		Cr.init();
 	}
 	public void onInitializing(){
 	}

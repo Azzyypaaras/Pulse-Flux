@@ -10,7 +10,7 @@ import static azzy.fabric.azzyfruits.registry.BlockRegistry.*;
 
 public class ContainerRegistry {
 
-    public static void register(String name){
+    public void register(String name){
         ContainerProviderRegistry.INSTANCE.registerFactory(new Identifier(MODID, name), (syncId, identifier, player, buf) -> {
             final World world = player.world;
             final BlockPos pos = buf.readBlockPos();
@@ -18,7 +18,7 @@ public class ContainerRegistry {
         });
     }
 
-    public static void init(){
-        register("basket_container");
+    public void init(){
+        register("basket_gui");
     }
 }
