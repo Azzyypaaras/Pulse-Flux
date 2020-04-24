@@ -31,7 +31,7 @@ public class BlockRegistry {
 
     //Block Entities
     public static final Block PRESS_BLOCK = register("press_block", new PressBlock(null , "press", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), new Item.Settings().group(BLOCKENTITIES));
-    public static final Block BASKET_BLOCK = register("basket_block", new BasketBlock(null, "basket", Material.WOOL, BlockSoundGroup.WOOL, 0, Block.createCuboidShape(0, 0, 0, 16, 16, 16), null), new Item.Settings().group(BLOCKENTITIES));
+    public static final Block BASKET_BLOCK = register("basket_block", new BasketBlock(null, "basket", Material.WOOL, BlockSoundGroup.WOOL, 0, Block.createCuboidShape(1, 0, 1, 15, 10, 15), null), new Item.Settings().group(BLOCKENTITIES).maxCount(1));
 
     public static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);

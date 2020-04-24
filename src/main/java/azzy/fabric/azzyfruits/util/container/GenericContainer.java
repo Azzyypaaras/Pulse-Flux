@@ -14,7 +14,7 @@ public class GenericContainer extends Container {
     protected int inventorySizeY = 3;
 
     protected GenericContainer(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(null, syncId); // Since we didn't create a ContainerType, we will place null here.
+        super(null, syncId);
         this.inventory = inventory;
         checkContainerSize(inventory, inventorySize);
         inventory.onInvOpen(playerInventory.player);
@@ -31,6 +31,12 @@ public class GenericContainer extends Container {
         for (int j = 0; j < 9; j++) {
             this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 18 + 161 + 18));
         }
+    }
+
+    protected int getDimension(Boolean x){
+        if(x)
+            return inventorySizeX;
+        return inventorySizeY;
     }
 
     //Override this to make fancy inventories

@@ -1,6 +1,7 @@
 package azzy.fabric.azzyfruits;
 
 import azzy.fabric.azzyfruits.registry.BlockRegistry;
+import azzy.fabric.azzyfruits.registry.GuiRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -21,6 +22,8 @@ public class ClientInit implements ClientModInitializer {
         this.initTransparency(BlockRegistry.registryTrans);
         BlockRegistry.initPartialblocks();
         this.initPartialblocks(BlockRegistry.registryPartial);
+
+        GuiRegistry.init();
     }
 
     public static void initTransparency(ArrayList<Block> transparentblocks){

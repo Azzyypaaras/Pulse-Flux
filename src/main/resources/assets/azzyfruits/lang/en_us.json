@@ -2,6 +2,7 @@
 	"itemGroup.azzyfruits.plantstuff": "Forgotten Fruits: Foods",
 	"itemGroup.azzyfruits.blockentities": "Forgotten Fruits: Machines",
 	"item.azzyfruits.press_block": "Fruit Press",
+	"item.azzyfruits.basket_block": "Basket",
 	"item.azzyfruits.cloudberry_fruit": "Cloudberry",
 	"item.azzyfruits.cloudberry_block": "Cloudberry Jelly Meld",
 	"item.azzyfruits.cloudberry_amalgam": "Cloudberry Amalgam",
@@ -10,6 +11,7 @@
 	"block.azzyfruits.cloudberry_block": "Cloudberry Amalgam Meld",
 	"block.azzyfruits.cloudberry_crop": "Cloudberry Plant",
 	"block.azzyfruits.cloudberry_wild": "Wild Cloudberry",
-	"block.azzyfruits.press_block": "Fruit Press"
+	"block.azzyfruits.press_block": "Fruit Press",
+	"block.azzyfruits.basket_block": "Basket"
 }
 

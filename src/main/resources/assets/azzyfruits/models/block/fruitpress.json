@@ -2,7 +2,8 @@
     "__comment": "Model generated using MrCrayfish's Model Creator (https://mrcrayfish.com/tools?id=mc)",
     "textures": {
         "press_wood": "azzyfruits:block/press_wood",
-        "iron_block": "azzyfruits:block/iron_block"
+        "iron_block": "azzyfruits:block/iron_block",
+		"particle": "azzyfruits:block/press_wood"
     },
     "display": {
         "gui": {
