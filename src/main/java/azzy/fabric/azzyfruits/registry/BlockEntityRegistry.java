@@ -4,6 +4,7 @@ import azzy.fabric.azzyfruits.tileentities.blockentity.BasketEntity;
 import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.*;
@@ -16,7 +17,7 @@ public class BlockEntityRegistry {
 
 
     public static void register(BlockEntityType<? extends BlockEntity> blockEntityType, String name) {
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, MODID+name+"_entity", blockEntityType);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, name+"_entity"), blockEntityType);
     }
 
     public static void init(){

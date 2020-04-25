@@ -6,6 +6,7 @@ import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
 import azzy.fabric.azzyfruits.util.container.GenericContainer;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.container.Container;
 import net.minecraft.entity.player.PlayerInventory;
@@ -34,8 +35,8 @@ public class MachineEntity extends LockableContainerBlockEntity implements Ticka
     protected int progress = 0;
     protected String state = "default";
 
-    public MachineEntity(){
-        super(PRESS_ENTITY);
+    public MachineEntity(BlockEntityType<? extends MachineEntity> entityType){
+        super(entityType);
     }
 
     //ALSO OVERRIDE THIS
