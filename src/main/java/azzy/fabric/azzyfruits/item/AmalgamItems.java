@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.item;
 
+import azzy.fabric.azzyfruits.registry.damagetypes.DamageIncandescence;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -46,10 +47,13 @@ public class AmalgamItems extends Item {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 600));
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200));
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 600, 2));
-            if(RANDOM.nextInt(10) == 0)
-                user.world.createExplosion(user, DamageSource.OUT_OF_WORLD, user.getX(), user.getY(), user.getZ(), 2.5f, false, Explosion.DestructionType.BREAK);
-            else
-                user.setOnFireFor(5);
+            if(!world.isClient)
+                if(RANDOM.nextInt(5) == 0) {
+                    user.setHealth(0.1f);
+                    user.world.createExplosion(null, DamageIncandescence.INCANDESCENCE, user.getX(), user.getY(), user.getZ(), 5f, true, Explosion.DestructionType.BREAK);
+                }
+                else
+                    user.setOnFireFor(5);
         }
         return this.isFood() ? user.eatFood(world, stack) : stack;
     }

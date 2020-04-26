@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.item.ItemConvertible;
@@ -17,6 +18,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 import java.util.Random;
 
@@ -27,13 +29,18 @@ public class WildPlantBase extends PlantBlock {
     private int count;
     private String type;
     private StatusEffect[] touchEffects;
-    public WildPlantBase(String type, Material material, BlockSoundGroup sound, ParticleEffect effects, double flight, int count, StatusEffect ... touchEffects){
+    private float donotusethis;
+    private int dispersion;
+
+    public WildPlantBase(String type, Material material, BlockSoundGroup sound, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion, StatusEffect ... touchEffects){
         super(FabricBlockSettings.of(material).sounds(sound).breakInstantly().ticksRandomly().build().noCollision());
         this.effects = effects;
         this.flight = flight;
         this.count = count;
         this.type = type;
         this.touchEffects = touchEffects;
+        this.donotusethis = donotusethis;
+        this.dispersion = dispersion;
     }
 
     @Override
@@ -65,11 +72,23 @@ public class WildPlantBase extends PlantBlock {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if(type.equals("cindermote")){
+            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) || entity.isSprinting()) {
+                world.createExplosion(null, DamageSource.LAVA, pos.getX(), pos.getY(), pos.getZ(), 8f, true, Explosion.DestructionType.NONE);
+            }
+            else if(!entity.isInSneakingPose()){
+                entity.setOnFireFor(20);
+                entity.damage(DamageSource.LAVA, 6f);
+            }
+        }
     }
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random){
-        if(effects != null)
-            world.spawnParticles(effects, (double) pos.getX()+Math.random(), (double) pos.getY()+(Math.random()/2), (double) pos.getZ()+Math.random(), (int) (Math.random()*5)+1+count, 0.1D, flight, 0.1D, 0.1D);
+        if(effects != null) {
+            int spots = (int) (Math.random() * 5)+5;
+            for (int i = 0; i < spots; i++)
+                world.spawnParticles(effects, (double) pos.getX() + Math.random(), (double) pos.getY() + (Math.random() / 2), (double) pos.getZ() + Math.random(), (int) (Math.random() * 8) + 1 + count, dispersion, flight, dispersion, donotusethis);
+        }
     }
 }

@@ -21,6 +21,8 @@
 	"block.azzyfruits.ignoble_silk_block": "Ignoble Weave",
 	"block.azzyfruits.nether_farmland": "Volcanic Soil",
 	"block.azzyfruits.press_block": "Fruit Press",
-	"block.azzyfruits.basket_block": "Basket"
+	"block.azzyfruits.basket_block": "Basket",
+	"death.attack.azzyfruits.incandescence": "%1$s became grossly Incandescent",
+	"death.attack.azzyfruits.incandescence.player": "%1$s was shown the light by %2$s"
 }
 

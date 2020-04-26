@@ -30,7 +30,7 @@ public class BlockRegistry {
     public static final VoxelShape DEFAULT_SHAPE = Block.createCuboidShape(1, 0, 1, 15, 15, 15);
 
     //Other
-    public static final NetherFarmland NETHER_FARMLAND = (NetherFarmland) register("nether_farmland", new NetherFarmland(FabricBlockSettings.of(Material.STONE).materialColor(MaterialColor.PURPLE).nonOpaque().sounds(BlockSoundGroup.SAND).lightLevel(2).dropsLike(Blocks.OBSIDIAN).breakByTool(FabricToolTags.PICKAXES, 3).hardness(20f).ticksRandomly().build()), defaultSettings());
+    public static final NetherFarmland NETHER_FARMLAND = (NetherFarmland) register("nether_farmland", new NetherFarmland(FabricBlockSettings.of(Material.STONE).materialColor(MaterialColor.PURPLE).nonOpaque().sounds(BlockSoundGroup.SAND).lightLevel(2).dropsLike(Blocks.OBSIDIAN).breakByTool(FabricToolTags.PICKAXES, 3).hardness(20f).ticksRandomly().lightLevel(10).build()), defaultSettings());
 
     //misc blocks
     public static final Block CLOUDBERRY_BLOCK = register("cloudberry_block", new Block(FabricBlockSettings.of(Material.UNDERWATER_PLANT).materialColor(MaterialColor.ORANGE).nonOpaque().breakInstantly().sounds(BlockSoundGroup.SLIME).slipperiness(0.8f).build()), defaultSettings());
@@ -75,6 +75,7 @@ public class BlockRegistry {
         registryPartial.add(CLOUDBERRY_CROP);
         registryPartial.add(CLOUDBERRY_WILD);
         registryPartial.add(CINDERMOTE_CROP);
+        registryPartial.add(CINDERMOTE_WILD);
     }
 
     public static void init(){

@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "azzyfruits:block/crops/cindermote_crop3"
+  }
+}
