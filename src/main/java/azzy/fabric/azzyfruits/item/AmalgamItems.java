@@ -1,6 +1,11 @@
 package azzy.fabric.azzyfruits.item;
 
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -8,6 +13,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 import java.util.List;
 
@@ -23,15 +29,37 @@ public class AmalgamItems extends Item {
             "ambrosia"
     };
 
-    public AmalgamItems(Item.Settings settings){
+    public String type;
+
+    public AmalgamItems(Item.Settings settings, String type){
         super(settings);
+        this.type = type;
+    }
+
+    public String getJellyType(){
+        return type;
     }
 
     @Override
-    public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
-        for (int i = 0; i < 1; i++) {
-            tooltip.add(new TranslatableText("item.azzyfruits." + AMALGAMS[i] + "_amalgam.tooltip"));
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        if(type.equals("incandescent")){
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 600));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 600, 2));
+            if(RANDOM.nextInt(10) == 0)
+                user.world.createExplosion(user, DamageSource.OUT_OF_WORLD, user.getX(), user.getY(), user.getZ(), 2.5f, false, Explosion.DestructionType.BREAK);
+            else
+                user.setOnFireFor(5);
         }
+        return this.isFood() ? user.eatFood(world, stack) : stack;
+    }
+
+        @Override
+    public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
+        if(getJellyType().equals(AMALGAMS[0]))
+            tooltip.add(new TranslatableText("item.azzyfruits." + AMALGAMS[0] + "_amalgam.tooltip"));
+        else if(getJellyType().equals(AMALGAMS[1]))
+            tooltip.add(new TranslatableText("item.azzyfruits." + AMALGAMS[1] + "_amalgam.tooltip"));
     }
 
 
@@ -42,7 +70,7 @@ public class AmalgamItems extends Item {
         private Identifier type;
 
         public ConstructAmalgam(Rarity rarity, int loop){
-            jelly = new AmalgamItems(new Item.Settings().group(PLANTSTUFF).maxCount(32).rarity(rarity).food(FoodItems.FoodBackend(6, 1.0f, true)));
+            jelly = new AmalgamItems(new Item.Settings().group(PLANTSTUFF).maxCount(32).rarity(rarity).food(FoodItems.FoodBackend(6, 1.0f, true)), AMALGAMS[loop]);
             type = new Identifier(MODID, AMALGAMS[loop] + "_amalgam");
         }
 

@@ -1,24 +1,17 @@
 package azzy.fabric.azzyfruits.registry;
 
+import azzy.fabric.azzyfruits.block.BEBlocks.BasketBlock;
+import azzy.fabric.azzyfruits.util.controller.BasketController;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
+import net.minecraft.container.BlockContext;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
 import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
-import static azzy.fabric.azzyfruits.registry.BlockRegistry.*;
 
 public class ContainerRegistry {
 
-    public void register(String name){
-        ContainerProviderRegistry.INSTANCE.registerFactory(new Identifier(MODID, name), (syncId, identifier, player, buf) -> {
-            World world = player.world;
-            BlockPos pos = buf.readBlockPos();
-            return world.getBlockState(pos).createContainerFactory(player.world, pos).createMenu(syncId, player.inventory, player);
-        });
-    }
-
-    public void init(){
-        register("basket_gui");
+    public static void init(){
+        //Basket
+        ContainerProviderRegistry.INSTANCE.registerFactory(BasketBlock.GID, (syncID, id, player, buf) -> new BasketController(RecipeType.SMELTING, syncID, player.inventory, BlockContext.create(player.world, buf.readBlockPos())));
     }
 }

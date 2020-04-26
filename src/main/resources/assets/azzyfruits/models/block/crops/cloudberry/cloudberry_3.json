@@ -1,7 +1,7 @@
-    {
-      "parent": "block/cross",
-      "textures": {
-        "cross": "azzyfruits:block/crops/cropcloudberry3"
-      }
-    }
+{
+  "parent": "azzyfruits:base/cropflower",
+  "textures": {
+    "cross": "azzyfruits:block/crops/cropcloudberry3"
+  }
+}
 

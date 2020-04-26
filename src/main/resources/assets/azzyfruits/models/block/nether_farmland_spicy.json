@@ -1,0 +1,9 @@
+{
+  "parent": "azzyfruits:base/farmland_special",
+  "textures": {
+    "particle": "azzyfruits:block/special/nether_farmland/nether_farmland_top_moist",
+    "side": "azzyfruits:block/special/nether_farmland/nether_farmland_side_moist",
+    "top": "azzyfruits:block/special/nether_farmland/nether_farmland_top_moist",
+    "down": "azzyfruits:block/special/nether_farmland/nether_farmland_bottom"
+  }
+}

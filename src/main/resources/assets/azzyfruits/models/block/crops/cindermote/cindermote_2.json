@@ -1,6 +1,6 @@
 {
   "parent": "azzyfruits:base/cropflower",
   "textures": {
-    "cross": "azzyfruits:block/crops/cropcloudberry1"
+    "cross": "azzyfruits:block/crops/cindermote_crop2"
   }
 }

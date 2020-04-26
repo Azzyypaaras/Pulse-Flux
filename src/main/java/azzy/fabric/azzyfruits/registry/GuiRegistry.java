@@ -1,23 +1,19 @@
 package azzy.fabric.azzyfruits.registry;
 
-import azzy.fabric.azzyfruits.util.container.BasketContainer;
-import azzy.fabric.azzyfruits.util.container.BasketGui;
+import azzy.fabric.azzyfruits.block.BEBlocks.BasketBlock;
+import azzy.fabric.azzyfruits.util.container.BasketScreen;
+import azzy.fabric.azzyfruits.util.controller.BasketController;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
-
-import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
+import net.minecraft.container.BlockContext;
+import net.minecraft.recipe.RecipeType;
 
 public class GuiRegistry {
 
-    public static final Identifier BASKET_GUI = new Identifier(MODID, "basket_gui");
-
     @Environment(EnvType.CLIENT)
-    public void init(){
+    public static void init(){
         //Basket
-        ScreenProviderRegistry.INSTANCE.<BasketContainer>registerFactory(BASKET_GUI, (container) -> new BasketGui(container, MinecraftClient.getInstance().player.inventory, new TranslatableText("gui."+MODID+".basket")));
+        ScreenProviderRegistry.INSTANCE.registerFactory(BasketBlock.GID, (syncID, id, player, buf) -> new BasketScreen( new BasketController(RecipeType.SMELTING ,syncID, player.inventory, BlockContext.create(player.world, buf.readBlockPos())), player));
     }
 }

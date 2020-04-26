@@ -35,12 +35,12 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
         setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
+    //Note: does not drop items when broken
     @Override
     public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof MachineEntity) {
-                ItemScatterer.spawn(world, (BlockPos)pos, (Inventory)((MachineEntity)blockEntity));
                 // update comparators
                 world.updateHorizontalAdjacent(pos, this);
             }

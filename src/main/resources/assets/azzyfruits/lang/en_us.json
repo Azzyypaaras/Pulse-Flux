@@ -1,6 +1,7 @@
 {
 	"itemGroup.azzyfruits.plantstuff": "Forgotten Fruits: Foods",
-	"itemGroup.azzyfruits.blockentities": "Forgotten Fruits: Machines",
+	"itemGroup.azzyfruits.blockentities": "Forgotten Fruits: Constructs",
+	"itemGroup.azzyfruits.materials": "Forgotten Fruits: Materials",
 	"item.azzyfruits.press_block": "Fruit Press",
 	"item.azzyfruits.basket_block": "Basket",
 	"item.azzyfruits.cloudberry_fruit": "Cloudberry",
@@ -8,9 +9,17 @@
 	"item.azzyfruits.cloudberry_amalgam": "Cloudberry Amalgam",
 		"item.azzyfruits.cloudberry_amalgam.tooltip": "Tastes sweet, yet distinctively tart",
 	"item.azzyfruits.cloudberry_seeds": "Cloudberry Seeds",
+	"item.azzyfruits.cindermote_seeds": "Cindermote Seeds",
+	"item.azzyfruits.cindermote_fruit": "Cinder Drupe",
+	"item.azzyfruits.incandescent_amalgam": "Incandescent Spirits Amalgam",
+		"item.azzyfruits.incandescent_amalgam.tooltip": "Tastes like nuclear fusion",
+	"item.azzyfruits.thread_basic": "Ignoble Silk",
 	"block.azzyfruits.cloudberry_block": "Cloudberry Amalgam Meld",
 	"block.azzyfruits.cloudberry_crop": "Cloudberry Plant",
 	"block.azzyfruits.cloudberry_wild": "Wild Cloudberry",
+	"block.azzyfruits.cindermote_crop": "Cindermote Plant",
+	"block.azzyfruits.ignoble_silk_block": "Ignoble Weave",
+	"block.azzyfruits.nether_farmland": "Volcanic Soil",
 	"block.azzyfruits.press_block": "Fruit Press",
 	"block.azzyfruits.basket_block": "Basket"
 }

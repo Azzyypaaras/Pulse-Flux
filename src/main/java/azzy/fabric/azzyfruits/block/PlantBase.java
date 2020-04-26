@@ -32,8 +32,10 @@ public class PlantBase extends CropBlock {
     private double flight;
     private int count;
     private String type;
-    private StatusEffect[] touchEffects;
-    public PlantBase(String type, int stages, Material material, BlockSoundGroup sound, ItemConvertible seeds, int minLight, int maxLight, ParticleEffect effects, double flight, int count, StatusEffect ... touchEffects){
+    private float donotusethis;
+    private int dispersion;
+
+    public PlantBase(String type, int stages, Material material, BlockSoundGroup sound, ItemConvertible seeds, int minLight, int maxLight, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion){
         super(FabricBlockSettings.of(material).sounds(sound).breakInstantly().ticksRandomly().build().noCollision());
         maxAge = stages-1;
         this.setDefaultState((this.getStateManager().getDefaultState()).with(this.getAgeProperty(), 0));
@@ -44,7 +46,8 @@ public class PlantBase extends CropBlock {
         this.flight = flight;
         this.count = count;
         this.type = type;
-        this.touchEffects = touchEffects;
+        this.donotusethis = donotusethis;
+        this.dispersion = dispersion;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class PlantBase extends CropBlock {
         int currentLight = world.getBaseLightLevel(pos, 0);
         if (currentLight >= minLight && currentLight <=maxLight) {
             if(effects != null)
-                world.spawnParticles(effects, (double) pos.getX()+Math.random(), (double) pos.getY()+(Math.random()/2), (double) pos.getZ()+Math.random(), (int) (Math.random()*5)+1+count, 0.1D, flight, 0.1D, 0.1D);
+                world.spawnParticles(effects, (double) pos.getX()+Math.random(), (double) pos.getY()+(Math.random()/2), (double) pos.getZ()+Math.random(), (int) (Math.random()*5)+1+count, dispersion, flight, dispersion, donotusethis);
             //This will probably break shit
             int i = this.getAge(state);
             if (i < this.getMaxAge()) {
