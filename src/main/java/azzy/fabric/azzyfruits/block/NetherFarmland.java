@@ -6,6 +6,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.RavagerEntity;
@@ -73,15 +75,15 @@ public class NetherFarmland extends FarmlandBlock {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         int i = (Integer)state.get(MOISTURE);
         if(i > 6 && world.getDimension().getType() == DimensionType.THE_NETHER){
-            if(!entity.isInSneakingPose()) {
+            if(!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM) {
                 entity.setOnFireFor(10);
                 entity.damage(DamageSource.LAVA, 4f);
             }
-            else {
+            else if(entity.getType() != EntityType.ITEM){
                 entity.damage(DamageSource.LAVA, 1f);
             }
         }
-        else if (i > 6 && !entity.isInSneakingPose()) {
+        else if (i > 6 && !entity.isInSneakingPose() && entity.getType() != EntityType.ITEM) {
             entity.setOnFireFor(5);
             entity.damage(DamageSource.LAVA, 1f);
         }

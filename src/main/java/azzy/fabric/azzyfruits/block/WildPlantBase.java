@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.mob.RavagerEntity;
@@ -74,9 +76,9 @@ public class WildPlantBase extends PlantBlock {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if(type.equals("cindermote")){
             if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) || entity.isSprinting()) {
-                world.createExplosion(null, DamageSource.LAVA, pos.getX(), pos.getY(), pos.getZ(), 8f, true, Explosion.DestructionType.NONE);
+                world.createExplosion(null, DamageSource.explosion((LivingEntity) null), pos.getX(), pos.getY(), pos.getZ(), 8f, true, Explosion.DestructionType.NONE);
             }
-            else if(!entity.isInSneakingPose()){
+            else if(!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM){
                 entity.setOnFireFor(20);
                 entity.damage(DamageSource.LAVA, 6f);
             }

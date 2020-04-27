@@ -1,9 +1,11 @@
 package azzy.fabric.azzyfruits.registry;
 
 import azzy.fabric.azzyfruits.generated.PlantGen;
+import azzy.fabric.azzyfruits.generated.StoneSpiralFeature;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.container.Property;
+import net.minecraft.entity.passive.PandaEntity;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -29,7 +31,14 @@ public class GeneratedRegistry {
         return item;
     }
 
+    private static final Feature<DefaultFeatureConfig> CINDERMOTE_FIELD = Registry.register(
+            Registry.FEATURE,
+            new Identifier(MODID, "cindermote_field"),
+            new StoneSpiralFeature(DefaultFeatureConfig::deserialize)
+    );
+
     public static void init(){
         Biomes.TAIGA.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_PATCH.configure(new RandomPatchFeatureConfig.Builder(new WeightedBlockStateProvider().addState(CLOUDBERRY_WILD.getDefaultState(), 1), new SimpleBlockPlacer()).tries(30).spreadX(4).spreadZ(4).build()).createDecoratedFeature(Decorator.COUNT_CHANCE_HEIGHTMAP_DOUBLE.configure(new CountChanceDecoratorConfig(1, 0.075f))));
+        Biomes.NETHER.addFeature(GenerationStep.Feature.RAW_GENERATION, CINDERMOTE_FIELD.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new ChanceDecoratorConfig(100))));
     }
 }
