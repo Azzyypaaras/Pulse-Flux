@@ -32,13 +32,14 @@ public class CindermoteBlock extends PlantBase{
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) || entity.isSprinting()) {
-            world.createExplosion(null, DamageSource.LAVA, pos.getX(), pos.getY(), pos.getZ(), 6f, false, Explosion.DestructionType.NONE);
-        }
-        else if(!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM){
-            entity.setOnFireFor(20);
-            entity.damage(DamageSource.LAVA, 2f);
-        }
+        if(!world.isClient)
+            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) || entity.isSprinting()) {
+                world.createExplosion(null, DamageSource.LAVA, pos.getX(), pos.getY(), pos.getZ(), 6f, false, Explosion.DestructionType.NONE);
+            }
+            else if(!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM){
+                entity.setOnFireFor(20);
+                entity.damage(DamageSource.LAVA, 2f);
+            }
 
     }
 
