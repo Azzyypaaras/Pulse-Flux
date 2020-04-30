@@ -29,10 +29,9 @@ public class FluidRegistry {
     public static Item BUCKET_CLOUDJUICE = registerBucket("bucket_cloudberry", STILL_CLOUDJUICE);
 
 
+    static FluidPair cloudberryJuice = new FluidPair(STILL_CLOUDJUICE, FLOWING_CLOUDJUICE, 0xee9b2f);
 
-    public static ArrayList<FluidPair> juiceRenderRegistry = new ArrayList<FluidPair>(){
-        FluidPair cloudberryJuice = new FluidPair(STILL_CLOUDJUICE, FLOWING_CLOUDJUICE, 0x703c38);
-    };
+    public static ArrayList<FluidPair> juiceRenderRegistry = new ArrayList<>();
 
     @Environment(EnvType.CLIENT)
     public static ArrayList<Fluid> registryFluidTrans = new ArrayList<>();
@@ -65,19 +64,19 @@ public class FluidRegistry {
         return temp;
     }
 
-    public static class FluidPair{
+    public static class FluidPair {
 
         private BaseFluid stillState;
         private BaseFluid flowState;
         private int color;
 
-        public FluidPair(final BaseFluid stillState, final BaseFluid flowState, final int color){
+        public FluidPair(final BaseFluid stillState, final BaseFluid flowState, final int color) {
             this.stillState = stillState;
             this.flowState = flowState;
             this.color = color;
         }
 
-        public BaseFluid getStillState(){
+        public BaseFluid getStillState() {
             return stillState;
         }
 
@@ -89,7 +88,7 @@ public class FluidRegistry {
             return color;
         }
     }
-
-    public static void init(){
-    }
+        public static void init() {
+            juiceRenderRegistry.add(cloudberryJuice);
+        }
 }

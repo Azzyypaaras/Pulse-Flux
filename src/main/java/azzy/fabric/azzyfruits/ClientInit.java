@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 import static azzy.fabric.azzyfruits.registry.FluidRegistry.juiceRenderRegistry;
 
 @Environment(EnvType.CLIENT)
