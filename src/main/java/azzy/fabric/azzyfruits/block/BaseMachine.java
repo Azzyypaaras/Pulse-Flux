@@ -1,6 +1,10 @@
 package azzy.fabric.azzyfruits.block;
 
 
+import alexiil.mc.lib.attributes.AttributeList;
+import alexiil.mc.lib.attributes.AttributeProvider;
+import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
+import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
@@ -21,7 +25,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider{
+public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider, AttributeProvider {
 
         protected String identifier;
         protected VoxelShape bounds;
@@ -90,4 +94,7 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
         return Container.calculateComparatorOutput(world.getBlockEntity(pos));
     }
 
+    @Override
+    public void addAllAttributes(World world, BlockPos blockPos, BlockState blockState, AttributeList<?> attributeList) {
+    }
 }

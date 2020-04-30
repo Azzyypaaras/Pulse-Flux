@@ -24,6 +24,7 @@ public class ForgottenFruits implements ModInitializer {
 		GeneratedRegistry.init();
 		BlockEntityRegistry.init();
 		ContainerRegistry.init();
+		FluidRegistry.init();
 	}
 	public void onInitializing(){
 	}

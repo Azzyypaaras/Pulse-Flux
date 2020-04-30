@@ -1,6 +1,9 @@
 package azzy.fabric.azzyfruits.tileentities.blockentity;
 
+import alexiil.mc.lib.attributes.CombinableAttribute;
+import alexiil.mc.lib.attributes.SearchOptions;
 import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
@@ -20,7 +23,7 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
     protected String identity = "VOID";
-    protected SimpleFixedFluidInv fluidInv = new SimpleFixedFluidInv(0, 0);
+    public SimpleFixedFluidInv fluidInv = new SimpleFixedFluidInv(0, FluidAmount.ZERO);
     protected boolean isActive = false;
     protected int progress = 0;
     protected String state = "default";
@@ -90,6 +93,10 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         state = tag.getString("state");
         super.fromTag(tag);
 
+    }
+
+    public <T> T getNeighbourAttribute(CombinableAttribute<T> attr, Direction dir) {
+        return attr.get(getWorld(), getPos().offset(dir), SearchOptions.inDirection(dir));
     }
 
     @Override

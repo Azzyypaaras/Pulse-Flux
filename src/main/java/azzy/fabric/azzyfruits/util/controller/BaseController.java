@@ -1,44 +1,69 @@
 package azzy.fabric.azzyfruits.util.controller;
 
+import azzy.fabric.azzyfruits.ForgottenFruits;
 import io.github.cottonmc.cotton.gui.CottonCraftingController;
-import io.github.cottonmc.cotton.gui.widget.WGridPanel;
+import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
+import io.github.cottonmc.cotton.gui.client.NinePatch;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
+import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import net.minecraft.container.BlockContext;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public class BaseController extends CottonCraftingController {
-    protected WGridPanel root = new WGridPanel();;
-    protected int slotY = 2, slotX = 9;
+    protected WPlainPanel root = new WPlainPanel();;
+    protected int slotY, slotX, sizeY, sizeX, spacing, alignment;
+    protected String name;
+    protected String MODID = ForgottenFruits.MODID;
+    protected WItemSlot itemSlot;
 
     public BaseController(RecipeType<?> recipeType, int syncId, PlayerInventory playerInventory, BlockContext context) {
         super(recipeType, syncId, playerInventory, getBlockInventory(context), getBlockPropertyDelegate(context));
+        assembleGridSize();
         setRootPanel(root);
-        root.setSize(20, 16);
-        assembleInventory(blockInventory.getInvSize(), 1, 1);
-        root.add(new WLabel("Basket"), 0, 0);
+        root.setSize(sizeX, sizeY);
+        assembleInventory(blockInventory.getInvSize(), spacing, spacing);
+        root.add(new WLabel(name, 16776693), alignment, 0);
         build();
     }
 
+    //Slot sprite size is 18 pixels
+    //Inventories should aim to be 162 pixels wide, unless they are not displaying the player's inventory
+
+    protected void assembleGridSize(){
+        slotY = 1;
+        slotX = 1;
+        spacing = 1;
+        name = "null";
+        sizeY = slotY*spacing+spacing;
+        sizeX = slotX*spacing;
+        alignment = 1;
+    }
+
     protected void assembleInventory(int slots, int gapX, int gapY){
-        WItemSlot itemSlot;
         int s = 0;
         for (int i = 0; i < slotY; i++) {
             for (int j = 0; j < slotX; j++) {
             itemSlot = WItemSlot.of(blockInventory, s);
-            root.add(itemSlot, j*gapX, 1+i*gapY);
+            root.add(itemSlot, j*gapX+2, 13+i*gapY);
             s++;
             }
         }
     }
 
-    protected void build(){
-        root.add(this.createPlayerInventoryPanel(), 0, slotY+2);
-        root.add(new WLabel("Inventory"), 0, slotY+1);
+    @Override
+    public void addPainters(){
+        NinePatch paint = BackgroundPainter.createNinePatch(new Identifier(MODID, "textures/gui/background/ninepatch_basic.png"));
+        paint.setPadding(8);
+        paint.setMode(NinePatch.Mode.TILING);
+        root.setBackgroundPainter(paint);
+    }
+
+    protected void build() {
+        root.add(this.createPlayerInventoryPanel(), 1, sizeY+12);
+        root.add(new WLabel("Inventory", 16776693), 1, sizeY);
         root.validate(this);
     }
 }

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.*;
 import static azzy.fabric.azzyfruits.registry.CropRegistry.*;
+import static azzy.fabric.azzyfruits.registry.FluidRegistry.*;
 
 public class BlockRegistry {
 
