@@ -5,10 +5,10 @@ import net.minecraft.fluid.Fluid;
 
 public class FluidStack {
 
-    protected Fluid key;
-    protected int quantity;
-    protected double viscosity;
-    protected boolean gas;
+    private Fluid key;
+    private int quantity;
+    private double viscosity;
+    private boolean gas;
 
     private FluidStack(Fluid key, int quantity, double viscosity, boolean gas){
         this.key = key;
