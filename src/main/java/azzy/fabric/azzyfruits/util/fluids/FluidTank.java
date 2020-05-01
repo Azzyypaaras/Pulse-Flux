@@ -25,7 +25,7 @@ public class FluidTank {
         this.capacity = capacity;
         this.fluid = fluid;
         if(fluid.getQuantity() > capacity)
-            FFLog.error("A tank has been constructed with a fluid count higher than its capacity, this is likely to cause issues, please report this to the mod author!");
+            FFLog.error("A tank has been constructed with a fluid count higher than its capacity, this is likely to cause issues. Please report this to the mod author!");
     }
 
     public void validate(){
@@ -137,6 +137,7 @@ public class FluidTank {
             fluid.setQuantity(getQuantity()-amount);
             validate();
             return 0;
+
         }
     }
 
@@ -147,6 +148,7 @@ public class FluidTank {
             return false;
         else{
             fluid.setQuantity(getQuantity()-amount);
+            validate();
             return true;
         }
     }
