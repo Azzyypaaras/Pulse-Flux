@@ -1,9 +1,6 @@
 package azzy.fabric.azzyfruits;
 
-import azzy.fabric.azzyfruits.registry.BlockRegistry;
-import azzy.fabric.azzyfruits.registry.FluidRegistry;
-import azzy.fabric.azzyfruits.registry.FluidRenderRegistry;
-import azzy.fabric.azzyfruits.registry.GuiRegistry;
+import azzy.fabric.azzyfruits.registry.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -32,6 +29,8 @@ public class ClientInit implements ClientModInitializer {
         FluidRegistry.initTransparency();
         this.initFluidTransparency(FluidRegistry.registryFluidTrans);
         GuiRegistry.init();
+        RenderRegistry.init();
+
 
         for (int i = 0; i < juiceRenderRegistry.size(); i++) {
             FluidRegistry.FluidPair temp = juiceRenderRegistry.get(i);
