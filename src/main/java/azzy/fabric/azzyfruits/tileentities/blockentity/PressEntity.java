@@ -5,6 +5,7 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
+import azzy.fabric.azzyfruits.util.fluids.FluidInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -21,7 +22,7 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
     public PressEntity(){
         super(PRESS_ENTITY);
         inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-        fluidInv = new SimpleFixedFluidInv(1,  new FluidAmount(4));
+        fluidInv = FluidInventory.createSimpleInv(1, 8000);
     }
     
     @Override
@@ -33,9 +34,9 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
         public int get(int index) {
             switch(index){
                 case 0:
-                    return fluidInv.getInvFluid(0).getAmount_F().as1620();
+                    return fluidInv.get(0).getQuantity();
                 case 1:
-                    return fluidInv.getMaxAmount_F(0).as1620();
+                    return fluidInv.get(0).getCapacity();
             }
             return 0;
         }

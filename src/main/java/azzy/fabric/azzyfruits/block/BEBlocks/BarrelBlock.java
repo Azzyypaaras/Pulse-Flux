@@ -12,16 +12,9 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.shape.VoxelShape;
 
-public class BarrelBlock extends MachineEntity {
+public class BarrelBlock extends BaseMachine {
 
-
-    public BarrelBlock(BlockEntityType<? extends MachineEntity> entityType) {
-        super(entityType);
-        inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-        fluidInv = new SimpleFixedFluidInv(2, new FluidAmount(4L));
-    }
-
-    @Override
-    public void tick(){
+    public BarrelBlock(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
+        super(settings, identifier, material, sound, glow, bounds, effects);
     }
 }

@@ -3,6 +3,7 @@ package azzy.fabric.azzyfruits.util.fluids;
 
 import com.sun.istack.internal.Nullable;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.property.DirectionProperty;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.FFLog;
@@ -18,18 +19,24 @@ public class FluidTank {
     private boolean canOutput = true;
     private boolean playerAccessible = true;
     private boolean directional = false;
+    private boolean empty;
     private DirectionProperty[] sides = null;
     private Fluid filter = null;
 
     protected FluidTank(@Nullable FluidStack fluid, final int capacity) {
         this.capacity = capacity;
-        this.fluid = fluid;
+        if(fluid != null)
+            this.fluid = fluid;
+        else{
+            this.fluid = FluidStack.TransferConstructor(fluid, 0);
+            validate();;
+        }
         if(fluid.getQuantity() > capacity)
             FFLog.error("A tank has been constructed with a fluid count higher than its capacity, this is likely to cause issues. Please report this to the mod author!");
     }
 
     public void validate(){
-        this.fluid = fluid.getQuantity()==0 ? null : fluid;
+        this.empty = fluid.getQuantity() == 0;
     }
 
     public void canOutput(boolean state){
@@ -72,6 +79,22 @@ public class FluidTank {
         return false;
     }
 
+    public CompoundTag toTag(){
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("cap", getCapacity());
+        tag.put("fluid", fluid.toNBT());
+        return tag;
+    }
+
+    public static FluidTank fromTag(CompoundTag tag){
+        int capacity = tag.getInt("cap");
+        if(tag.getInt("quant") > 0){
+            FluidStack stack = FluidStack.fromNBT(tag.getCompound("fluid"));
+            return new FluidTank(stack, capacity);
+        }
+        return new FluidTank(null, capacity);
+    }
+
     public boolean isPlayerAccessible(){
         return playerAccessible;
     }
@@ -101,11 +124,17 @@ public class FluidTank {
     }
 
     public boolean isFull(){
+        if(fluid !=null)
         return fluid.getQuantity() == capacity;
+        return false;
     }
 
     public boolean isEmpty(){
-        return fluid==null;
+        return empty;
+    }
+
+    public Fluid getFilter() {
+        return filter;
     }
 
     public void setAccessibleDirections(DirectionProperty...directions){
@@ -125,7 +154,7 @@ public class FluidTank {
     //Returns the amount of fluid that could not be extracted, -1 if the tank was empty, -2 if the state is invalid.
 
     public int extract(int amount){
-        if(getQuantity() == 0)
+        if(isEmpty())
             return -1;
         else if(amount > getQuantity()){
             int a = getQuantity();
@@ -155,7 +184,19 @@ public class FluidTank {
 
     //Returns the amount of fluid that could not be inserted, or -1 if the tank was full, -2 if the fluid did not match the filter.
 
-    public int insert(int amount){
+    public int insert(FluidStack fluidStack){
+
+        int amount = fluidStack.getQuantity();
+
+        if(isEmpty() && filter == null) {
+            fluid = fluidStack;
+            return amount;
+        }
+        else if(isEmpty() && fluidStack.getKey() == filter) {
+            fluid = fluidStack;
+            return amount;
+        }
+
         if(getFluid().getKey() != filter && filter != null)
             return -2;
         if(getQuantity() == capacity)
@@ -174,7 +215,17 @@ public class FluidTank {
 
     //returns true if the insertion was successful
 
-    public boolean insertNoPartial(int amount){
+    public boolean insertNoPartial(FluidStack fluidStack){
+        if(isEmpty() && filter == null) {
+            fluid = fluidStack;
+            return true;
+        }
+        else if(isEmpty() && fluidStack.getKey() == filter) {
+            fluid = fluidStack;
+            return true;
+        }
+
+        int amount = fluidStack.getQuantity();
         if(getFluid().getKey() != filter && filter != null)
             return false;
         if(amount > capacity || amount > (capacity - getQuantity()))

@@ -29,8 +29,16 @@ public class FluidInventory {
         return new FluidInventory(tankArray);
     }
 
+    public int getTanks(){
+        return fluidTanks.length;
+    }
+
     public FluidTank get(int i){
         return fluidTanks[i];
+    }
+
+    public void set(int i, FluidTank tank){
+        fluidTanks[i] = tank;
     }
 
     public ComplexReturn transferInternal(int from, int to, int amount){
@@ -52,7 +60,7 @@ public class FluidInventory {
 
         if(output.isEmpty()){
             output.setFluid(input.getFluid());
-            int remainder = output.insert(amount);
+            int remainder = output.insert(FluidStack.TransferConstructor(input.getFluid(), amount));
             input.extract(amount-remainder);
             fluidTanks[from] = input;
             fluidTanks[to] = output;
@@ -60,7 +68,7 @@ public class FluidInventory {
         }
 
         else if(output.getCapacity() - output.getQuantity() < amount){
-            int remainder = output.insert(amount);
+            int remainder = output.insert(FluidStack.TransferConstructor(input.getFluid(), amount));
             input.extract(amount-remainder);
             fluidTanks[from] = input;
             fluidTanks[to] = output;
@@ -68,7 +76,7 @@ public class FluidInventory {
         }
 
         else{
-            output.insert(amount);
+            output.insert(FluidStack.TransferConstructor(input.getFluid(), amount));
             input.extract(amount);
             fluidTanks[from] = input;
             fluidTanks[to] = output;
@@ -88,7 +96,8 @@ public class FluidInventory {
         return returns;
     }
 
-    private InOutPair externalTransferHandler(FluidTank in, FluidTank out, int amount){
+    private InOutPair externalTransferHandler(FluidTank in, FluidTank out, FluidStack fluid){
+        int amount = fluid.getQuantity();
         int totalRemainder;
         if(amount > in.getQuantity()) {
             totalRemainder = -(in.getQuantity() - amount);
@@ -105,30 +114,31 @@ public class FluidInventory {
 
         if(out.isEmpty()){
             out.setFluid(in.getFluid());
-            int remainder = out.insert(amount);
+            int remainder = out.insert(FluidStack.TransferConstructor(in.getFluid(), amount));
             in.extract(amount-remainder);
             return new InOutPair(in, out);
         }
 
         else if(out.getCapacity() - out.getQuantity() < amount){
-            int remainder = out.insert(amount);
+            int remainder = out.insert(FluidStack.TransferConstructor(in.getFluid(), amount));
             in.extract(amount-remainder);
             return new InOutPair(in, out);
         }
 
         else{
-            out.insert(amount);
+            out.insert(FluidStack.TransferConstructor(in.getFluid(), amount));
             in.extract(amount);
             return new InOutPair(in, out);
         }
     }
 
-    public FluidTank[] externalTransfer(int input, FluidTank[] output, int[] tank, int totalamount, Position inputPosition){
+    public FluidTank[] externalTransfer(int input, FluidTank[] output, int[] tank, FluidStack quantity, Position inputPosition){
 
         InOutPair pair;
+        int totalamount = quantity.getQuantity();
 
         if(output.length == 1){
-            pair = externalTransferHandler(fluidTanks[input], output[0], totalamount);
+            pair = externalTransferHandler(fluidTanks[input], output[0], FluidStack.TransferConstructor(quantity, totalamount));
             if(pair != null) {
                 fluidTanks[input] = pair.in;
                 return new FluidTank[]{pair.out};
@@ -157,7 +167,7 @@ public class FluidInventory {
             }
 
             for (int i = 0; i < amounts.length; i++) {
-                pair = externalTransferHandler(fluidTanks[input], output[i], amounts[i]);
+                pair = externalTransferHandler(fluidTanks[input], output[i], FluidStack.TransferConstructor(quantity, amounts[i]));
                 if(pair == null){
                     FFLog.error("A multi-output transfer has stopped partway at "+inputPosition.toString()+". This may have caused fluid duplication/loss");
                     break;

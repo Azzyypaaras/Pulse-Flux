@@ -2,6 +2,12 @@ package azzy.fabric.azzyfruits.util.fluids;
 
 
 import net.minecraft.fluid.Fluid;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+
+import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 
 public class FluidStack {
 
@@ -29,8 +35,26 @@ public class FluidStack {
         return new FluidStack(key, quantity, viscosity, false);
     }
 
+    public static FluidStack TransferConstructor(FluidStack fluidStack, int quantity){
+        fluidStack.setQuantity(quantity);
+        return fluidStack;
+    }
+
     public Fluid getKey(){
         return key;
+    }
+
+    public CompoundTag toNBT(){
+        CompoundTag tag = new CompoundTag();
+         tag.putString("fluidkey", Registry.FLUID.getId(key).getPath());
+         tag.putInt("quant", getQuantity());
+         tag.putDouble("vis", getViscosity());
+         tag.putBoolean("gas", isGas());
+         return tag;
+    }
+
+    public static FluidStack fromNBT(CompoundTag tag){
+        return new FluidStack(Registry.FLUID.get(new Identifier(MODID, tag.getString("fluidkey"))), tag.getInt("quant"), tag.getDouble("vis"), tag.getBoolean("gas"));
     }
 
     public int getQuantity(){

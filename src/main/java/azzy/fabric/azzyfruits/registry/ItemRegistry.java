@@ -21,6 +21,7 @@ public class ItemRegistry extends Item{
     public static Item BASKET_ITEM;
     public static Item CINDERMOTE_FRUIT;
     public static Item CINDERMOTE_SEEDS;
+    public static Item APPLE_ALLOY;
     public static ArrayList<AmalgamItems.ConstructAmalgam> AMALGAM_REGISTRY = new ArrayList<AmalgamItems.ConstructAmalgam>();
 
     private ItemRegistry(Item.Settings settings){
@@ -34,6 +35,9 @@ public class ItemRegistry extends Item{
 
         //Storage
         BASKET_ITEM = register(new Identifier(MODID, "basket_block"), new AliasedBlockItem(BlockRegistry.BASKET_BLOCK, new Item.Settings().group(BLOCKENTITIES)));
+
+        //Alloys
+        APPLE_ALLOY = register(new Identifier(MODID, "apple_alloy"), new Item(new Item.Settings().group(PLANTMATERIALS)));
 
         //Berries
         CLOUDBERRY_FRUIT = register(new Identifier(MODID, "cloudberry_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(3, 0.5f, true, false, StatusEffects.LEVITATION, 0.1f, 200))));

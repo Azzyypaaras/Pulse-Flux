@@ -4,6 +4,7 @@ import alexiil.mc.lib.attributes.AttributeList;
 import azzy.fabric.azzyfruits.tileentities.blockentity.BasketEntity;
 import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.block.BaseMachine;
+import azzy.fabric.azzyfruits.util.interaction.OnClick;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,6 +12,9 @@ import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;
@@ -26,7 +30,7 @@ import net.minecraft.world.World;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 
-public class PressBlock extends BaseMachine{
+public class PressBlock extends BaseMachine implements OnClick {
 
     public static final Identifier GID = new Identifier(MODID, "press_gui");
 
@@ -38,7 +42,12 @@ public class PressBlock extends BaseMachine{
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof PressEntity && !player.isInSneakingPose() && player.getStackInHand(player.getActiveHand()).getItem() != Items.BUCKET) {
+            Item item = player.getStackInHand(hand).getItem();
+            if(item instanceof BucketItem){
+                if(item != Items.BUCKET)
+                    OnClick.fillFromBucket(blockEntity, player, hand);
+            }
+            else if (blockEntity instanceof PressEntity && !player.isInSneakingPose() && player.getStackInHand(player.getActiveHand()).getItem() != Items.BUCKET) {
                 ContainerProviderRegistry.INSTANCE.openContainer(GID, player, (packetByteBuf -> packetByteBuf.writeBlockPos(pos)));
             }
         }

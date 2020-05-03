@@ -7,6 +7,9 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
+import azzy.fabric.azzyfruits.util.fluids.FluidInventory;
+import azzy.fabric.azzyfruits.util.fluids.FluidTank;
+import azzy.fabric.azzyfruits.util.interaction.OnClick;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.inventory.Inventories;
@@ -17,13 +20,13 @@ import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 
-public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory {
+public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, OnClick {
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
 
     protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
     protected String identity = "VOID";
-    public SimpleFixedFluidInv fluidInv = new SimpleFixedFluidInv(0, FluidAmount.ZERO);
+    public FluidInventory fluidInv = FluidInventory.createSimpleInv(0, 0);
     protected boolean isActive = false;
     protected int progress = 0;
     protected String state = "default";
@@ -55,12 +58,10 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         Inventories.toTag(tag, inventory);
 
         //Fluid nbt
-        FluidVolume fluidStack;
-        for (int i = 0; i < fluidInv.getTankCount(); i++) {
-            fluidStack = fluidInv.getInvFluid(i);
-            if(!fluidStack.isEmpty()){
-                tag.put("fluid"+i, fluidStack.toTag());
-            }
+        FluidTank tank;
+        for (int i = 0; i < fluidInv.getTanks(); i++) {
+            tank = fluidInv.get(i);
+            tag.put("fluid-"+i, tank.toTag());
         }
 
         //State nbt
@@ -79,14 +80,13 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         Inventories.fromTag(tag, inventory);
 
         //Fluid nbt
-        if(fluidInv.getTankCount() > 0){
-            FluidVolume fluidStack;
-            for (int i = 0; i < fluidInv.getTankCount(); i++) {
-                fluidStack = FluidVolume.fromTag(tag.getCompound("fluid"+i));
-                fluidInv.setInvFluid(i, fluidStack, Simulation.ACTION);
+        if(fluidInv.getTanks()>0){
+            FluidTank tank;
+            for (int i = 0; i < fluidInv.getTanks(); i++) {
+                tank = FluidTank.fromTag(tag.getCompound("fluid-"+i));
+                fluidInv.set(i, tank);
             }
         }
-
         //State nbt
         progress = tag.getInt("progress");
         isActive = tag.getBoolean("active");

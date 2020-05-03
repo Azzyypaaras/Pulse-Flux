@@ -4,9 +4,9 @@
   "package": "azzy.fabric.azzyfruits.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BucketMixin"
   ],
   "client": [
-    "BaseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
