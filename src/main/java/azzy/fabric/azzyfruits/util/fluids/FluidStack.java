@@ -46,7 +46,7 @@ public class FluidStack {
 
     public CompoundTag toNBT(){
         CompoundTag tag = new CompoundTag();
-         tag.putString("fluidkey", Registry.FLUID.getId(key).getPath());
+         tag.putString("fluidkey", Registry.FLUID.getId(key).toString());
          tag.putInt("quant", getQuantity());
          tag.putDouble("vis", getViscosity());
          tag.putBoolean("gas", isGas());
@@ -54,7 +54,7 @@ public class FluidStack {
     }
 
     public static FluidStack fromNBT(CompoundTag tag){
-        return new FluidStack(Registry.FLUID.get(new Identifier(MODID, tag.getString("fluidkey"))), tag.getInt("quant"), tag.getDouble("vis"), tag.getBoolean("gas"));
+        return new FluidStack(Registry.FLUID.get(new Identifier(tag.getString("fluidkey"))), tag.getInt("quant"), tag.getDouble("vis"), tag.getBoolean("gas"));
     }
 
     public int getQuantity(){

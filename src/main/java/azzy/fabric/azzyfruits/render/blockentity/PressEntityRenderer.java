@@ -25,11 +25,11 @@ public class PressEntityRenderer extends BlockEntityRenderer<PressEntity> {
     public void render(PressEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 
         matrices.push();
-        //double offset = Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0) / 4.0;
-        //matrices.translate(0.5, 1.25 + offset, 0.5);
-        //matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion((blockEntity.getWorld().getTime() + tickDelta) * 4));
-        //int lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos().up());
-        //MinecraftClient.getInstance().getItemRenderer().renderItem(stack, ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
+        float offset = (float) (Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0) / 4.0);
+        matrices.translate(0.5, 1.25 + offset, 0.5);
+        matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion((blockEntity.getWorld().getTime() + tickDelta) * 4));
+        int lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos().up());
+        MinecraftClient.getInstance().textRenderer.draw("OWO", 4000, 2000, 0xffffff);
         matrices.pop();
     }
 

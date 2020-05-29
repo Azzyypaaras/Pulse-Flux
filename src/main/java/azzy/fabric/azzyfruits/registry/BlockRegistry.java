@@ -4,6 +4,7 @@ import azzy.fabric.azzyfruits.block.BEBlocks.BasketBlock;
 import azzy.fabric.azzyfruits.block.BEBlocks.PressBlock;
 import azzy.fabric.azzyfruits.block.BEBlocks.WoodPipe;
 import azzy.fabric.azzyfruits.block.NetherFarmland;
+import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;

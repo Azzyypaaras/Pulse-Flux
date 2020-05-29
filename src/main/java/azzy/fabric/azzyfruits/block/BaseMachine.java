@@ -22,6 +22,7 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
@@ -30,6 +31,8 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
         protected String identifier;
         protected VoxelShape bounds;
         protected ParticleEffect[] effects;
+        public static final VoxelShape TOPDOWN = VoxelShapes.cuboid(1, 0, 1, 15, 16, 15);
+        public static final VoxelShape SIDES = VoxelShapes.cuboid(0, 1, 0, 16, 15, 16);
 
     public BaseMachine(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect ... effects) {
         super(FabricBlockSettings.of(material).breakByTool(FabricToolTags.AXES, 1).sounds(sound).nonOpaque().hardness(0.4f).lightLevel(glow).build());
@@ -63,6 +66,8 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
         return false;
     }
 
+
+
     @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext context){
@@ -92,6 +97,11 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return Container.calculateComparatorOutput(world.getBlockEntity(pos));
+    }
+
+    @Override
+    public boolean hasBlockEntity() {
+        return true;
     }
 
     @Override

@@ -13,20 +13,30 @@ import net.minecraft.container.PropertyDelegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
 
 public class PressEntity extends MachineEntity implements PropertyDelegateHolder {
 
+    int amount;
+
     public PressEntity(){
         super(PRESS_ENTITY);
         inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-        fluidInv = FluidInventory.createSimpleInv(1, 8000);
+        fluidInv = new SimpleFixedFluidInv(1, new FluidAmount(8));
+        amount = 0;
     }
     
     @Override
     public void tick(){
+        progress++;
+        if(progress == 200)
+            progress = 0;
+        if(fluidInv.getTank(0).get().getAmount_F().asInt(1) != 0)
+            amount = fluidInv.getTank(0).get().getAmount_F().asInt(1);
+        System.out.print(amount);
     }
 
     PropertyDelegate tankHolder = new PropertyDelegate() {
@@ -34,9 +44,15 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
         public int get(int index) {
             switch(index){
                 case 0:
-                    return fluidInv.get(0).getQuantity();
+                    return amount;
                 case 1:
-                    return fluidInv.get(0).getCapacity();
+                    return fluidInv.getTank(0).getMaxAmount_F().asInt(1);
+                case 2:
+                    return progress;
+                case 3:
+                    return 200;
+                case 4:
+                    return Registry.FLUID.getRawId(fluidInv.getTank(0).get().getRawFluid());
             }
             return 0;
         }
@@ -48,12 +64,16 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
                     break;
                 case 1:
                     break;
+                case 2:
+                    break;
+                case 3:
+                    break;
             }
         }
 
         @Override
         public int size() {
-            return 2;
+            return 4;
         }
     };
 

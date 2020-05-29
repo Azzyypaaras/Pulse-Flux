@@ -3,36 +3,41 @@ package azzy.fabric.azzyfruits.tileentities.blockentity;
 import alexiil.mc.lib.attributes.CombinableAttribute;
 import alexiil.mc.lib.attributes.SearchOptions;
 import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.fluid.FixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
 import azzy.fabric.azzyfruits.util.fluids.FluidInventory;
 import azzy.fabric.azzyfruits.util.fluids.FluidTank;
-import azzy.fabric.azzyfruits.util.interaction.OnClick;
+import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.container.PropertyDelegate;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 
-public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, OnClick {
+public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder {
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
 
     protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
     protected String identity = "VOID";
-    public FluidInventory fluidInv = FluidInventory.createSimpleInv(0, 0);
+    public SimpleFixedFluidInv fluidInv;
     protected boolean isActive = false;
     protected int progress = 0;
     protected String state = "default";
 
     public MachineEntity(BlockEntityType<? extends MachineEntity> entityType){
         super(entityType);
+        fluidInv = new SimpleFixedFluidInv(0, new FluidAmount(0));
     }
 
     //ALSO OVERRIDE THIS
@@ -58,11 +63,7 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         Inventories.toTag(tag, inventory);
 
         //Fluid nbt
-        FluidTank tank;
-        for (int i = 0; i < fluidInv.getTanks(); i++) {
-            tank = fluidInv.get(i);
-            tag.put("fluid-"+i, tank.toTag());
-        }
+        tag.put("fluid", fluidInv.toTag());
 
         //State nbt
         if(isActive || state != "default"){
@@ -80,13 +81,9 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         Inventories.fromTag(tag, inventory);
 
         //Fluid nbt
-        if(fluidInv.getTanks()>0){
-            FluidTank tank;
-            for (int i = 0; i < fluidInv.getTanks(); i++) {
-                tank = FluidTank.fromTag(tag.getCompound("fluid-"+i));
-                fluidInv.set(i, tank);
-            }
-        }
+        fluidInv.fromTag(tag.getCompound("fluid"));
+
+
         //State nbt
         progress = tag.getInt("progress");
         isActive = tag.getBoolean("active");
@@ -95,8 +92,9 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     }
 
-    public <T> T getNeighbourAttribute(CombinableAttribute<T> attr, Direction dir) {
-        return attr.get(getWorld(), getPos().offset(dir), SearchOptions.inDirection(dir));
+    @Override
+    public void markDirty() {
+        super.markDirty();
     }
 
     @Override
@@ -107,6 +105,35 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     @Override
     public boolean canExtractInvStack(int slot, ItemStack stack, Direction direction) {
         return direction == Direction.DOWN;
+    }
+
+    PropertyDelegate tankHolder = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            switch(index){
+                case 0:
+                    return 0;
+            }
+            return 0;
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch(index) {
+                case 0:
+                    break;
+            }
+        }
+
+        @Override
+        public int size() {
+            return 0;
+        }
+    };
+
+    @Override
+    public PropertyDelegate getPropertyDelegate() {
+        return tankHolder;
     }
 
     @Override

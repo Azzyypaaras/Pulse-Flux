@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class BucketMixin extends Item implements BucketInfo {
 
 	@Shadow
-	private final Fluid fluid = null;
+	private Fluid fluid;
 
 	public BucketMixin(Settings settings) {
 		super(settings);
