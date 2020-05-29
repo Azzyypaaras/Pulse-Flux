@@ -29,7 +29,6 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
     @Override
     public void tick(){
         super.tick();
-        progress++;
         if(progress == 200)
             progress = 0;
     }
