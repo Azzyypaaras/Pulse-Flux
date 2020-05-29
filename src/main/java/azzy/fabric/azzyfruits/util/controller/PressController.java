@@ -54,7 +54,7 @@ public class PressController extends BaseController{
             id = new Identifier(MODID, "fuck");
         }
         WBar tank1 = new WBar(new Identifier(MODID, "textures/gui/bars/press_progress.png"), new Identifier(MODID, "textures/gui/bars/press_progress_full.png"), 2, 3, WBar.Direction.DOWN);
-        BarFuckery tank2 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/generic_tank_short.png"), 0x202aaf, 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
+        BarFuckery tank2 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/generic_tank_short.png"), 0x376dcf, 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
         root.add(tank1 , 56, 16, 48, 48);
         root.add(tank2, 64, 68, 32, 32);
     }

@@ -11,6 +11,7 @@ import azzy.fabric.azzyfruits.util.InventoryWrapper;
 import azzy.fabric.azzyfruits.util.fluids.FluidInventory;
 import azzy.fabric.azzyfruits.util.fluids.FluidTank;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.container.PropertyDelegate;
@@ -24,7 +25,7 @@ import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 
-public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder {
+public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable {
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
 
@@ -44,6 +45,8 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     @Override
     public void tick(){
+        if(!world.isClient)
+            sync();
     }
 
     @Override
@@ -141,4 +144,14 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         return inventory;
     }
 
+    @Override
+    public void fromClientTag(CompoundTag compoundTag) {
+        fluidInv.fromTag(compoundTag.getCompound("fluid"));
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag compoundTag) {
+        compoundTag.put("fluid", fluidInv.toTag());
+        return compoundTag;
+    }
 }

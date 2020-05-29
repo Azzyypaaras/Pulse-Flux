@@ -20,23 +20,18 @@ import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
 
 public class PressEntity extends MachineEntity implements PropertyDelegateHolder {
 
-    int amount;
-
     public PressEntity(){
         super(PRESS_ENTITY);
         inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
         fluidInv = new SimpleFixedFluidInv(1, new FluidAmount(8));
-        amount = 0;
     }
     
     @Override
     public void tick(){
+        super.tick();
         progress++;
         if(progress == 200)
             progress = 0;
-        if(fluidInv.getTank(0).get().getAmount_F().asInt(1) != 0)
-            amount = fluidInv.getTank(0).get().getAmount_F().asInt(1);
-        System.out.print(amount);
     }
 
     PropertyDelegate tankHolder = new PropertyDelegate() {
@@ -44,7 +39,7 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
         public int get(int index) {
             switch(index){
                 case 0:
-                    return amount;
+                    return fluidInv.getTank(0).get().getAmount_F().asInt(1);
                 case 1:
                     return fluidInv.getTank(0).getMaxAmount_F().asInt(1);
                 case 2:
