@@ -29,7 +29,7 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
 
-    protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
+    public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
     protected String identity = "VOID";
     public SimpleFixedFluidInv fluidInv;
     protected boolean isActive = false;

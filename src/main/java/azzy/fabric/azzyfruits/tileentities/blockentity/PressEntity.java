@@ -5,6 +5,7 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
+import azzy.fabric.azzyfruits.recipetypes.PressRecipe;
 import azzy.fabric.azzyfruits.util.fluids.FluidInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
@@ -15,6 +16,8 @@ import net.minecraft.util.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import java.util.Optional;
 
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
 
@@ -29,8 +32,27 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
     @Override
     public void tick(){
         super.tick();
-        if(progress == 200)
+        if(progress >= 200) {
             progress = 0;
+            cycleComplete();
+        }
+        else if(cycleCheck()){
+            progress++;
+        }
+        else{
+            progress = 0;
+        }
+    }
+
+    private void cycleComplete(){
+        Optional<PressRecipe> match = this.world.getRecipeManager().getFirstMatch(PressRecipe.PressRecipeType.INSTANCE, this, this.world);
+        PressRecipe recipe = match.get();
+        recipe.completeCraft(this);
+    }
+
+    private boolean cycleCheck(){
+        Optional<PressRecipe> match = this.world.getRecipeManager().getFirstMatch(PressRecipe.PressRecipeType.INSTANCE, this, this.world);
+        return match.isPresent();
     }
 
     PropertyDelegate tankHolder = new PropertyDelegate() {

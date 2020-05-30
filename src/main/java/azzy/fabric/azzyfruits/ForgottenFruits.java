@@ -31,6 +31,7 @@ public class ForgottenFruits implements ModInitializer {
 		BlockEntityRegistry.init();
 		ContainerRegistry.init();
 		FluidRegistry.init();
+		RecipeRegistry.init();
 	}
 	public void onInitializing(){
 	}

@@ -1,0 +1,14 @@
+{
+	"type": "azzyfruits:press_recipe",
+	"name": "Cloudberry Pressing",
+	"input": {
+		"item": "azzyfruits:cloudberry_fruit"
+	},
+	"output": {
+		"fluid": "azzyfruits:still_cloudberry",
+		"amount": 1000
+	},
+	"amount": 4,
+	"byproduct": "minecraft:stick",
+	"byproductAmount": 1
+}

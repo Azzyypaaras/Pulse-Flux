@@ -12,6 +12,7 @@ import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -53,7 +54,7 @@ public class FluidRegistry {
     }
 
     public static Item registerBucket(String name, BaseFluid item){
-        BucketItem temp = new BucketItem(item, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
+        BucketItem temp = new BucketItem(item, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ItemGroup.MISC));
         Registry.register(Registry.ITEM, new Identifier(MODID, name), temp);
         return temp;
     }
