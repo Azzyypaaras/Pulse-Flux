@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "azzyfruits:block/barrel_brewing"
+    },
+    "facing=west": {
+      "model": "azzyfruits:block/barrel_brewing", "y": 90
+    },
+    "facing=south": {
+      "model": "azzyfruits:block/barrel_brewing", "y": 180
+    },
+    "facing=east": {
+      "model": "azzyfruits:block/barrel_brewing", "y": 270
+    }
+  }
+}

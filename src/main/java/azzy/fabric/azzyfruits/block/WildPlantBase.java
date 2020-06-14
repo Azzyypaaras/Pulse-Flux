@@ -48,21 +48,21 @@ public class WildPlantBase extends PlantBlock {
     @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView view, BlockPos pos) {
         Block block = floor.getBlock();
-        if(type != "cindermote" && type != "dracora" && type != "vompollolowm" && type != "protestar" && type != "moss berry" && type != "shimmerspark" && type != "haggstrom")
+        if(!type.equals("cindermote") && !type.equals("dracora") && !type.equals("vompollolowm") && !type.equals("protestar") && !type.equals("moss berry") && !type.equals("shimmerspark") && !type.equals("haggstrom"))
             return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL || block == Blocks.FARMLAND;
-        if(type == "cindermote")
+        if(type.equals("cindermote"))
             return block == Blocks.SOUL_SAND || block == Blocks.MAGMA_BLOCK;
-        if(type == "dracora")
+        if(type.equals("dracora"))
             return block == Blocks.END_STONE;
-        if(type == "vompollolowm")
+        if(type.equals("vompollolowm"))
             return block == Blocks.STONE || block == Blocks.COBBLESTONE || block == Blocks.MOSSY_COBBLESTONE;
-        if(type == "protestar")
+        if(type.equals("protestar"))
             return block == Blocks.AIR;
-        if(type == "moss berry")
+        if(type.equals("moss berry"))
             return block == Blocks.WATER || block == Blocks.SAND;
-        if(type == "shimmerspark")
+        if(type.equals("shimmerspark"))
             return block == Blocks.STONE;
-        if(type == "haggstrom")
+        if(type.equals("haggstrom"))
             return block == Blocks.DARK_OAK_LOG;
         return false;
     }

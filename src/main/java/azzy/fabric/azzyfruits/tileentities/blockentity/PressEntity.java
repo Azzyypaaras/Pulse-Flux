@@ -5,8 +5,8 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
-import azzy.fabric.azzyfruits.recipetypes.PressRecipe;
-import azzy.fabric.azzyfruits.util.fluids.FluidInventory;
+import azzy.fabric.azzyfruits.util.recipe.handlers.PressRecipeHandler;
+import azzy.fabric.azzyfruits.util.recipe.templates.FFPressRecipe;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -19,6 +19,8 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
+import static azzy.fabric.azzyfruits.ForgottenFruits.DEBUG;
+import static azzy.fabric.azzyfruits.ForgottenFruits.FFLog;
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
 
 public class PressEntity extends MachineEntity implements PropertyDelegateHolder {
@@ -39,20 +41,34 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
         else if(cycleCheck()){
             progress++;
         }
-        else{
+        if(!cycleCheck()){
             progress = 0;
         }
     }
 
     private void cycleComplete(){
-        Optional<PressRecipe> match = this.world.getRecipeManager().getFirstMatch(PressRecipe.PressRecipeType.INSTANCE, this, this.world);
-        PressRecipe recipe = match.get();
-        recipe.completeCraft(this);
+        if(DEBUG){
+            FFLog.error("DEBUG - "+this.toString()+" COMPLETED A CRAFTING CYCLE");
+        }
+
+        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler("PRESS");
+        if(handler != null){
+            FFPressRecipe recipe = handler.search(new Object[]{inventory.get(0)});
+            handler.craft(recipe, this);
+        }
     }
 
     private boolean cycleCheck(){
-        Optional<PressRecipe> match = this.world.getRecipeManager().getFirstMatch(PressRecipe.PressRecipeType.INSTANCE, this, this.world);
-        return match.isPresent();
+        if(inventory.get(0).isEmpty())
+            return false;
+        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler("PRESS");
+        if(handler != null){
+            Optional<FFPressRecipe> recipe = Optional.ofNullable(handler.search(new Object[]{inventory.get(0)}));
+            if(recipe.isPresent()){
+                return handler.matches(recipe.get(), this);
+            }
+        }
+        return false;
     }
 
     PropertyDelegate tankHolder = new PropertyDelegate() {

@@ -25,12 +25,15 @@ public class BarFuckery extends WBar {
         this.color = color;
         if(type == BarType.FRUIT)
             this.bar = new Identifier(MODID, "textures/gui/bars/juicebase.png");
+        else if(type == BarType.GENERIC)
+            this.bar = special;
         else
             this.bar = null;
     }
 
     public enum BarType{
         FRUIT,
+        GENERIC,
         INCANDESCENT,
         ESSENCE,
         SPECIAL;

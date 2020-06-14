@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.registry;
 
+import azzy.fabric.azzyfruits.tileentities.blockentity.BarrelEntity;
 import azzy.fabric.azzyfruits.tileentities.blockentity.BasketEntity;
 import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.tileentities.blockentity.WoodPipeEntity;
@@ -16,6 +17,7 @@ public class BlockEntityRegistry {
     public static BlockEntityType<PressEntity> PRESS_ENTITY = BlockEntityType.Builder.create(PressEntity::new, PRESS_BLOCK).build(null);
     public static BlockEntityType<BasketEntity> BASKET_ENTITY = BlockEntityType.Builder.create(BasketEntity::new, BASKET_BLOCK).build(null);
     public static BlockEntityType<WoodPipeEntity> WOODPIPE_ENTITY = BlockEntityType.Builder.create(WoodPipeEntity::new, WOODPIPE_BLOCK).build(null);
+    public static BlockEntityType<BarrelEntity> BARREL_ENTITY = BlockEntityType.Builder.create(BarrelEntity::new, BARREL_BLOCK).build(null);
 
 
     public static void register(BlockEntityType<? extends BlockEntity> blockEntityType, String name) {
@@ -26,5 +28,6 @@ public class BlockEntityRegistry {
         register(PRESS_ENTITY, "press");
         register(BASKET_ENTITY, "basket");
         register(WOODPIPE_ENTITY, "woodpipe");
+        register(BARREL_ENTITY, "barrel");
     }
 }

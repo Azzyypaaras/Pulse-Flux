@@ -8,8 +8,8 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
-import azzy.fabric.azzyfruits.util.fluids.FluidInventory;
-import azzy.fabric.azzyfruits.util.fluids.FluidTank;
+import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
+import azzy.fabric.azzyfruits.util.recipe.RecipeTemplate;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.entity.BlockEntity;
@@ -24,6 +24,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
+
+import static azzy.fabric.azzyfruits.ForgottenFruits.REGISTEREDRECIPES;
 
 public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable {
 
@@ -110,6 +112,15 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         return direction == Direction.DOWN;
     }
 
+    public RecipeHandler getRecipeHandler(String id){
+        if (REGISTEREDRECIPES.containsKey(id)){
+            return REGISTEREDRECIPES.get(id).getHandler();
+        }
+        else{
+            return null;
+        }
+    }
+
     PropertyDelegate tankHolder = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -147,11 +158,13 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     @Override
     public void fromClientTag(CompoundTag compoundTag) {
         fluidInv.fromTag(compoundTag.getCompound("fluid"));
+        progress = compoundTag.getInt("progress");
     }
 
     @Override
     public CompoundTag toClientTag(CompoundTag compoundTag) {
         compoundTag.put("fluid", fluidInv.toTag());
+        compoundTag.putInt("progress", progress);
         return compoundTag;
     }
 }

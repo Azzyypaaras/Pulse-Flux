@@ -18,10 +18,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 
 public class FluidRegistry {
+
+    public static HashMap<Item, FluidPair> FLUIDCOLORREGISTRY = new HashMap<>();
 
     //Cloudberry
     public static BaseFluid STILL_CLOUDJUICE = registerStill("still_cloudberry", new JuiceCloudberry.Still());
@@ -91,5 +94,6 @@ public class FluidRegistry {
     }
         public static void init() {
             juiceRenderRegistry.add(cloudberryJuice);
+            FLUIDCOLORREGISTRY.put(BUCKET_CLOUDJUICE, cloudberryJuice);
         }
 }

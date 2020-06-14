@@ -7,6 +7,7 @@ import azzy.fabric.azzyfruits.tileentities.blockentity.BasketEntity;
 import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
 import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.block.BaseMachine;
+import azzy.fabric.azzyfruits.util.interaction.BucketHandler;
 import azzy.fabric.azzyfruits.util.mixin.BucketInfo;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.Block;
@@ -32,6 +33,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -56,13 +58,20 @@ public class PressBlock extends BaseMachine{
             Item item = player.getStackInHand(hand).getItem();
 
             if(item instanceof BucketItem && blockEntity != null) {
+                boolean success = BucketHandler.toTank(item, blockEntity.fluidInv.getTank(0));
+                    if(success) {
+                        if(!player.isCreative())
+                            player.setStackInHand(hand, new ItemStack(Items.BUCKET, 1));
 
-                FluidVolume fluid = FluidVolume.create(((BucketInfo) item).getFluid(), 1000);
-                blockEntity.fluidInv.getTank(0).attemptInsertion(fluid, Simulation.ACTION);
-
-                    if(!player.isCreative()) player.setStackInHand(hand, new ItemStack(Items.BUCKET, 1));
-
-                    world.playSound((PlayerEntity) null, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0f, world.random.nextFloat()*0.05f+0.95f);
+                        world.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0f, world.random.nextFloat() * 0.05f + 0.95f);
+                    }
+                    else{
+                        Item bucket = BucketHandler.toBucket(item, blockEntity.fluidInv.getTank(0));
+                        if(bucket != null){
+                            player.setStackInHand(hand, new ItemStack(bucket, 1));
+                            world.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.PLAYERS, 1.0f, world.random.nextFloat() * 0.05f + 0.95f);
+                        }
+                    }
             }
             else if (blockEntity != null && !player.isInSneakingPose() && player.getStackInHand(player.getActiveHand()).getItem() != Items.BUCKET) {
                 ContainerProviderRegistry.INSTANCE.openContainer(GID, player, (packetByteBuf -> packetByteBuf.writeBlockPos(pos)));

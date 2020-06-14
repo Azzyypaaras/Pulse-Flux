@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.registry;
 
+import azzy.fabric.azzyfruits.block.BEBlocks.BarrelBlock;
 import azzy.fabric.azzyfruits.block.BEBlocks.BasketBlock;
 import azzy.fabric.azzyfruits.block.BEBlocks.PressBlock;
 import azzy.fabric.azzyfruits.block.BEBlocks.WoodPipe;
@@ -43,6 +44,7 @@ public class BlockRegistry {
     public static final Block PRESS_BLOCK = register("press_block", new PressBlock(null , "press", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), new Item.Settings().group(BLOCKENTITIES));
     public static final Block BASKET_BLOCK = register("basket_block", new BasketBlock(null, "basket", Material.WOOL, BlockSoundGroup.WOOL, 0, Block.createCuboidShape(1, 0, 1, 15, 8, 15), null), new Item.Settings().group(BLOCKENTITIES).maxCount(1), true);
     public static final Block WOODPIPE_BLOCK = register("wooden_pipe", new WoodPipe(null, "woodpipe", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), machineSettings());
+    public static final Block BARREL_BLOCK = register("barrel_block", new BarrelBlock(null, "barrel", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), machineSettings());
 
     public static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);

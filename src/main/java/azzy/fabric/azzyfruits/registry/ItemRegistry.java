@@ -22,6 +22,7 @@ public class ItemRegistry extends Item{
     public static Item CINDERMOTE_FRUIT;
     public static Item CINDERMOTE_SEEDS;
     public static Item APPLE_ALLOY;
+    public static Item MULCH;
     public static ArrayList<AmalgamItems.ConstructAmalgam> AMALGAM_REGISTRY = new ArrayList<AmalgamItems.ConstructAmalgam>();
 
     private ItemRegistry(Item.Settings settings){
@@ -29,6 +30,9 @@ public class ItemRegistry extends Item{
     }
 
     public static void init(){
+
+        //Misc
+        MULCH = register(new Identifier(MODID, "mulch"), new Item(new Item.Settings().group(PLANTMATERIALS)));
 
         //Threads
         IGNOBLE_SILK = register(new Identifier(MODID, "thread_basic"),  new Item(new Item.Settings().group(PLANTMATERIALS)));
