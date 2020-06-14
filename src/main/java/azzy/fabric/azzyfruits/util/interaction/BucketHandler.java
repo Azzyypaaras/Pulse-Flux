@@ -37,12 +37,8 @@ public class BucketHandler {
     }
 
     public static Item toBucket(Item bucket, SingleFluidTank fluidTank){
-        if(((BucketInfo) bucket).getFluid() != null)
-            return null;
 
         FluidVolume tank = fluidTank.get();
-        int tankCap = fluidTank.getMaxAmount_F().as1620();
-        FluidVolume bucketFluid = FluidVolume.create(((BucketInfo) bucket).getFluid(), FluidVolume.BUCKET);
 
         if(tank.isEmpty()){
             return null;

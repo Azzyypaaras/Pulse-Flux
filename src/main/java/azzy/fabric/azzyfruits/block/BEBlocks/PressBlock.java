@@ -16,6 +16,7 @@ import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.sound.SoundEngine;
 import net.minecraft.client.sound.SoundExecutor;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BucketItem;
@@ -57,6 +58,8 @@ public class PressBlock extends BaseMachine{
 
             Item item = player.getStackInHand(hand).getItem();
 
+            //Why would you be able to insert fluids into an output tank? Why wouldn't you be able to do that!
+            //In reality, I just need to keep this here for reference until I use it elsewhere.
             if(item instanceof BucketItem && blockEntity != null) {
                 boolean success = BucketHandler.toTank(item, blockEntity.fluidInv.getTank(0));
                     if(success) {
@@ -65,10 +68,17 @@ public class PressBlock extends BaseMachine{
 
                         world.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.PLAYERS, 1.0f, world.random.nextFloat() * 0.05f + 0.95f);
                     }
-                    else{
+                    else if(Registry.ITEM.getId(item).toString().equals("minecraft:bucket")){
                         Item bucket = BucketHandler.toBucket(item, blockEntity.fluidInv.getTank(0));
                         if(bucket != null){
-                            player.setStackInHand(hand, new ItemStack(bucket, 1));
+                            if(!player.isCreative()) {
+                                if(player.getStackInHand(hand).getCount() > 1){
+                                    world.spawnEntity(new ItemEntity(world, pos.getX()+0.5, pos.getY()+1.25, pos.getZ()+0.5, new ItemStack(bucket)));
+                                    player.getStackInHand(hand).decrement(1);
+                                }
+                                else
+                                    player.setStackInHand(hand, new ItemStack(bucket, 1));
+                            }
                             world.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.PLAYERS, 1.0f, world.random.nextFloat() * 0.05f + 0.95f);
                         }
                     }
