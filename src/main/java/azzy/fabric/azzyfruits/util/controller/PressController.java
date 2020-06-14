@@ -1,23 +1,16 @@
 package azzy.fabric.azzyfruits.util.controller;
 
-import azzy.fabric.azzyfruits.registry.FluidRenderRegistry;
-import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.util.rendering.BarFuckery;
 import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.container.BlockContext;
-import net.minecraft.container.PropertyDelegate;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -35,7 +28,7 @@ public class PressController extends BaseController{
         name = "Fruit Press";
         sizeY = 96;
         sizeX = 162;
-        alignment = ((sizeX/2)-spacing-7);
+        alignment = ((sizeX/2)-spacing-5);
     }
 
     @Override
@@ -46,6 +39,8 @@ public class PressController extends BaseController{
         Sprite[] sprites;
         Identifier id;
         BarFuckery tank2 = null;
+        if(!world.isClient)
+            return;
         if(fluid == Fluids.LAVA){
             //Don't ask
             tank2 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/generic_tank_short.png"), -1, 0, 1, WBar.Direction.UP, BarFuckery.BarType.GENERIC, new Identifier(MODID, "textures/gui/bars/lava.png"));

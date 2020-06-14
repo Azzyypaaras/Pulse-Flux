@@ -3,16 +3,20 @@ package azzy.fabric.azzyfruits.block.BEBlocks;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import azzy.fabric.azzyfruits.block.BaseMachine;
-import azzy.fabric.azzyfruits.tileentities.blockentity.BarrelEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.BarrelEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.MachineEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
+import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.*;
@@ -34,6 +38,18 @@ public class BarrelBlock extends BaseMachine {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+       if(!world.isClient()){
+
+           BarrelEntity blockEntity = (BarrelEntity) world.getBlockEntity(pos);
+           Item item = player.getStackInHand(hand).getItem();
+
+           if(item instanceof BucketItem && blockEntity != null) {
+
+           }
+           else if (blockEntity != null && !player.isInSneakingPose() && player.getStackInHand(player.getActiveHand()).getItem() != Items.BUCKET) {
+               ContainerProviderRegistry.INSTANCE.openContainer(GID, player, (packetByteBuf -> packetByteBuf.writeBlockPos(pos)));
+           }
+       }
         return ActionResult.SUCCESS;
     }
 

@@ -1,8 +1,7 @@
 package azzy.fabric.azzyfruits.util.tracker;
 
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
-import azzy.fabric.azzyfruits.tileentities.blockentity.BarrelEntity;
-import org.jetbrains.annotations.Nullable;
+import azzy.fabric.azzyfruits.staticentities.blockentity.BarrelEntity;
 
 public class FermentationTracker {
 
@@ -13,8 +12,8 @@ public class FermentationTracker {
     boolean active;
 
     private FermentationTracker(BarrelEntity entity){
+        fermenter = entity;
         active = false;
-        temp = fermenter.getWorld().getBiome(fermenter.getPos()).getTemperature();
         height = fermenter.getPos().getY();
     }
 

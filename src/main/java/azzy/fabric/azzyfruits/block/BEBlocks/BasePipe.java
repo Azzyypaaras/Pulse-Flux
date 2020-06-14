@@ -1,9 +1,7 @@
 package azzy.fabric.azzyfruits.block.BEBlocks;
 
 import azzy.fabric.azzyfruits.block.BaseMachine;
-import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
 import net.minecraft.block.*;
-import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;

@@ -1,13 +1,11 @@
 package azzy.fabric.azzyfruits.util.recipe.handlers;
 
 import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.azzyfruits.config.recipes.PressRecipes;
-import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.util.recipe.FFRecipe;
 import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
-import azzy.fabric.azzyfruits.util.recipe.RecipeTemplate;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFPressRecipe;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;

@@ -1,9 +1,7 @@
 package azzy.fabric.azzyfruits.block.BEBlocks;
 
 import azzy.fabric.azzyfruits.block.BaseMachine;
-import azzy.fabric.azzyfruits.registry.ItemRegistry;
-import azzy.fabric.azzyfruits.tileentities.blockentity.BasketEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.BasketEntity;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
@@ -11,9 +9,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.*;

@@ -4,13 +4,8 @@ import alexiil.mc.lib.attributes.Simulation;
 import alexiil.mc.lib.attributes.fluid.SingleFluidTank;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
-import azzy.fabric.azzyfruits.registry.FluidRegistry;
-import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
 import azzy.fabric.azzyfruits.util.mixin.BucketInfo;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.registry.Registry;
 
 public class BucketHandler {

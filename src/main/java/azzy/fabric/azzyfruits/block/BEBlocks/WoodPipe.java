@@ -1,6 +1,6 @@
 package azzy.fabric.azzyfruits.block.BEBlocks;
 
-import azzy.fabric.azzyfruits.tileentities.blockentity.WoodPipeEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.WoodPipeEntity;
 import net.minecraft.block.Material;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;

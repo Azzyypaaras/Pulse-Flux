@@ -1,6 +1,4 @@
-package azzy.fabric.azzyfruits.tileentities.blockentity;
-
-import net.minecraft.block.entity.BlockEntityType;
+package azzy.fabric.azzyfruits.staticentities.blockentity;
 
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.WOODPIPE_ENTITY;
 

@@ -1,21 +1,13 @@
 package azzy.fabric.azzyfruits.block.BEBlocks;
 
 import alexiil.mc.lib.attributes.AttributeList;
-import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
-import azzy.fabric.azzyfruits.tileentities.blockentity.BasketEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.MachineEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.block.BaseMachine;
 import azzy.fabric.azzyfruits.util.interaction.BucketHandler;
-import azzy.fabric.azzyfruits.util.mixin.BucketInfo;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.sound.SoundEngine;
-import net.minecraft.client.sound.SoundExecutor;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -26,7 +18,6 @@ import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -38,8 +29,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-
-import java.util.function.Supplier;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 
@@ -53,7 +42,7 @@ public class PressBlock extends BaseMachine{
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient) {
+        if (!world.isClient()) {
             PressEntity blockEntity = (PressEntity) world.getBlockEntity(pos);
 
             Item item = player.getStackInHand(hand).getItem();

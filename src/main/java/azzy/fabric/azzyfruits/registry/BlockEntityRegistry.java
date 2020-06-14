@@ -1,9 +1,9 @@
 package azzy.fabric.azzyfruits.registry;
 
-import azzy.fabric.azzyfruits.tileentities.blockentity.BarrelEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.BasketEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.PressEntity;
-import azzy.fabric.azzyfruits.tileentities.blockentity.WoodPipeEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.BarrelEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.BasketEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.WoodPipeEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;

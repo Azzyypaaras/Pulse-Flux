@@ -1,8 +1,7 @@
-package azzy.fabric.azzyfruits.tileentities.blockentity;
+package azzy.fabric.azzyfruits.staticentities.blockentity;
 
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
-import azzy.fabric.azzyfruits.block.BaseMachine;
 import azzy.fabric.azzyfruits.util.tracker.FermentationTracker;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.container.PropertyDelegate;
