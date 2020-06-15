@@ -84,16 +84,6 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
 
         @Override
         public void set(int index, int value) {
-            switch(index) {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
         }
 
         @Override

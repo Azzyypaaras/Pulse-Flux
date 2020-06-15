@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.block.BEBlocks;
 
+import alexiil.mc.lib.attributes.AttributeList;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import azzy.fabric.azzyfruits.block.BaseMachine;
@@ -61,6 +62,15 @@ public class BarrelBlock extends BaseMachine {
             world.updateHorizontalAdjacent(pos, this);
         }
         super.onBlockRemoved(state, world, pos, newState, moved);
+    }
+
+    @Override
+    public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be instanceof BarrelEntity) {
+            BarrelEntity tank = (BarrelEntity) be;
+            tank.fluidInv.offerSelfAsAttribute(to, null, null);
+        }
     }
 
     @Override

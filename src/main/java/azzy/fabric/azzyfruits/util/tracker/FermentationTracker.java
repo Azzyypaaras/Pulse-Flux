@@ -5,11 +5,11 @@ import azzy.fabric.azzyfruits.staticentities.blockentity.BarrelEntity;
 
 public class FermentationTracker {
 
-    double quality, purity, content, temp, percentOffset;
-    int height, light, time, age;
-    FluidVolume liquid;
-    BarrelEntity fermenter;
-    boolean active;
+    public double quality, purity, content, temp, percentOffset;
+    public int height, light, time, age, minTime;
+    private FluidVolume liquid;
+    private final BarrelEntity fermenter;
+    private boolean active;
 
     private FermentationTracker(BarrelEntity entity){
         fermenter = entity;
@@ -35,6 +35,8 @@ public class FermentationTracker {
             this.percentOffset = 0.02;
 
         time = 0;
+        minTime = 72000;
+        minTime = minTime * (fermenter.fluidInv.getMaxAmount_F(0).asInt(1) / liquid.getAmount_F().asInt(1));
     }
 
     public void tick(){
