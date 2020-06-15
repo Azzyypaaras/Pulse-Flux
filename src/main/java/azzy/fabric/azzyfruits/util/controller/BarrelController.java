@@ -35,7 +35,8 @@ public class BarrelController extends BaseController {
         root.add(WItemSlot.of(blockInventory, 0), 72, 24);
         root.add(WItemSlot.of(blockInventory, 1), 72, 48);
         root.add(WItemSlot.of(blockInventory, 2), 130, 78);
-        Fluid fluid = Registry.FLUID.get(propertyDelegate.get(7));
+        int a = propertyDelegate.get(7);
+        Fluid fluid = Registry.FLUID.get(a);
         if(!world.isClient)
             return;
         Sprite[] sprites;
@@ -55,7 +56,7 @@ public class BarrelController extends BaseController {
             tank2 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), FluidRenderHandlerRegistry.INSTANCE.get(fluid).getFluidColor(null, null, null), 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
         }
         else {
-            tank2 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), 0xee9b2f, 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
+            tank2 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), 0x000000, 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
         }
 
         root.add(tank2, 14, 16, 24, 72);

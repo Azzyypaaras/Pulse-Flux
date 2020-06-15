@@ -49,7 +49,7 @@ public class BarrelEntity extends MachineEntity implements PropertyDelegateHolde
                 case 4: return loop;
                 case 5: return 20;
                 case 6: return state;
-                case 7: Registry.FLUID.getRawId(fluidInv.getTank(0).get().getRawFluid());
+                case 7: return Registry.FLUID.getRawId(fluidInv.getTank(0).get().getRawFluid());
             }
             return 0;
         }
