@@ -61,5 +61,6 @@ public class BarrelController extends BaseController {
 
         root.add(tank2, 14, 16, 24, 72);
         root.add(new WSprite(new Identifier(MODID, "textures/gui/bars/generic_tank_long_border.png")), 14, 16, 24, 72);
+        root.add(new WBar(new Identifier(MODID, "textures/gui/bars/fermentation_progress.png"), new Identifier(MODID, "textures/gui/bars/fermentation_progress_full.png"), propertyDelegate.get(2), propertyDelegate.get(3), WBar.Direction.RIGHT), 40, 10, 81, 81);
     }
 }
