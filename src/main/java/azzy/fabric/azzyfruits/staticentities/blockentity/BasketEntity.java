@@ -3,7 +3,7 @@ package azzy.fabric.azzyfruits.staticentities.blockentity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.BASKET_ENTITY;
@@ -16,12 +16,12 @@ public class BasketEntity extends MachineEntity {
     }
 
     @Override
-    public boolean canInsertInvStack(int slot, ItemStack stack, Direction direction) {
+    public boolean canInsert(int slot, ItemStack stack, Direction direction) {
         return true;
     }
 
     @Override
-    public boolean canExtractInvStack(int slot, ItemStack stack, Direction direction) {
+    public boolean canExtract(int slot, ItemStack stack, Direction direction) {
         return true;
     }
 

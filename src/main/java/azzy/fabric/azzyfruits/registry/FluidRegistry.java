@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
-import net.minecraft.fluid.BaseFluid;
+import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
@@ -27,8 +27,8 @@ public class FluidRegistry {
     public static HashMap<Item, FluidPair> FLUIDCOLORREGISTRY = new HashMap<>();
 
     //Cloudberry
-    public static BaseFluid STILL_CLOUDJUICE = registerStill("still_cloudberry", new JuiceCloudberry.Still());
-    public static BaseFluid FLOWING_CLOUDJUICE = registerFlowing("flowing_cloudberry", new JuiceCloudberry.Flowing());
+    public static FlowableFluid STILL_CLOUDJUICE = registerStill("still_cloudberry", new JuiceCloudberry.Still());
+    public static FlowableFluid FLOWING_CLOUDJUICE = registerFlowing("flowing_cloudberry", new JuiceCloudberry.Flowing());
     public static Block CLOUDJUICE = registerFluidBlock("cloudberry_juice", STILL_CLOUDJUICE, Blocks.WATER);
     public static Item BUCKET_CLOUDJUICE = registerBucket("bucket_cloudberry", STILL_CLOUDJUICE);
 
@@ -46,23 +46,23 @@ public class FluidRegistry {
         registryFluidTrans.add(FLOWING_CLOUDJUICE);
     }
 
-    public static BaseFluid registerStill(String name, BaseFluid item){
+    public static FlowableFluid registerStill(String name, FlowableFluid item){
         Registry.register(Registry.FLUID, new Identifier(MODID, name), item);
         return item;
     }
 
-    public static BaseFluid registerFlowing(String name, BaseFluid item){
+    public static FlowableFluid registerFlowing(String name, FlowableFluid item){
         Registry.register(Registry.FLUID, new Identifier(MODID, name), item);
         return item;
     }
 
-    public static Item registerBucket(String name, BaseFluid item){
+    public static Item registerBucket(String name, FlowableFluid item){
         BucketItem temp = new BucketItem(item, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ItemGroup.MISC));
         Registry.register(Registry.ITEM, new Identifier(MODID, name), temp);
         return temp;
     }
 
-    public static Block registerFluidBlock(String name, BaseFluid item, Block base){
+    public static Block registerFluidBlock(String name, FlowableFluid item, Block base){
         Block temp = new FluidBlock(item, FabricBlockSettings.copy(base).build()){};
         Registry.register(Registry.BLOCK, new Identifier(MODID, name), temp);
         return temp;
@@ -70,21 +70,21 @@ public class FluidRegistry {
 
     public static class FluidPair {
 
-        private BaseFluid stillState;
-        private BaseFluid flowState;
+        private FlowableFluid stillState;
+        private FlowableFluid flowState;
         private int color;
 
-        public FluidPair(final BaseFluid stillState, final BaseFluid flowState, final int color) {
+        public FluidPair(final FlowableFluid stillState, final FlowableFluid flowState, final int color) {
             this.stillState = stillState;
             this.flowState = flowState;
             this.color = color;
         }
 
-        public BaseFluid getStillState() {
+        public FlowableFluid getStillState() {
             return stillState;
         }
 
-        public BaseFluid getFlowState() {
+        public FlowableFluid getFlowState() {
             return flowState;
         }
 

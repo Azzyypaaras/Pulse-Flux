@@ -54,19 +54,7 @@ public class BasePipe extends BaseMachine implements Waterloggable {
 
     //Make it so this drops all internal components
     @Override
-    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isSimpleFullBlock(BlockState state, net.minecraft.world.BlockView view, BlockPos pos) {
-        return false;
-    }
-
-
-    @Override
-    public boolean hasBlockEntity(){
-        return true;
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
     }
 
     @Override

@@ -44,7 +44,7 @@ public class BasketBlock extends BaseMachine {
     }
 
     @Override
-    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         ItemStack block = new ItemStack(BASKET_ITEM);
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -53,7 +53,7 @@ public class BasketBlock extends BaseMachine {
                 Inventories.toTag( block.getOrCreateTag(), ((BasketEntity) blockEntity).getItems());
                 dropStack(world, pos, block);
             }
-            super.onBlockRemoved(state, world, pos, newState, moved);
+            super.onStateReplaced(state, world, pos, newState, moved);
         }
     }
 

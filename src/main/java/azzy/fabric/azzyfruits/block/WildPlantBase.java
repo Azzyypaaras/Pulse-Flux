@@ -4,7 +4,6 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -51,7 +50,7 @@ public class WildPlantBase extends PlantBlock {
         if(!type.equals("cindermote") && !type.equals("dracora") && !type.equals("vompollolowm") && !type.equals("protestar") && !type.equals("moss berry") && !type.equals("shimmerspark") && !type.equals("haggstrom"))
             return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL || block == Blocks.FARMLAND;
         if(type.equals("cindermote"))
-            return block == Blocks.SOUL_SAND || block == Blocks.MAGMA_BLOCK;
+            return block == Blocks.SOUL_SAND || block == Blocks.MAGMA_BLOCK || block == Blocks.CRIMSON_NYLIUM;
         if(type.equals("dracora"))
             return block == Blocks.END_STONE;
         if(type.equals("vompollolowm"))
@@ -68,15 +67,15 @@ public class WildPlantBase extends PlantBlock {
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext ctx) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext ctx) {
         return VoxelShapes.cuboid(0.2f, 0f, 0.2f, 0.9f, 0.8f, 0.8f);
     }
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if(type.equals("cindermote")){
-            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) || entity.isSprinting()) {
-                world.createExplosion(null, DamageSource.explosion((LivingEntity) null), pos.getX(), pos.getY(), pos.getZ(), 8f, true, Explosion.DestructionType.NONE);
+            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.field_19388)) || entity.isSprinting()) {
+                world.createExplosion(null, DamageSource.explosion((LivingEntity) null), null, pos.getX(), pos.getY(), pos.getZ(), 8f, false, Explosion.DestructionType.NONE);
             }
             else if(!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM){
                 entity.setOnFireFor(20);

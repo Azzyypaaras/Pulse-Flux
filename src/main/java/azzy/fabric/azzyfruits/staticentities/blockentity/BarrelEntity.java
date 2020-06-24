@@ -4,9 +4,9 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import azzy.fabric.azzyfruits.util.tracker.FermentationTracker;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
-import net.minecraft.container.PropertyDelegate;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.BARREL_ENTITY;

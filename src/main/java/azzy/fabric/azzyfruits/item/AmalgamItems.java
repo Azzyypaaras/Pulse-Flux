@@ -50,7 +50,7 @@ public class AmalgamItems extends Item {
             if(!world.isClient)
                 if(RANDOM.nextInt(5) == 0) {
                     user.setHealth(0.1f);
-                    user.world.createExplosion(null, DamageIncandescence.INCANDESCENCE, user.getX(), user.getY(), user.getZ(), 5f, true, Explosion.DestructionType.BREAK);
+                    user.world.createExplosion(null, DamageIncandescence.INCANDESCENCE, null, user.getX(), user.getY(), user.getZ(), 6f, false, Explosion.DestructionType.BREAK);
                 }
                 else
                     user.setOnFireFor(5);

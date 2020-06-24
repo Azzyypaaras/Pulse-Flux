@@ -11,6 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
@@ -68,7 +69,7 @@ public class BarFuckery extends WBar {
     }
 
     @Override
-    public void paintBackground(int x, int y) {
+    public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
         if (this.bg != null) {
             ScreenDrawing.texturedRect(x, y, this.getWidth(), this.getHeight(), this.bg, -1);
         } else {

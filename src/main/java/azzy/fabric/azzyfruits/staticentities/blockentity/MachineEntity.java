@@ -6,15 +6,16 @@ import azzy.fabric.azzyfruits.util.InventoryWrapper;
 import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.container.PropertyDelegate;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.REGISTEREDRECIPES;
@@ -28,7 +29,7 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     public SimpleFixedFluidInv fluidInv;
     protected boolean isActive = false;
     protected int progress = 0;
-    protected String state = "default";
+    protected String technicalState = "default";
 
     public MachineEntity(BlockEntityType<? extends MachineEntity> entityType){
         super(entityType);
@@ -44,8 +45,8 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     }
 
     @Override
-    public int[] getInvAvailableSlots(Direction var1) {
-        int[] result = new int[getInvSize()];
+    public int[] getAvailableSlots(Direction var1) {
+        int[] result = new int[size()];
         for (int i = 0; i < result.length; i++) {
             result[i] = i;
         }
@@ -63,16 +64,16 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         tag.put("fluid", fluidInv.toTag());
 
         //State nbt
-        if(isActive || state != "default"){
+        if(isActive || technicalState != "default"){
             tag.putInt("progress", progress);
             tag.putBoolean("active", isActive);
-            tag.putString("state", state);
+            tag.putString("state", technicalState);
         }
         return tag;
     }
 
     @Override
-    public void fromTag(CompoundTag tag) {
+    public void fromTag(BlockState state, CompoundTag tag) {
 
         //Inventory nbt
         Inventories.fromTag(tag, inventory);
@@ -84,8 +85,8 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         //State nbt
         progress = tag.getInt("progress");
         isActive = tag.getBoolean("active");
-        state = tag.getString("state");
-        super.fromTag(tag);
+        technicalState = tag.getString("state");
+        super.fromTag(state, tag);
 
     }
 
@@ -95,12 +96,12 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     }
 
     @Override
-    public boolean canInsertInvStack(int slot, ItemStack stack, Direction direction) {
+    public boolean canInsert(int slot, ItemStack stack, Direction direction) {
         return direction == Direction.UP;
     }
 
     @Override
-    public boolean canExtractInvStack(int slot, ItemStack stack, Direction direction) {
+    public boolean canExtract(int slot, ItemStack stack, Direction direction) {
         return direction == Direction.DOWN;
     }
 

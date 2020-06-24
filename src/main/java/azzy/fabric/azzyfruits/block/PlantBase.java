@@ -5,8 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.Material;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.item.ItemConvertible;
@@ -56,7 +56,7 @@ public class PlantBase extends CropBlock {
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext ctx) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext ctx) {
         return VoxelShapes.cuboid(0.2f, 0f, 0.2f, 0.9f, 0.8f, 0.8f);
     }
 
@@ -67,7 +67,7 @@ public class PlantBase extends CropBlock {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.field_19388)) {
             world.breakBlock(pos, true, entity);
         }
 

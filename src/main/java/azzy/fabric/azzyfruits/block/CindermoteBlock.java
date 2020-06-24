@@ -23,6 +23,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
+import net.minecraft.world.explosion.ExplosionBehavior;
 
 public class CindermoteBlock extends PlantBase{
 
@@ -33,8 +34,8 @@ public class CindermoteBlock extends PlantBase{
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if(!world.isClient)
-            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) || entity.isSprinting()) {
-                world.createExplosion(null, DamageSource.IN_FIRE, pos.getX(), pos.getY(), pos.getZ(), 6f, false, Explosion.DestructionType.NONE);
+            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.field_19388)) || entity.isSprinting()) {
+                world.createExplosion(null, DamageSource.IN_FIRE, null, pos.getX(), pos.getY(), pos.getZ(), 6f, false, Explosion.DestructionType.NONE);
             }
             else if(!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM){
                 entity.setOnFireFor(20);

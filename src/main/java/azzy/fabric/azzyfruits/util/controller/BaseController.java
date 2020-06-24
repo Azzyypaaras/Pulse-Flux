@@ -1,30 +1,31 @@
 package azzy.fabric.azzyfruits.util.controller;
 
 import azzy.fabric.azzyfruits.ForgottenFruits;
-import io.github.cottonmc.cotton.gui.CottonCraftingController;
+import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.client.NinePatch;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
-import net.minecraft.container.BlockContext;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 
-public class BaseController extends CottonCraftingController {
-    protected WPlainPanel root = new WPlainPanel();;
+public class BaseController extends SyncedGuiDescription {
+    protected WPlainPanel root = new WPlainPanel();
     protected int slotY, slotX, sizeY, sizeX, spacing, alignment;
     protected String name;
     protected String MODID = ForgottenFruits.MODID;
     protected WItemSlot itemSlot;
 
-    public BaseController(RecipeType<?> recipeType, int syncId, PlayerInventory playerInventory, BlockContext context) {
+    public BaseController(ScreenHandlerType recipeType, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(recipeType, syncId, playerInventory, getBlockInventory(context), getBlockPropertyDelegate(context));
         assembleGridSize();
         setRootPanel(root);
         root.setSize(sizeX, sizeY);
-        assembleInventory(blockInventory.getInvSize(), spacing, spacing);
+        assembleInventory(blockInventory.size(), spacing, spacing);
         root.add(new WLabel(name, 16776693), alignment, 0);
         build();
     }

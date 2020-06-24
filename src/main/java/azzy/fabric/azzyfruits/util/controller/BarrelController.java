@@ -6,16 +6,19 @@ import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.container.BlockContext;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class BarrelController extends BaseController {
-    public BarrelController(RecipeType<?> recipeType, int syncId, PlayerInventory playerInventory, BlockContext context) {
+    public BarrelController(ScreenHandlerType recipeType, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(recipeType, syncId, playerInventory, context);
     }
 
@@ -27,14 +30,14 @@ public class BarrelController extends BaseController {
         name = "Fermenting Barrel";
         sizeY = 96;
         sizeX = 162;
-        alignment = ((sizeX/2)-spacing-22);
+        alignment = ((sizeX/2)-spacing-23);
     }
 
     @Override
     protected void assembleInventory(int slots, int gapX, int gapY) {
-        root.add(WItemSlot.of(blockInventory, 0), 72, 24);
-        root.add(WItemSlot.of(blockInventory, 1), 72, 48);
-        root.add(WItemSlot.of(blockInventory, 2), 130, 78);
+        root.add(WItemSlot.of(blockInventory, 0), 101, 19);
+        root.add(WItemSlot.of(blockInventory, 1), 72, 80);
+        root.add(WItemSlot.of(blockInventory, 2), 153, 69);
         int a = propertyDelegate.get(7);
         Fluid fluid = Registry.FLUID.get(a);
         if(!world.isClient)
@@ -62,5 +65,6 @@ public class BarrelController extends BaseController {
         root.add(tank2, 14, 16, 24, 72);
         root.add(new WSprite(new Identifier(MODID, "textures/gui/bars/generic_tank_long_border.png")), 14, 16, 24, 72);
         root.add(new WBar(new Identifier(MODID, "textures/gui/bars/fermentation_progress.png"), new Identifier(MODID, "textures/gui/bars/fermentation_progress_full.png"), propertyDelegate.get(2), propertyDelegate.get(3), WBar.Direction.RIGHT), 40, 10, 81, 81);
+        root.add(new WBar(new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), 0, 1, WBar.Direction.UP), 123, 16, 24, 72);
     }
 }

@@ -14,11 +14,6 @@ public class WoodPipe extends BasePipe {
     }
 
     @Override
-    public boolean hasBlockEntity() {
-        return true;
-    }
-
-    @Override
     public WoodPipeEntity createBlockEntity(BlockView view) {
         return new WoodPipeEntity();
     }

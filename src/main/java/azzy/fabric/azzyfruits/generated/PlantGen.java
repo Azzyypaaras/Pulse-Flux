@@ -1,14 +1,16 @@
 package azzy.fabric.azzyfruits.generated;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.chunk.ChunkGeneratorConfig;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
@@ -20,8 +22,8 @@ public class PlantGen extends Feature<DefaultFeatureConfig> {
     private int quantity, spread, steepness;
     private Block plant, tile;
 
-    public PlantGen(Function<Dynamic<?>, ? extends DefaultFeatureConfig> config, int quantity, int spread, int steepness, Block plant, Block tile) {
-        super(config);
+    public PlantGen(Codec<DefaultFeatureConfig> codec, int quantity, int spread, int steepness, Block plant, Block tile) {
+        super(codec);
         this.quantity = quantity;
         this.spread = spread;
         this.plant = plant;
@@ -30,7 +32,8 @@ public class PlantGen extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(IWorld world, ChunkGenerator<? extends ChunkGeneratorConfig> chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+    public boolean generate(ServerWorldAccess serverWorldAccess, StructureAccessor accessor, ChunkGenerator generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
+        World world = serverWorldAccess.getWorld();
         BlockPos topPos = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, pos);
         double multiplier;
         for (int j = steepness; j > 0; j--) {

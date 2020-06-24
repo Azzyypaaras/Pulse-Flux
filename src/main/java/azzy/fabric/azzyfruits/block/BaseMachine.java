@@ -8,10 +8,9 @@ import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.container.Container;
-import net.minecraft.entity.EntityContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -40,14 +39,14 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
 
     //Note: does not drop items when broken
     @Override
-    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof MachineEntity) {
                 // update comparators
-                world.updateHorizontalAdjacent(pos, this);
+                world.updateComparators(pos, this);
             }
-            super.onBlockRemoved(state, world, pos, newState, moved);
+            super.onStateReplaced(state, world, pos, newState, moved);
         }
     }
 
@@ -58,20 +57,13 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean isSimpleFullBlock(BlockState state, net.minecraft.world.BlockView view, BlockPos pos) {
-        return false;
-    }
-
-
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext context){
+    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context){
         return bounds;
     }
+
     @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView view, BlockPos pos, EntityContext context) {
+    public VoxelShape getCollisionShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         return bounds;
     }
 
@@ -92,12 +84,7 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
 
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return Container.calculateComparatorOutput(world.getBlockEntity(pos));
-    }
-
-    @Override
-    public boolean hasBlockEntity() {
-        return true;
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.registry;
 
+import com.sun.istack.internal.NotNull;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
@@ -18,7 +19,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockRenderView;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 

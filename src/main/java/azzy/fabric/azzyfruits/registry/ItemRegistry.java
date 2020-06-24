@@ -23,6 +23,7 @@ public class ItemRegistry extends Item{
     public static Item CINDERMOTE_SEEDS;
     public static Item APPLE_ALLOY;
     public static Item MULCH;
+    public static Item SAMMICH;
     public static ArrayList<AmalgamItems.ConstructAmalgam> AMALGAM_REGISTRY = new ArrayList<AmalgamItems.ConstructAmalgam>();
 
     private ItemRegistry(Item.Settings settings){
@@ -30,6 +31,9 @@ public class ItemRegistry extends Item{
     }
 
     public static void init(){
+
+        //What, why
+        SAMMICH = register(new Identifier(MODID, "sammich"), new Item(defaultSettings().food(FoodItems.FoodBackend(8, 1f, false))));
 
         //Misc
         MULCH = register(new Identifier(MODID, "mulch"), new Item(new Item.Settings().group(PLANTMATERIALS)));
