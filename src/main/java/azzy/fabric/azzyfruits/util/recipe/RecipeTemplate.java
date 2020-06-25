@@ -6,7 +6,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.HashMap;
 
 public abstract class RecipeTemplate<T> {
-    public HashMap<String, FFRecipe> RECIPES = new HashMap<String, FFRecipe>();
+    public HashMap<String, FFRecipe> RECIPES = new HashMap<>();
 
     public static final int BUCKET = 1620;
 

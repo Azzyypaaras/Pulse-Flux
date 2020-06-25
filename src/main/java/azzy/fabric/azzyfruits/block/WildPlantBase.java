@@ -74,7 +74,7 @@ public class WildPlantBase extends PlantBlock {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if(type.equals("cindermote")){
-            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.field_19388)) || entity.isSprinting()) {
+            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) || entity.isSprinting()) {
                 world.createExplosion(null, DamageSource.explosion((LivingEntity) null), null, pos.getX(), pos.getY(), pos.getZ(), 8f, false, Explosion.DestructionType.NONE);
             }
             else if(!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM){

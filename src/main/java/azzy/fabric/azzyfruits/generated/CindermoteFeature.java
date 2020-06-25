@@ -4,6 +4,7 @@ import azzy.fabric.azzyfruits.registry.CropRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.NetherWartBlock;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ServerWorldAccess;
@@ -51,7 +52,7 @@ public class CindermoteFeature extends Feature<DefaultFeatureConfig> {
                 else if(random.nextInt(4) == 0)
                     serverWorldAccess.setBlockState(topPos.down(), Blocks.MAGMA_BLOCK.getDefaultState(), 3);
                 else if(random.nextInt(3) == 0)
-                    serverWorldAccess.setBlockState(topPos, Blocks.NETHER_WART.getDefaultState(), 3);
+                    serverWorldAccess.setBlockState(topPos, Blocks.NETHER_WART.getDefaultState().with(NetherWartBlock.AGE, 3), 3);
         } while(randomize.hasNext());
 
         return true;

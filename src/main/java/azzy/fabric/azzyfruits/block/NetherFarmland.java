@@ -61,7 +61,7 @@ public class NetherFarmland extends Block {
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int i = (Integer)state.get(MOISTURE);
         world.spawnParticles(ParticleTypes.SMOKE, (double) pos.getX()+Math.random(), (double) pos.getY()+0.5, (double) pos.getZ()+Math.random(), (int) (Math.random()*8)+4, 0.2D, 0.2, 0.2D, 0D);
-        if(i == 0 && random.nextInt(3)==0){
+        if((i == 0 && random.nextInt(3)==0) && !isWaterNearby(world, pos)){
             setToDirt(world, pos);
             return;
         }
@@ -84,7 +84,7 @@ public class NetherFarmland extends Block {
     @Override
     public void onLandedUpon(World world, BlockPos pos, Entity entity, float distance) {
         int i = (Integer)world.getBlockState(pos).get(MOISTURE);
-        if (!world.isClient && world.random.nextFloat() < distance - 0.5F && entity instanceof LivingEntity && (entity instanceof PlayerEntity || world.getGameRules().getBoolean(GameRules.field_19388)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512F) {
+        if (!world.isClient && world.random.nextFloat() < distance - 0.5F && entity instanceof LivingEntity && (entity instanceof PlayerEntity || world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512F) {
             if(i < 7)
                 world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
             else

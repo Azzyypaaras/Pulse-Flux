@@ -35,7 +35,7 @@ public class BarrelController extends BaseController {
 
     @Override
     protected void assembleInventory(int slots, int gapX, int gapY) {
-        root.add(WItemSlot.of(blockInventory, 0), 101, 19);
+        root.add(WItemSlot.of(blockInventory, 0), 100, 19);
         root.add(WItemSlot.of(blockInventory, 1), 72, 80);
         root.add(WItemSlot.of(blockInventory, 2), 153, 69);
         int a = propertyDelegate.get(7);
@@ -44,7 +44,8 @@ public class BarrelController extends BaseController {
             return;
         Sprite[] sprites;
         Identifier id;
-        BarFuckery tank2 = null;
+        BarFuckery tank2;
+        BarFuckery tank3;
 
         if(fluid == Fluids.LAVA){
             //Don't ask
@@ -62,9 +63,29 @@ public class BarrelController extends BaseController {
             tank2 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), 0x000000, 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
         }
 
+        //Yes, I did in fact just copy paste the code above
+
+        if(fluid == Fluids.LAVA){
+            //Don't ask
+            tank3 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/fermentation_progress_core.png"), -1, 0, 1, WBar.Direction.UP, BarFuckery.BarType.GENERIC, new Identifier(MODID, "textures/gui/bars/lava.png"));
+        }
+        else if(fluid != Fluids.EMPTY && FluidRenderHandlerRegistry.INSTANCE.get(fluid).getFluidColor(null, null, null) == -1){
+            sprites = FluidRenderHandlerRegistry.INSTANCE.get(fluid).getFluidSprites(null, null, null);
+            id = sprites[0] == null ? new Identifier(MODID, "fuck") : sprites[0].getId();
+            tank3 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/fermentation_progress_core.png"), -1, 0, 1, WBar.Direction.UP, BarFuckery.BarType.GENERIC, id);
+        }
+        else if(fluid != Fluids.EMPTY) {
+            tank3 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/fermentation_progress_core.png"), FluidRenderHandlerRegistry.INSTANCE.get(fluid).getFluidColor(null, null, null), 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
+        }
+        else {
+            tank3 = new BarFuckery(new Identifier(MODID, "textures/gui/bars/fermentation_progress_core.png"), 0x000000, 0, 1, WBar.Direction.UP, BarFuckery.BarType.FRUIT, null);
+        }
+
         root.add(tank2, 14, 16, 24, 72);
         root.add(new WSprite(new Identifier(MODID, "textures/gui/bars/generic_tank_long_border.png")), 14, 16, 24, 72);
         root.add(new WBar(new Identifier(MODID, "textures/gui/bars/fermentation_progress.png"), new Identifier(MODID, "textures/gui/bars/fermentation_progress_full.png"), propertyDelegate.get(2), propertyDelegate.get(3), WBar.Direction.RIGHT), 40, 10, 81, 81);
         root.add(new WBar(new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), new Identifier(MODID, "textures/gui/bars/generic_tank_long.png"), 0, 1, WBar.Direction.UP), 123, 16, 24, 72);
+        root.add(tank3, 70, 40, 21, 21);
+        root.add(new WSprite(new Identifier(MODID, "textures/gui/bars/fermentation_progress_core_border.png")), 70, 40, 21, 21);
     }
 }

@@ -6,9 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class FFPressRecipe extends FFRecipe {
-    public ItemStack input;
-    public Item byproduct;
-    public FluidVolume output;
+    final public ItemStack input;
+    final public Item byproduct;
+    final public FluidVolume output;
 
     public FFPressRecipe(String type, String id, ItemStack input, Item byproduct, FluidVolume output){
         super(type, id);
