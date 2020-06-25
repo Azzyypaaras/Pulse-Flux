@@ -2,12 +2,18 @@ package azzy.fabric.azzyfruits.staticentities.blockentity;
 
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
+import azzy.fabric.azzyfruits.util.controller.PressController;
 import azzy.fabric.azzyfruits.util.recipe.handlers.PressRecipeHandler;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFPressRecipe;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
@@ -93,7 +99,22 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
     };
 
     @Override
+    public boolean canInsert(int slot, ItemStack stack, Direction direction) {
+        return direction == Direction.UP && slot == 0;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction direction) {
+        return direction == Direction.DOWN && slot == 1;
+    }
+
+    @Override
     public PropertyDelegate getPropertyDelegate() {
         return tankHolder;
+    }
+
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        return new PressController(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 }

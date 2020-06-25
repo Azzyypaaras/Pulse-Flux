@@ -73,6 +73,7 @@ public class PressBlock extends BaseMachine{
                     }
             }
             else if (blockEntity != null && !player.isInSneakingPose() && player.getStackInHand(player.getActiveHand()).getItem() != Items.BUCKET) {
+                //I will fix this later... later...
                 ContainerProviderRegistry.INSTANCE.openContainer(GID, player, (packetByteBuf -> packetByteBuf.writeBlockPos(pos)));
             }
         }

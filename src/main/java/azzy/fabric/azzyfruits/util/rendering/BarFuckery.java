@@ -2,7 +2,6 @@ package azzy.fabric.azzyfruits.util.rendering;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.sun.istack.internal.Nullable;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WBar;
 import net.fabricmc.api.EnvType;
@@ -21,7 +20,7 @@ public class BarFuckery extends WBar {
     private final int color;
     private final Identifier bar;
 
-    public BarFuckery(Identifier bg, int color, int field, int maxfield, WBar.Direction dir, BarType type, @Nullable Identifier special) {
+    public BarFuckery(Identifier bg, int color, int field, int maxfield, WBar.Direction dir, BarType type, Identifier special) {
         super(bg, new Identifier("thonk"), field, maxfield, dir);
         this.color = color;
         if(type == BarType.FRUIT)

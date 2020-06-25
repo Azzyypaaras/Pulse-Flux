@@ -14,28 +14,26 @@ import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.BARREL_ENTITY;
 public class BarrelEntity extends MachineEntity implements PropertyDelegateHolder {
 
     private FermentationTracker tracker;
-    private int loop, state;
+    private int loop;
 
     public BarrelEntity(){
         super(BARREL_ENTITY);
         inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
         fluidInv = new SimpleFixedFluidInv(1, new FluidAmount(32));
         tracker = FermentationTracker.initiate(this);
-        state = 0;
     }
-
-    //STATES
-    //0 - Open
-    //1 - Shut
-    //2 - Shut and not brewing
-    //3 - Shut and brewing
-    //4 - Shut and not aging
-    //5 - Shut and aging
 
     @Override
     public void tick() {
         super.tick();
         tracker.tick();
+        if(!fluidInv.getTank(0).get().isEmpty()){
+
+        }
+    }
+
+    public void lookUp(){
+
     }
 
     private PropertyDelegate renderBuffer = new PropertyDelegate() {
@@ -48,20 +46,19 @@ public class BarrelEntity extends MachineEntity implements PropertyDelegateHolde
                 case 3: return tracker.minTime;
                 case 4: return loop;
                 case 5: return 20;
-                case 6: return state;
-                case 7: return Registry.FLUID.getRawId(fluidInv.getTank(0).get().getRawFluid());
+                case 6: return Registry.FLUID.getRawId(fluidInv.getTank(0).get().getRawFluid());
             }
             return 0;
         }
 
         @Override
         public void set(int index, int value) {
-            state = value;
+
         }
 
         @Override
         public int size() {
-            return 7;
+            return 6;
         }
     };
 

@@ -1,6 +1,5 @@
 package azzy.fabric.azzyfruits.registry;
 
-import com.sun.istack.internal.NotNull;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
@@ -26,7 +25,7 @@ import java.util.function.Function;
 public class FluidRenderRegistry {
 
     //Oh god oh fuck
-    public static void setupFluidRendering(Fluid still, Fluid flowing, @NotNull Identifier texture, int color) {
+    public static void setupFluidRendering(Fluid still, Fluid flowing, Identifier texture, int color) {
         Identifier stillTexture = new Identifier(texture.getNamespace(), "block/" + texture.getPath() + "_still");
         Identifier flowTexture = new Identifier(texture.getNamespace(), "block/" + texture.getPath() + "_flow");
 

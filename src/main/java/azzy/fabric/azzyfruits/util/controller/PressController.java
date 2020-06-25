@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.util.controller;
 
+import azzy.fabric.azzyfruits.registry.ScreenRegistry;
 import azzy.fabric.azzyfruits.util.rendering.BarFuckery;
 import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
@@ -17,8 +18,8 @@ import net.minecraft.util.registry.Registry;
 
 public class PressController extends BaseController{
 
-    public PressController(ScreenHandlerType recipeType, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(recipeType, syncId, playerInventory, context);
+    public PressController(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+        super(ScreenRegistry.PRESSSCREEN, syncId, playerInventory, context);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class PressController extends BaseController{
     @Override
     protected void assembleInventory(int slots, int gapX, int gapY){
         root.add(WItemSlot.of(blockInventory, 0), 18, 24);
-        root.add(WItemSlot.of(blockInventory, 1), 125, 24);
+        root.add(WItemSlot.of(blockInventory, 1).setInsertingAllowed(false), 125, 24);
         Fluid fluid = Registry.FLUID.get(propertyDelegate.get(4));
         Sprite[] sprites;
         Identifier id;

@@ -64,7 +64,6 @@ public class BaseController extends SyncedGuiDescription {
 
     protected void build() {
         root.add(this.createPlayerInventoryPanel(), 1, sizeY+12);
-        root.add(new WLabel("Inventory", 16776693), 1, sizeY);
         root.validate(this);
     }
 }
