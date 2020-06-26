@@ -23,13 +23,14 @@ public class ClientInit implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BlockRegistry.initTransparency();
-        this.initTransparency(BlockRegistry.registryTrans);
+        initTransparency(BlockRegistry.registryTrans);
         BlockRegistry.initPartialblocks();
-        this.initPartialblocks(BlockRegistry.registryPartial);
+        initPartialblocks(BlockRegistry.registryPartial);
         FluidRegistry.initTransparency();
-        this.initFluidTransparency(FluidRegistry.registryFluidTrans);
+        initFluidTransparency(FluidRegistry.registryFluidTrans);
         GuiRegistry.init();
         RenderRegistry.init();
+        ColorRegistry.init();
 
 
         for (int i = 0; i < juiceRenderRegistry.size(); i++) {

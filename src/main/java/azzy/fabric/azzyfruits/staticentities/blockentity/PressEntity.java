@@ -61,13 +61,8 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
         if(inventory.get(0).isEmpty())
             return false;
         PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler("PRESS");
-        if(handler != null){
-            Optional<FFPressRecipe> recipe = Optional.ofNullable(handler.search(new Object[]{inventory.get(0)}));
-            if(recipe.isPresent()){
-                return handler.matches(recipe.get(), this);
-            }
-        }
-        return false;
+        Optional<FFPressRecipe> recipe = Optional.ofNullable(handler.search(new Object[]{inventory.get(0)}));
+        return recipe.filter(ffPressRecipe -> handler.matches(ffPressRecipe, this)).isPresent();
     }
 
     PropertyDelegate tankHolder = new PropertyDelegate() {

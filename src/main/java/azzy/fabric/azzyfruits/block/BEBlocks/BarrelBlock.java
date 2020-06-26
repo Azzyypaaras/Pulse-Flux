@@ -50,6 +50,10 @@ public class BarrelBlock extends BaseMachine {
            Item item = player.getStackInHand(hand).getItem();
 
            if(item instanceof BucketItem && blockEntity != null) {
+
+               if(blockEntity.getTracker().canOutput())
+                   return ActionResult.PASS;
+
                boolean success = BucketHandler.toTank(item, blockEntity.fluidInv.getTank(0));
                if(success) {
                    if(!player.isCreative())

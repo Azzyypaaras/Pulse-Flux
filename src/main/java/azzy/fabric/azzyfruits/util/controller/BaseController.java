@@ -14,13 +14,13 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 
 public class BaseController extends SyncedGuiDescription {
-    protected WPlainPanel root = new WPlainPanel();
-    protected int slotY, slotX, sizeY, sizeX, spacing, alignment;
+    WPlainPanel root = new WPlainPanel();
+    int slotY, slotX, sizeY, sizeX, spacing, alignment;
     protected String name;
     protected String MODID = ForgottenFruits.MODID;
     protected WItemSlot itemSlot;
 
-    public BaseController(ScreenHandlerType recipeType, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+    BaseController(ScreenHandlerType recipeType, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(recipeType, syncId, playerInventory, getBlockInventory(context), getBlockPropertyDelegate(context));
         assembleGridSize();
         setRootPanel(root);

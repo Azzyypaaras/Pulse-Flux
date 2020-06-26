@@ -2,6 +2,7 @@ package azzy.fabric.azzyfruits.registry;
 
 import azzy.fabric.azzyfruits.item.AmalgamItems;
 import azzy.fabric.azzyfruits.item.FoodItems;
+import azzy.fabric.azzyfruits.item.LiquorBottle;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.Item;
@@ -24,6 +25,7 @@ public class ItemRegistry extends Item{
     public static Item APPLE_ALLOY;
     public static Item MULCH;
     public static Item SAMMICH;
+    public static Item DRINKCLOUDBERRY;
     public static ArrayList<AmalgamItems.ConstructAmalgam> AMALGAM_REGISTRY = new ArrayList<AmalgamItems.ConstructAmalgam>();
 
     private ItemRegistry(Item.Settings settings){
@@ -37,6 +39,7 @@ public class ItemRegistry extends Item{
 
         //Misc
         MULCH = register(new Identifier(MODID, "mulch"), new Item(new Item.Settings().group(PLANTMATERIALS)));
+        DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(defaultSettings().food(FoodItems.FoodBackend(0, 0, false)).maxCount(16)));
 
         //Threads
         IGNOBLE_SILK = register(new Identifier(MODID, "thread_basic"),  new Item(new Item.Settings().group(PLANTMATERIALS)));
@@ -49,11 +52,11 @@ public class ItemRegistry extends Item{
 
         //Berries
         CLOUDBERRY_FRUIT = register(new Identifier(MODID, "cloudberry_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(3, 0.5f, true, false, StatusEffects.LEVITATION, 0.1f, 200))));
-        CINDERMOTE_FRUIT = register(new Identifier(MODID, "cindermote_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackend(6, 0.3f, false))));
+        CINDERMOTE_FRUIT = register(new Identifier(MODID, "cindermote_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackend(6, 0.3f, false)).fireproof()));
 
         //Seeds
         CLOUDBERRY_SEEDS = register(new Identifier(MODID, "cloudberry_seeds"), new AliasedBlockItem(CropRegistry.CLOUDBERRY_CROP, defaultSettings().food(FoodItems.FoodBackendSpecial(-3, -2f, false, false, StatusEffects.LEVITATION, 1f, 600))));
-        CINDERMOTE_SEEDS = register(new Identifier(MODID, "cindermote_seeds"), new AliasedBlockItem(CropRegistry.CINDERMOTE_CROP, defaultSettings()));
+        CINDERMOTE_SEEDS = register(new Identifier(MODID, "cindermote_seeds"), new AliasedBlockItem(CropRegistry.CINDERMOTE_CROP, defaultSettings().fireproof()));
 
         //Jellies
         for (int i = 0; i < 2; i++) {

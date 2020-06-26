@@ -19,6 +19,10 @@ repositories {
 		name = "CottonMC"
 		url = "http://server.bbkr.space:8081/artifactory/libs-release"
 	}
+	maven {
+		name = "Modmenu"
+		url = "https://maven.fabricmc.net/io/github/prospector/modmenu/"
+	}
 }
 
 dependencies {
@@ -35,6 +39,9 @@ dependencies {
 	//REQUIRED LIBRARIES
 	modCompile "alexiil.mc.lib:libblockattributes-all:0.7.0"
 	modImplementation "io.github.cottonmc:LibGui:2.0.1+1.16.1"
+
+	//I have no idea what to classify this as
+	modImplementation "io.github.prospector:modmenu:1.12.2+build.17"
 
 	//NOTE, TESTING ONLY, NOT LIBRARIES, DO NOT IMPLEMENT AS LIBRARIES, DO NOT USE IN CODE
 	modCompile "alexiil.mc.lib:libmultipart-all:0.4.0"

@@ -10,11 +10,11 @@ public class FFFermentingOutput extends FFRecipe {
     final public Fluid fluidIn;
     final public String out;
     final public int baseColor;
-    final public int quality, idealHeight, idealLight;
-    final public double idealTemp, agingSpeed;
+    final public int idealHeight, idealLight;
+    final public double idealTemp, agingSpeed, alcoholContent, quality;
 
 
-    public FFFermentingOutput(String type, String id, String fluidIn, String out, int baseColor, int quality, int idealHeight, int idealLight, double idealTemp, double agingSpeed) {
+    public FFFermentingOutput(String type, String id, String out, String fluidIn, int baseColor, double quality, int idealHeight, int idealLight, double idealTemp, double agingSpeed, double alcoholContent) {
         super(type, id);
         this.fluidIn = Registry.FLUID.get(new Identifier(fluidIn));
         this.out = out;
@@ -24,5 +24,6 @@ public class FFFermentingOutput extends FFRecipe {
         this.idealLight = idealLight;
         this.idealTemp = idealTemp;
         this.agingSpeed = agingSpeed;
+        this.alcoholContent = alcoholContent;
     }
 }

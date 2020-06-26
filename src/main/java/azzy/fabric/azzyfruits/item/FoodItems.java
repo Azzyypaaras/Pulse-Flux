@@ -3,6 +3,7 @@ package azzy.fabric.azzyfruits.item;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
+import net.minecraft.item.PotionItem;
 
 public class FoodItems{
 

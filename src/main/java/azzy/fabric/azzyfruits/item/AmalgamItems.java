@@ -58,7 +58,7 @@ public class AmalgamItems extends Item {
         return this.isFood() ? user.eatFood(world, stack) : stack;
     }
 
-        @Override
+    @Override
     public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
         if(getJellyType().equals(AMALGAMS[0]))
             tooltip.add(new TranslatableText("item.azzyfruits." + AMALGAMS[0] + "_amalgam.tooltip"));
