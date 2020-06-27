@@ -4,7 +4,9 @@
   "package": "azzy.fabric.azzyfruits.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BadMilkiesMixin",
     "BucketMixin",
+    "EffectYeeter",
     "HoeMixin"
   ],
   "client": [

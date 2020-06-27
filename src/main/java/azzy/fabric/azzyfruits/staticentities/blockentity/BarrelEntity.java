@@ -82,6 +82,8 @@ public class BarrelEntity extends MachineEntity implements PropertyDelegateHolde
         super.fromClientTag(compoundTag);
     }
 
+
+
     private PropertyDelegate renderBuffer = new PropertyDelegate() {
         @Override
         public int get(int index) {

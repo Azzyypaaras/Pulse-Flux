@@ -20,6 +20,8 @@ import static azzy.fabric.azzyfruits.registry.FluidRegistry.juiceRenderRegistry;
 @Environment(EnvType.CLIENT)
 public class ClientInit implements ClientModInitializer {
 
+    private static volatile int cachedX, cachedY;
+
     @Override
     public void onInitializeClient() {
         BlockRegistry.initTransparency();
@@ -37,6 +39,19 @@ public class ClientInit implements ClientModInitializer {
             FluidRegistry.FluidPair temp = juiceRenderRegistry.get(i);
             FluidRenderRegistry.setupFluidRendering(temp.getStillState(), temp.getFlowState(), new Identifier("minecraft", "water"), temp.getColor());
         }
+    }
+
+    public static void setCachedLook(int x, int y){
+        cachedX = x;
+        cachedY = y;
+    }
+
+    public static int getCachedX() {
+        return cachedX;
+    }
+
+    public static int getCachedY() {
+        return cachedY;
     }
 
     public static void initTransparency(ArrayList<Block> transparentblocks){

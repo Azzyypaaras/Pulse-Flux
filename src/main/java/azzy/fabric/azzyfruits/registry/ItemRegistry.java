@@ -16,16 +16,13 @@ import static azzy.fabric.azzyfruits.ForgottenFruits.*;
 
 public class ItemRegistry extends Item{
 
-    public static Item CLOUDBERRY_FRUIT;
-    public static Item CLOUDBERRY_SEEDS;
+    public static Item CLOUDBERRY_FRUIT, CLOUDBERRY_SEEDS, DRINKCLOUDBERRY;
     public static Item IGNOBLE_SILK;
     public static Item BASKET_ITEM;
-    public static Item CINDERMOTE_FRUIT;
-    public static Item CINDERMOTE_SEEDS;
+    public static Item CINDERMOTE_FRUIT, CINDERMOTE_SEEDS, DRINKCINDERMOTE;
     public static Item APPLE_ALLOY;
     public static Item MULCH;
     public static Item SAMMICH;
-    public static Item DRINKCLOUDBERRY;
     public static ArrayList<AmalgamItems.ConstructAmalgam> AMALGAM_REGISTRY = new ArrayList<AmalgamItems.ConstructAmalgam>();
 
     private ItemRegistry(Item.Settings settings){
@@ -39,7 +36,10 @@ public class ItemRegistry extends Item{
 
         //Misc
         MULCH = register(new Identifier(MODID, "mulch"), new Item(new Item.Settings().group(PLANTMATERIALS)));
-        DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(defaultSettings().food(FoodItems.FoodBackend(0, 0, false)).maxCount(16)));
+
+        //Drinks
+        DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(defaultSettings().maxCount(16)));
+        DRINKCINDERMOTE = register(new Identifier(MODID, "drinkcindermote"), new LiquorBottle(defaultSettings().maxCount(16)));
 
         //Threads
         IGNOBLE_SILK = register(new Identifier(MODID, "thread_basic"),  new Item(new Item.Settings().group(PLANTMATERIALS)));

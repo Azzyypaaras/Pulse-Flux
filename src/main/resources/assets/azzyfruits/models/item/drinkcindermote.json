@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "azzyfruits:item/drinks/drink_cindermote",
+    "layer1": "azzyfruits:item/drink"
+  }
+}

@@ -145,7 +145,7 @@ public class FermentationTracker {
             if(output.isEmpty()){
                 input.decrement(1);
                 fermenter.inventory.set(2, new ItemStack(item, 1));
-                fermenter.inventory.get(2).putSubTag("brewMetadata", brewMetadata.toTag());
+                fermenter.inventory.get(2).putSubTag("brewmetadata", brewMetadata.toTag());
                 fermenter.fluidInv.getTank(0).extract(FluidVolume.BUCKET);
             }
             else if(output.getItem() == item) {

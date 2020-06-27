@@ -1,13 +1,12 @@
 package azzy.fabric.azzyfruits.registry;
 
 import azzy.fabric.azzyfruits.block.fluid.GenericFluid;
+import azzy.fabric.azzyfruits.block.fluid.JuiceCinder;
 import azzy.fabric.azzyfruits.block.fluid.JuiceCloudberry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FluidBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.*;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
@@ -24,16 +23,22 @@ import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 
 public class FluidRegistry {
 
-    public static HashMap<Item, FluidPair> FLUIDCOLORREGISTRY = new HashMap<>();
+    private static AbstractBlock.Settings juiceSettings = FabricBlockSettings.of(Material.WATER).noCollision().strength(100f).dropsNothing();
+    private static AbstractBlock.Settings glowSettings = FabricBlockSettings.of(Material.WATER).noCollision().strength(100f).dropsNothing().lightLevel((state) -> {return 8;});
 
     //Cloudberry
     public static FlowableFluid STILL_CLOUDJUICE = registerStill("still_cloudberry", new JuiceCloudberry.Still());
     public static FlowableFluid FLOWING_CLOUDJUICE = registerFlowing("flowing_cloudberry", new JuiceCloudberry.Flowing());
-    public static Block CLOUDJUICE = registerFluidBlock("cloudberry_juice", STILL_CLOUDJUICE, Blocks.WATER);
+    public static Block CLOUDJUICE = registerFluidBlock("cloudberry_juice", STILL_CLOUDJUICE, juiceSettings);
     public static Item BUCKET_CLOUDJUICE = registerBucket("bucket_cloudberry", STILL_CLOUDJUICE);
+    public static FlowableFluid STILL_CINDERJUICE = registerStill("still_cinder", new JuiceCinder.Still());
+    public static FlowableFluid FLOWING_CINDERJUICE = registerFlowing("flowing_cinder", new JuiceCinder.Flowing());
+    public static Block CINDERJUICE = registerFluidBlock("cinder_juice", STILL_CINDERJUICE, glowSettings);
+    public static Item BUCKET_CINDERJUICE = registerBucket("bucket_cinderjuice", STILL_CINDERJUICE);
 
 
-    static FluidPair cloudberryJuice = new FluidPair(STILL_CLOUDJUICE, FLOWING_CLOUDJUICE, 0xee9b2f);
+    private static FluidPair cloudberryJuice = new FluidPair(STILL_CLOUDJUICE, FLOWING_CLOUDJUICE, 0xee9b2f);
+    private static FluidPair cindermoteJuice = new FluidPair(STILL_CINDERJUICE, FLOWING_CINDERJUICE, 0xe37b00);
 
     public static ArrayList<FluidPair> juiceRenderRegistry = new ArrayList<>();
 
@@ -44,6 +49,8 @@ public class FluidRegistry {
     public static void initTransparency(){
         registryFluidTrans.add(STILL_CLOUDJUICE);
         registryFluidTrans.add(FLOWING_CLOUDJUICE);
+        registryFluidTrans.add(STILL_CINDERJUICE);
+        registryFluidTrans.add(FLOWING_CINDERJUICE);
     }
 
     public static FlowableFluid registerStill(String name, FlowableFluid item){
@@ -62,8 +69,8 @@ public class FluidRegistry {
         return temp;
     }
 
-    public static Block registerFluidBlock(String name, FlowableFluid item, Block base){
-        Block temp = new FluidBlock(item, FabricBlockSettings.copy(base).build()){};
+    public static Block registerFluidBlock(String name, FlowableFluid item, AbstractBlock.Settings base){
+        Block temp = new FluidBlock(item, base){};
         Registry.register(Registry.BLOCK, new Identifier(MODID, name), temp);
         return temp;
     }
@@ -74,7 +81,7 @@ public class FluidRegistry {
         private FlowableFluid flowState;
         private int color;
 
-        public FluidPair(final FlowableFluid stillState, final FlowableFluid flowState, final int color) {
+        private FluidPair(final FlowableFluid stillState, final FlowableFluid flowState, final int color) {
             this.stillState = stillState;
             this.flowState = flowState;
             this.color = color;
@@ -94,6 +101,6 @@ public class FluidRegistry {
     }
         public static void init() {
             juiceRenderRegistry.add(cloudberryJuice);
-            FLUIDCOLORREGISTRY.put(BUCKET_CLOUDJUICE, cloudberryJuice);
+            juiceRenderRegistry.add(cindermoteJuice);
         }
 }

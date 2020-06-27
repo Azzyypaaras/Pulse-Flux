@@ -46,13 +46,13 @@ public class BlockRegistry {
     public static final Block WOODPIPE_BLOCK = register("wooden_pipe", new WoodPipe(null, "woodpipe", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), machineSettings());
     public static final Block BARREL_BLOCK = register("barrel_block", new BarrelBlock(null, "barrel", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), machineSettings());
 
-    public static Item.Settings defaultSettings(){
+    private static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);
     }
-    public static Item.Settings machineSettings(){
+    private static Item.Settings machineSettings(){
         return new Item.Settings().group(BLOCKENTITIES);
     }
-    public static Item.Settings materialSettings(){
+    private static Item.Settings materialSettings(){
         return new Item.Settings().group(PLANTMATERIALS);
     }
 

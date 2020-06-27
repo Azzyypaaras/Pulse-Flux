@@ -32,6 +32,7 @@ public class ForgottenFruits implements ModInitializer {
 		//Registries
 		ItemRegistry.init();
 		BlockRegistry.init();
+		PotionRegistry.init();
 		CropRegistry.init();
 		GeneratedRegistry.init();
 		BlockEntityRegistry.init();
@@ -39,6 +40,7 @@ public class ForgottenFruits implements ModInitializer {
 		FluidRegistry.init();
 		RecipeRegistry.init();
 	}
+
 	public void onInitializing(){
 	}
 }

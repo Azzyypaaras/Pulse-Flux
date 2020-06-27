@@ -1,0 +1,8 @@
+{
+  "layers": [
+    {
+      "vertexSource": "azzyfruits:shaders/material/default.vert",
+      "fragmentSource": "azzyfruits:shaders/material/cindermote.frag"
+    }
+  ]
+}
