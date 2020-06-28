@@ -10,7 +10,7 @@ void cv_startFragment(inout cv_FragmentData fragData) {
 	float time = cv_renderSeconds();
 	// modify appearance where stone texture is lighter in color
 	if (fragData.spriteColor.r > 0.5f) {
-		fragData.emissivity = abs(sin(pow(time, 0.85)))+0.5;
+		fragData.emissivity = abs(sin(pow(time, 1.0)))+0.25;
 		fragData.ao = false;
 		fragData.diffuse = false;
 	}

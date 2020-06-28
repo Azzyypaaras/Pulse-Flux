@@ -41,10 +41,10 @@ public class BlockRegistry {
     public static final Block IGNOBLE_BLOCK = register("ignoble_silk_block", new Block(FabricBlockSettings.of(Material.WOOL).materialColor(MaterialColor.BROWN).sounds(BlockSoundGroup.SNOW).build()), materialSettings());
 
     //Block Entities
-    public static final Block PRESS_BLOCK = register("press_block", new PressBlock(null , "press", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), new Item.Settings().group(BLOCKENTITIES));
-    public static final Block BASKET_BLOCK = register("basket_block", new BasketBlock(null, "basket", Material.WOOL, BlockSoundGroup.WOOL, 0, Block.createCuboidShape(1, 0, 1, 15, 8, 15), null), new Item.Settings().group(BLOCKENTITIES).maxCount(1), true);
-    public static final Block WOODPIPE_BLOCK = register("wooden_pipe", new WoodPipe(null, "woodpipe", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), machineSettings());
-    public static final Block BARREL_BLOCK = register("barrel_block", new BarrelBlock(null, "barrel", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE, null), machineSettings());
+    public static final Block PRESS_BLOCK = register("press_block", new PressBlock(null , "press", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE), new Item.Settings().group(BLOCKENTITIES));
+    public static final Block BASKET_BLOCK = register("basket_block", new BasketBlock(null, "basket", Material.WOOL, BlockSoundGroup.WOOL, 0, Block.createCuboidShape(1, 0, 1, 15, 8, 15)), new Item.Settings().group(BLOCKENTITIES).maxCount(1), true);
+    public static final Block WOODPIPE_BLOCK = register("wooden_pipe", new WoodPipe(null, "woodpipe", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE), machineSettings());
+    public static final Block BARREL_BLOCK = register("barrel_block", new BarrelBlock(null, "barrel", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE), machineSettings());
 
     private static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);

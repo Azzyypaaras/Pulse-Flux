@@ -10,6 +10,11 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+def libblockattributesver = "0.7.0"
+def libguiver = "2.0.1"
+def clothconfver = "4.5.6"
+def autoconfver = "3.2.0-unstable"
+
 repositories {
 	maven {
 		name = "BuildCraft"
@@ -23,16 +28,15 @@ repositories {
 		name = "Modmenu"
 		url = "https://maven.fabricmc.net/io/github/prospector/modmenu/"
 	}
-	repositories {
-		maven {
-			name = "grondag"
-			url = "https://grondag-repo.appspot.com"
-			credentials {
-				username "guest"
-				password ""
-			}
+	maven {
+		name = "grondag"
+		url = "https://grondag-repo.appspot.com"
+		credentials {
+			username "guest"
+			password ""
 		}
 	}
+	jcenter()
 }
 
 dependencies {
@@ -47,9 +51,18 @@ dependencies {
 	// You may need to force-disable transitiveness on them.
 
 	//REQUIRED LIBRARIES
-	modCompile "alexiil.mc.lib:libblockattributes-all:0.7.0"
+	modCompile "alexiil.mc.lib:libblockattributes-all:"+libblockattributesver
+	modImplementation "io.github.cottonmc:LibGui:"+libguiver+"+1.16.1"
+	modApi "me.shedaniel.cloth:config-2:"+clothconfver
+	modApi "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
+
+	include "alexiil.mc.lib:libblockattributes-all:"+libblockattributesver
+	include "io.github.cottonmc:LibGui:"+libguiver+"+1.16.1"
+	include "me.shedaniel.cloth:config-2:"+clothconfver
+	include "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
+
+	//REQUIRED IF WORKING ON THE HQ SHADERPACK
 	modCompile "grondag:canvas-mc116:1.0.+"
-	modImplementation "io.github.cottonmc:LibGui:2.0.1+1.16.1"
 
 	//I have no idea what to classify this as
 	modImplementation "io.github.prospector:modmenu:1.12.2+build.17"

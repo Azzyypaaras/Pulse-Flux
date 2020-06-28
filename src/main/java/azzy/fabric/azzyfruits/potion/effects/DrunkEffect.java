@@ -24,7 +24,7 @@ public class DrunkEffect extends FFStatusEffect {
             Random random = new Random();
             PlayerEntity player = (PlayerEntity) entity;
                 if(player.world.getTime()%100/amplifier == 0 || (ClientInit.getCachedX() == 0 || ClientInit.getCachedY() == 0)){
-                    int x = random.nextInt(2 == 0 ? random.nextInt(4) * amplifier : -(random.nextInt(4) * amplifier));
+                    int x = random.nextInt(2) == 0 ? random.nextInt(4) * amplifier : -(random.nextInt(4) * amplifier);
                     int y = random.nextInt(2) == 0 ? random.nextInt(2) * amplifier : -(random.nextInt(2) * amplifier);
                     ClientInit.setCachedLook(x, y);
                 }
