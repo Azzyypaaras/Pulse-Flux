@@ -38,8 +38,8 @@ public class ItemRegistry extends Item{
         MULCH = register(new Identifier(MODID, "mulch"), new Item(new Item.Settings().group(PLANTMATERIALS)));
 
         //Drinks
-        DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(defaultSettings().maxCount(16)));
-        DRINKCINDERMOTE = register(new Identifier(MODID, "drinkcindermote"), new LiquorBottle(defaultSettings().maxCount(16)));
+        DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(drinkSettings()));
+        DRINKCINDERMOTE = register(new Identifier(MODID, "drinkcindermote"), new LiquorBottle(drinkSettings()));
 
         //Threads
         IGNOBLE_SILK = register(new Identifier(MODID, "thread_basic"),  new Item(new Item.Settings().group(PLANTMATERIALS)));
@@ -68,9 +68,10 @@ public class ItemRegistry extends Item{
         }
     }
 
-    public static Item.Settings defaultSettings(){
+    private static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);
     }
+    private static Item.Settings drinkSettings() {return new Item.Settings().group(PLANTSTUFF).food(FoodItems.FoodBackend(0, 0, false)).maxCount(16);}
 
     private static Item register(Identifier name, Item item){
         Registry.register(Registry.ITEM, name, item);

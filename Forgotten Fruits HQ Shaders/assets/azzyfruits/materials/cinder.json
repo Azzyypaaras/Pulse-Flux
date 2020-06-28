@@ -1,8 +1,0 @@
-{
-	"layers": [
-		{
-			"vertexSource": "azzyfruits:shaders/material/cinder.vert",
-			"fragmentSource": "azzyfruits:shaders/material/cinder.frag"
-		}
-	]
-}

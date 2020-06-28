@@ -24,7 +24,7 @@ import static azzy.fabric.azzyfruits.ForgottenFruits.MODID;
 public class FluidRegistry {
 
     private static AbstractBlock.Settings juiceSettings = FabricBlockSettings.of(Material.WATER).noCollision().strength(100f).dropsNothing();
-    private static AbstractBlock.Settings glowSettings = FabricBlockSettings.of(Material.WATER).noCollision().strength(100f).dropsNothing().lightLevel((state) -> {return 8;});
+    private static AbstractBlock.Settings glowSettings = FabricBlockSettings.of(Material.WATER).strength(100f).dropsNothing().lightLevel((state) -> {return 6;});
 
     //Cloudberry
     public static FlowableFluid STILL_CLOUDJUICE = registerStill("still_cloudberry", new JuiceCloudberry.Still());
