@@ -1,5 +1,6 @@
 package azzy.fabric.azzyfruits.render.blockentity;
 
+import azzy.fabric.azzyfruits.registry.FluidRegistry;
 import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.MinecraftClient;
@@ -12,6 +13,7 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -73,6 +75,9 @@ public class PressEntityRenderer extends BlockEntityRenderer<PressEntity> {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("minecraft:block/water_still"));
             consumer = vertexConsumers.getBuffer(RenderLayer.getTranslucentNoCrumbling());
         }
+
+        Fluid emissive = blockEntity.fluidInv.getInvFluid(0).getRawFluid();
+        toplight = emissive == Fluids.LAVA || emissive == FluidRegistry.STILL_CINDERJUICE ? 14680160 : toplight;
 
         consumer.vertex(matrix.getModel(), 0, 0, 1).color(r, g, b, 255).texture(sprite.getMinU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 0, 0, 0).next();
         consumer.vertex(matrix.getModel(), 1, 0, 1).color(r, g, b, 255).texture(sprite.getMaxU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 0, 0, 0).next();
