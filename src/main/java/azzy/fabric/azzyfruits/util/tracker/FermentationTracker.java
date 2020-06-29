@@ -19,10 +19,11 @@ import net.minecraft.world.biome.Biome;
 import java.util.Optional;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.FFLog;
+import static azzy.fabric.azzyfruits.ForgottenFruits.config;
 
 public class FermentationTracker {
 
-    private double quality, purity, content, temp, percentOffset, idealTemp, targetQuality, baseQuality, appliedTemp;
+    private double quality, purity, content, temp, idealTemp, targetQuality, baseQuality, appliedTemp;
     private int height, light, age, idealHeight, idealLight, liquid, cachedColor;
     public int time, minTime;
     private BarrelEntity fermenter;
@@ -57,15 +58,10 @@ public class FermentationTracker {
 
         fetchInWorldStatus();
 
-        if(percentOffset != -1)
-            this.percentOffset = recipe.agingSpeed;
-        else
-            this.percentOffset = 0.02;
-
         time = 0;
         minTime = 72000;
         minTime = (int) ((minTime / (fermenter.fluidInv.getMaxAmount_F(0).as1620() / liquid))*1.5);
-        if(minTime > 800)
+        if(minTime > 800 && config.isDebugOn())
             minTime = 800;
     }
 
@@ -118,7 +114,7 @@ public class FermentationTracker {
         if(time%100==0){
             fetchInWorldStatus();
             calculateTargetQuality();
-            if(!fermenter.getWorld().isClient)
+            if(!fermenter.getWorld().isClient && config.isDebugOn())
                 FFLog.info("Light "+light+", MinTime "+minTime+", Quality "+quality+", Time "+time+", Target Quality"+targetQuality+", Current Temperature "+appliedTemp);
 
         }
@@ -140,8 +136,9 @@ public class FermentationTracker {
         ItemStack output = fermenter.inventory.get(2);
         FluidVolume tank = fermenter.fluidInv.getInvFluid(0);
         if(!input.isEmpty() && output.getCount() < 16 && input.getItem() == Items.GLASS_BOTTLE && tank.getAmount_F().as1620() >= 1){
-            FFFermentingOutput recipe = fermenter.lookUp(Registry.FLUID.getId(tank.getRawFluid()).getPath());
-            Item item = Registry.ITEM.get(new Identifier(recipe.out));
+            FFFermentingOutput recipe = fermenter.lookUp(Registry.FLUID.getId(tank.getRawFluid()).toString());
+            String out = recipe.out;
+            Item item = Registry.ITEM.get(new Identifier(out));
             if(output.isEmpty()){
                 input.decrement(1);
                 fermenter.inventory.set(2, new ItemStack(item, 1));
@@ -229,7 +226,6 @@ public class FermentationTracker {
 
     public void cancel(){
         active = false;
-        percentOffset = 0.0d;
     }
 
     public boolean isActive() {
@@ -240,7 +236,6 @@ public class FermentationTracker {
         CompoundTag tag = new CompoundTag();
         tag.putDouble("quality", quality);
         tag.putDouble("content", content);
-        tag.putDouble("offset", percentOffset);
         tag.putDouble("temp", idealTemp);
         tag.putDouble("setquality", baseQuality);
         tag.putDouble("targetquality", targetQuality);
@@ -263,7 +258,6 @@ public class FermentationTracker {
         baseQuality = tag.getDouble("setquality");
         targetQuality = tag.getDouble("targetquality");
         content = tag.getDouble("content");
-        percentOffset = tag.getDouble("offset");
         idealTemp = tag.getDouble("idealTemp");
         idealHeight = tag.getInt("height");
         idealLight = tag.getInt("light");

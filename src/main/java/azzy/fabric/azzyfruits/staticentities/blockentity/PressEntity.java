@@ -3,6 +3,7 @@ package azzy.fabric.azzyfruits.staticentities.blockentity;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import azzy.fabric.azzyfruits.util.controller.PressController;
+import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
 import azzy.fabric.azzyfruits.util.recipe.handlers.PressRecipeHandler;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFPressRecipe;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
@@ -18,7 +19,6 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
 
-import static azzy.fabric.azzyfruits.ForgottenFruits.DEBUG;
 import static azzy.fabric.azzyfruits.ForgottenFruits.FFLog;
 import static azzy.fabric.azzyfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
 
@@ -46,11 +46,7 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
     }
 
     private void cycleComplete(){
-        if(DEBUG){
-            FFLog.error("DEBUG - "+this.toString()+" COMPLETED A CRAFTING CYCLE");
-        }
-
-        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler("PRESS");
+        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler(RecipeRegistryKey.PRESS);
         if(handler != null){
             FFPressRecipe recipe = handler.search(new Object[]{inventory.get(0)});
             handler.craft(recipe, this);
@@ -60,7 +56,7 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
     private boolean cycleCheck(){
         if(inventory.get(0).isEmpty())
             return false;
-        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler("PRESS");
+        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler(RecipeRegistryKey.PRESS);
         Optional<FFPressRecipe> recipe = Optional.ofNullable(handler.search(new Object[]{inventory.get(0)}));
         return recipe.filter(ffPressRecipe -> handler.matches(ffPressRecipe, this)).isPresent();
     }

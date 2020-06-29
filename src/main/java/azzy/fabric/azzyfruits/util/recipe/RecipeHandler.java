@@ -4,9 +4,9 @@ import net.minecraft.block.entity.BlockEntity;
 
 public abstract class RecipeHandler<T> {
 
-    protected String id;
+    protected RecipeRegistryKey id;
 
-    public RecipeHandler(String id){
+    public RecipeHandler(RecipeRegistryKey id){
         this.id = id;
     }
 

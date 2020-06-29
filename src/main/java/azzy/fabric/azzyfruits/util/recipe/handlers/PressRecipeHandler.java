@@ -6,6 +6,7 @@ import azzy.fabric.azzyfruits.config.recipes.PressRecipes;
 import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.util.recipe.FFRecipe;
 import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
+import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFPressRecipe;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,7 @@ import static azzy.fabric.azzyfruits.ForgottenFruits.*;
 
 public class PressRecipeHandler extends RecipeHandler {
 
-    public PressRecipeHandler(String id) {
+    public PressRecipeHandler(RecipeRegistryKey id) {
         super(id);
     }
 
@@ -23,9 +24,6 @@ public class PressRecipeHandler extends RecipeHandler {
     public FFPressRecipe search(Object[] args) {
         ItemStack item = (ItemStack) args[0];
         PressRecipes recipes = (PressRecipes) REGISTEREDRECIPES.get(id).getRecipes();
-
-        if(DEBUG)
-            FFLog.error("DEBUG - KEY SEARCHED - "+Registry.ITEM.getId(item.getItem()));
 
         if(recipes.RECIPES.containsKey(""+Registry.ITEM.getId(item.getItem())))
             if(valid((FFRecipe) recipes.RECIPES.get(""+Registry.ITEM.getId(item.getItem()))))
@@ -43,7 +41,7 @@ public class PressRecipeHandler extends RecipeHandler {
         FluidVolume craftOut = crafted.output, invOut = crafter.fluidInv.getInvFluid(0);
 
         if(valid(recipe)){
-            if(DEBUG){
+            if(config.isDebugOn() && entity.getWorld().getTime() % 100 == 0){
                 FFLog.error("DEBUG MESSAGE START");
                 FFLog.error("ITEM MATCH "+ (craftIn.getItem() == invIn.getItem()));
                 FFLog.error("ITEM COUNT MATCH "+ (invIn.getCount() >= craftIn.getCount()));
@@ -61,7 +59,7 @@ public class PressRecipeHandler extends RecipeHandler {
 
     @Override
     public boolean valid(FFRecipe recipe) {
-        if(recipe.type.equals("PRESS")){
+        if(recipe.type == RecipeRegistryKey.PRESS){
             return true;
         }
         else{

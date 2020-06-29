@@ -3,6 +3,7 @@ package azzy.fabric.azzyfruits.util.recipe.programatic;
 import azzy.fabric.azzyfruits.config.programatic.BarrelRecipes;
 import azzy.fabric.azzyfruits.util.recipe.FFRecipe;
 import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
+import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFFermentingOutput;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFPressRecipe;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,7 +12,7 @@ import static azzy.fabric.azzyfruits.ForgottenFruits.FFLog;
 import static azzy.fabric.azzyfruits.ForgottenFruits.REGISTEREDRECIPES;
 
 public class FermentationHandler extends RecipeHandler {
-    public FermentationHandler(String id) {
+    public FermentationHandler(RecipeRegistryKey id) {
         super(id);
     }
 
@@ -33,7 +34,7 @@ public class FermentationHandler extends RecipeHandler {
 
     @Override
     public boolean valid(FFRecipe recipe) {
-        if(recipe.type.equals("BARREL")){
+        if(recipe.type == RecipeRegistryKey.BARREL){
             return true;
         }
         else{

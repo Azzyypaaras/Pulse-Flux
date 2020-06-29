@@ -2,6 +2,7 @@ package azzy.fabric.azzyfruits.staticentities.blockentity;
 
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
+import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
 import azzy.fabric.azzyfruits.util.recipe.programatic.FermentationHandler;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFFermentingOutput;
 import azzy.fabric.azzyfruits.util.tracker.FermentationTracker;
@@ -37,9 +38,8 @@ public class BarrelEntity extends MachineEntity implements PropertyDelegateHolde
         super.tick();
         tracker.tick();
         hasMetadata = tracker.canOutput();
-        markDirty();
         if(!fluidInv.getTank(0).get().isEmpty() && !tracker.isActive() && !tracker.canOutput()){
-            FFFermentingOutput recipe = lookUp(Registry.FLUID.getId(fluidInv.getTank(0).get().getRawFluid()).getPath());
+            FFFermentingOutput recipe = lookUp(Registry.FLUID.getId(fluidInv.getTank(0).get().getRawFluid()).toString());
             if(recipe != null){
                 tracker.start(recipe);
             }
@@ -47,7 +47,7 @@ public class BarrelEntity extends MachineEntity implements PropertyDelegateHolde
     }
 
     public FFFermentingOutput lookUp(String fluid){
-        FermentationHandler handler = (FermentationHandler) getRecipeHandler("BARREL");
+        FermentationHandler handler = (FermentationHandler) getRecipeHandler(RecipeRegistryKey.BARREL);
         Optional<FFFermentingOutput> output = Optional.ofNullable(handler.search(new Object[]{fluid}));
         return output.orElse(null);
     }

@@ -4,6 +4,7 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import azzy.fabric.azzyfruits.util.InventoryWrapper;
 import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
+import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
@@ -114,7 +115,7 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         return direction == Direction.DOWN;
     }
 
-    public RecipeHandler getRecipeHandler(String id){
+    public RecipeHandler getRecipeHandler(RecipeRegistryKey id){
         if (REGISTEREDRECIPES.containsKey(id)){
             return REGISTEREDRECIPES.get(id).getHandler();
         }

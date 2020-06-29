@@ -25,6 +25,8 @@ public class ClientInit implements ClientModInitializer {
 
     private static volatile int cachedX, cachedY;
 
+    public static ConfigBuilder builder;
+
     @Override
     public void onInitializeClient() {
         BlockRegistry.initTransparency();

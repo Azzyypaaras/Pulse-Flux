@@ -1,6 +1,7 @@
 package azzy.fabric.azzyfruits.registry;
 
 import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
+import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
 import azzy.fabric.azzyfruits.util.recipe.RecipeTemplate;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ public class TrueRecipeRegistry {
     volatile static ArrayList<RegistryPair> RegistryBuffer = new ArrayList<>();
 
 
-    static void registerRecipeType(String id, RecipeHandler handler, RecipeTemplate recipes){
+    static void registerRecipeType(RecipeRegistryKey id, RecipeHandler handler, RecipeTemplate recipes){
         if(initComplete){
-            FFLog.error("Someone has attempted to register a recipe after the recipe registry phase was complete, this WILL cause issues!");
+            FFLog.error("Someone has attempted to register a recipe type after the recipe registry phase was complete, this WILL cause issues!");
             return;
         }
 
@@ -33,9 +34,9 @@ public class TrueRecipeRegistry {
     }
 
     private static class RegistryPair{
-        String id;
+        RecipeRegistryKey id;
         RecipeType type;
-        public RegistryPair(String id, RecipeType type){
+        public RegistryPair(RecipeRegistryKey id, RecipeType type){
             this.id = id;
             this.type = type;
         }
