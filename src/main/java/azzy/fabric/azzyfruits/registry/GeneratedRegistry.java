@@ -37,6 +37,6 @@ public class GeneratedRegistry {
 
     public static void init(){
         Biomes.TAIGA.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_PATCH.configure(new RandomPatchFeatureConfig.Builder(new WeightedBlockStateProvider().addState(CLOUDBERRY_WILD.getDefaultState(), 1), new SimpleBlockPlacer()).tries(30).spreadX(4).spreadZ(4).build()).createDecoratedFeature(Decorator.COUNT_CHANCE_HEIGHTMAP_DOUBLE.configure(new CountChanceDecoratorConfig(1, 0.075f))));
-        Biomes.NETHER_WASTES.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, CINDERMOTE_FIELD.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new ChanceDecoratorConfig(200))));
+        Biomes.NETHER_WASTES.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, CINDERMOTE_FIELD.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new ChanceDecoratorConfig(50))));
     }
 }

@@ -4,18 +4,16 @@ import azzy.fabric.azzyfruits.util.recipe.base.RecipeIntermediary;
 import blue.endless.jankson.*;
 import blue.endless.jankson.impl.Marshaller;
 import blue.endless.jankson.impl.SyntaxError;
-import jdk.nashorn.internal.codegen.types.Type;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.*;
 
+//Oh yeah, war crime time
 public class JanksonRecipeParser {
 
     private static Jankson recipeLoader;
@@ -44,15 +42,14 @@ public class JanksonRecipeParser {
     }
 
     private static void validateRecipeCategories(){
-        //Yeah so, fun fact. The actual recipes are initialized pretty much at the end of FF's load cycle. So we hardcoding this shit
-        String[] recipeTypes = new String[]{"PRESS", "BARREL"};
         JsonObject recipeJson;
         Class recipeReflection;
         Object recipeInstance;
         File recipeData;
         FileWriter writer;
 
-        for (String recipeType : recipeTypes){
+        for (int i = 0; i < RecipeRegistryKey.values().length; i++){
+            String recipeType = RecipeRegistryKey.values()[i].name();
             recipeJson = null;
             recipeReflection = null;
             recipeInstance = null;
@@ -117,7 +114,7 @@ public class JanksonRecipeParser {
         jsons = jsons.filter(e -> {
             try {
                 JsonObject entry = recipeLoader.load(e);
-                return RepRegKeyParser.translateString(new Marshaller().marshall(String.class, entry.get("type"))) == key;
+                return RecipeRegistryKey.valueOf(new Marshaller().marshall(String.class, entry.get("type"))) == key;
             } catch (IOException | SyntaxError ex) {
                 ex.printStackTrace();
             }
