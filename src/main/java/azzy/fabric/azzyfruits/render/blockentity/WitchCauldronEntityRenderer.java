@@ -12,6 +12,8 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
+import static azzy.fabric.azzyfruits.ForgottenFruits.FFLog;
+
 public class WitchCauldronEntityRenderer extends BlockEntityRenderer<WitchCauldronEntity> {
 
 
@@ -25,8 +27,7 @@ public class WitchCauldronEntityRenderer extends BlockEntityRenderer<WitchCauldr
         if(!entity.hasMetadata())
             return;
 
-
-        int hex = entity.getMetadata().getColor();
+        int hex = entity.getCachedColor();
 
         int[] rgb = HexColorTranslator.translate(hex);
         int r = rgb[0];

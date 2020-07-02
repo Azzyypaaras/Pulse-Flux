@@ -4,12 +4,15 @@ import azzy.fabric.azzyfruits.registry.ItemRegistry;
 import azzy.fabric.azzyfruits.util.interaction.HeatHolder;
 import azzy.fabric.azzyfruits.util.interaction.HeatTransferHelper;
 import azzy.fabric.azzyfruits.util.tracker.BrewMetadata;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -36,6 +39,7 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
     private BrewMetadata metadata;
     private boolean hasMetadata;
     private String cachedBrew;
+    private int cachedColor;
     private double heat;
     //Yeah so, you can't get world on init :p
     private boolean heatInit = true;
@@ -51,15 +55,32 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         if(metadata == null){
             hasMetadata = false;
         }
+        else if(cachedColor == 	0xFFFFFF || cachedColor == 	0){
+            cachedColor = metadata.getColor();
+        }
         if(heatInit){
             heat = HeatTransferHelper.translateBiomeHeat(this.world.getBiome(this.pos));
             heatInit = false;
         }
-        if(world.getTime() % 5 == 0)
-        fetchDroppedItems();
+        if(world.getTime() % 5 == 0 && hasMetadata) {
+            fetchDroppedItems();
+        }
         if(world.getTime() % 20 == 0){
+            if (!world.isClient() && heat >= 100) {
+                ((ServerWorld) world).spawnParticles(ParticleTypes.BUBBLE, pos.getX()+0.125, pos.getY()+0.69, pos.getZ()+0.125, 3 + world.random.nextInt(4), 0.75, 0, 0.75, 0);
+            }
+            if (world.isClient() && heat >= 100 && )
             if(config.isDebugOn())
                 FFLog.error("Cauldron Temperature: "+heat);
+            Block source = world.getBlockState(pos.down()).getBlock();
+            BlockEntity entity = world.getBlockEntity(pos.down());
+            if(entity instanceof HeatHolder){
+                HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, (HeatHolder) entity);
+            }
+            else if(HeatTransferHelper.isHeatSource(source)){
+                HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, source);
+            }
+            HeatTransferHelper.simulateAmbientHeat(this, world.getBiome(pos));
         }
 
         super.tick();
@@ -110,6 +131,10 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         this.cachedBrew = brew.toString();
     }
 
+    public int getCachedColor() {
+        return cachedColor;
+    }
+
     public void playDropEffects(){
         if(!world.isClient()){
             ((ServerWorld) world).spawnParticles(ParticleTypes.SPLASH, this.pos.getX()+0.5, this.pos.getY()+0.69, this.pos.getZ()+0.5, world.random.nextInt(5)+2, 0, 0.0, 0, 0);
@@ -128,6 +153,7 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         tag.putDouble("heat", heat);
         tag.putBoolean("init", heatInit);
         tag.putBoolean("hasmetadata", hasMetadata);
+        tag.putInt("color", cachedColor);
         return super.toTag(tag);
     }
 
@@ -137,7 +163,13 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         heat = tag.getDouble("heat");
         heatInit = tag.getBoolean("init");
         hasMetadata = tag.getBoolean("hasmetadata");
+        cachedColor = tag.getInt("color");
         super.fromTag(state, tag);
+    }
+
+    @Override
+    public BlockEntityUpdateS2CPacket toUpdatePacket() {
+        return super.toUpdatePacket();
     }
 
     @Override
@@ -145,6 +177,9 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         if(hasMetadata)
             compoundTag.put("metadata", metadata.toTag());
         compoundTag.putBoolean("hasmetadata", hasMetadata);
+        compoundTag.putBoolean("heatinit", heatInit);
+        compoundTag.putDouble("heat", heat);
+        compoundTag.putInt("color", cachedColor);
         return super.toClientTag(compoundTag);
     }
 
@@ -152,7 +187,15 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
     public void fromClientTag(CompoundTag compoundTag) {
         metadata = BrewMetadata.fromTag(compoundTag.getCompound("metadata"));
         hasMetadata = compoundTag.getBoolean("hasmetadata");
+        heatInit = compoundTag.getBoolean("heatinit");
+        heat = compoundTag.getDouble("heat");
+        cachedColor = compoundTag.getInt("color");
         super.fromClientTag(compoundTag);
+    }
+
+    @Override
+    public void sync() {
+
     }
 
     @Override
@@ -167,11 +210,11 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
 
     @Override
     public double getHeat() {
-        return 0;
+        return heat;
     }
 
     @Override
     public void moveHeat(double change) {
-
+        heat += change;
     }
 }

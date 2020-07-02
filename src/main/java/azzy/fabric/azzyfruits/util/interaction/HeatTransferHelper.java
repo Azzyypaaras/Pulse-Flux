@@ -21,33 +21,31 @@ public class HeatTransferHelper {
 
     private static double calculateHeat(HeatMaterial medium, double bodyATemp, HeatSource bodyB){
         double transfer;
-        transfer = medium.transfer * Math.pow(bodyB.size, 2) * (Math.abs(bodyATemp - bodyB.temp));
+        transfer = medium.transfer * Math.pow(bodyB.size, 2) * (bodyATemp - bodyB.temp);
         return transfer;
     }
 
     private static double calculateHeat(HeatMaterial medium, double bodyATemp, double bodyBTemp){
         double transfer;
-        transfer = medium.transfer * 0.75 * (Math.abs(bodyATemp - bodyBTemp));
+        transfer = medium.transfer * 0.75 * (bodyATemp - bodyBTemp);
         return transfer;
     }
 
     public static <T extends HeatHolder> void simulateHeat(HeatMaterial medium, T bodyA, T bodyB){
         double flux = calculateHeat(medium, bodyA.getHeat(), bodyB.getHeat());
-        if(bodyA.getHeat() > bodyB.getHeat()){
-            bodyA.moveHeat(-flux);
-            bodyB.moveHeat(flux);
-        }
-        else {
-            bodyA.moveHeat(flux);
-            bodyB.moveHeat(-flux);
-        }
+        bodyA.moveHeat(-flux);
+        bodyB.moveHeat(flux);
     }
 
     public static <T extends HeatHolder> void simulateHeat(HeatMaterial medium, T bodyA, Block bodyB){
         HeatSource source = heatMap.get(bodyB);
         double flux = calculateHeat(medium, bodyA.getHeat(), source);
         flux = bodyA.getHeat() > source.temp ? -flux : flux;
-        bodyA.moveHeat(flux);
+        bodyA.moveHeat(-flux);
+    }
+
+    public static boolean isHeatSource(Block body){
+        return heatMap.containsKey(body);
     }
 
     public static <T extends HeatHolder> double translateBiomeHeat(Biome biome){
@@ -64,7 +62,7 @@ public class HeatTransferHelper {
 
     public static <T extends HeatHolder> void simulateAmbientHeat(T bodyA, Biome biome){
         double flux = calculateHeat(HeatMaterial.AIR, bodyA.getHeat(), translateBiomeHeat(biome));
-        bodyA.moveHeat(flux);
+        bodyA.moveHeat(-flux);
     }
 
     public enum HeatMaterial{
