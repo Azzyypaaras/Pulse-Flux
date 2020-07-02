@@ -1,9 +1,6 @@
 package azzy.fabric.azzyfruits.registry;
 
-import azzy.fabric.azzyfruits.staticentities.blockentity.BarrelEntity;
-import azzy.fabric.azzyfruits.staticentities.blockentity.BasketEntity;
-import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
-import azzy.fabric.azzyfruits.staticentities.blockentity.WoodPipeEntity;
+import azzy.fabric.azzyfruits.staticentities.blockentity.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
@@ -18,6 +15,7 @@ public class BlockEntityRegistry {
     public static BlockEntityType<BasketEntity> BASKET_ENTITY = BlockEntityType.Builder.create(BasketEntity::new, BASKET_BLOCK).build(null);
     public static BlockEntityType<WoodPipeEntity> WOODPIPE_ENTITY = BlockEntityType.Builder.create(WoodPipeEntity::new, WOODPIPE_BLOCK).build(null);
     public static BlockEntityType<BarrelEntity> BARREL_ENTITY = BlockEntityType.Builder.create(BarrelEntity::new, BARREL_BLOCK).build(null);
+    public static BlockEntityType<WitchCauldronEntity> WITCH_CAULDRON_ENTITY = BlockEntityType.Builder.create(WitchCauldronEntity::new, WITCH_CAULDRON_BLOCK).build(null);
 
 
     public static void register(BlockEntityType<? extends BlockEntity> blockEntityType, String name) {
@@ -29,5 +27,6 @@ public class BlockEntityRegistry {
         register(BASKET_ENTITY, "basket");
         register(WOODPIPE_ENTITY, "woodpipe");
         register(BARREL_ENTITY, "barrel");
+        register(WITCH_CAULDRON_ENTITY, "witch_cauldron");
     }
 }

@@ -1,6 +1,7 @@
 package azzy.fabric.azzyfruits.registry;
 
 import azzy.fabric.azzyfruits.item.AmalgamItems;
+import azzy.fabric.azzyfruits.item.AttunedAttunedStone;
 import azzy.fabric.azzyfruits.item.FoodItems;
 import azzy.fabric.azzyfruits.item.LiquorBottle;
 import net.minecraft.entity.effect.StatusEffects;
@@ -23,6 +24,7 @@ public class ItemRegistry extends Item{
     public static Item APPLE_ALLOY;
     public static Item MULCH;
     public static Item SAMMICH;
+    public static Item ATTUNED, ATTUNED_EFFULGENT, ATTUNED_CHAOTIC;
     public static ArrayList<AmalgamItems.ConstructAmalgam> AMALGAM_REGISTRY = new ArrayList<AmalgamItems.ConstructAmalgam>();
 
     private ItemRegistry(Item.Settings settings){
@@ -36,6 +38,9 @@ public class ItemRegistry extends Item{
 
         //Misc
         MULCH = register(new Identifier(MODID, "mulch"), new Item(new Item.Settings().group(PLANTMATERIALS)));
+        ATTUNED = register(new Identifier(MODID, "attuned_stone"), new Item(new Item.Settings().group(PLANTMATERIALS)));
+        ATTUNED_EFFULGENT = register(new Identifier(MODID, "effulgent_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANTMATERIALS)));
+        ATTUNED_CHAOTIC = register(new Identifier(MODID, "chaotic_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANTMATERIALS)));
 
         //Drinks
         DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(drinkSettings()));
@@ -71,6 +76,7 @@ public class ItemRegistry extends Item{
     private static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);
     }
+    private static Item.Settings materialSettings(){return new Item.Settings().group(PLANTMATERIALS);}
     private static Item.Settings drinkSettings() {return new Item.Settings().group(PLANTSTUFF).food(FoodItems.FoodBackend(0, 0, false)).maxCount(16);}
 
     private static Item register(Identifier name, Item item){

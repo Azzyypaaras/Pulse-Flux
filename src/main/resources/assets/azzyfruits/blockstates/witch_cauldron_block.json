@@ -3,37 +3,37 @@
     { "when":  { "facing":  "north" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron"}
     },
-    { "when":  { "facing":  "west" },
+    { "when":  { "facing":  "east" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron", "y":  90}
     },
     { "when":  { "facing":  "south" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron", "y": 180}
     },
-    { "when":  { "facing":  "east" },
+    { "when":  { "facing":  "west" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron", "y": 270}
     },
     { "when":  { "facing":  "north", "effulgent": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_effulgent"}
     },
-    { "when":  { "facing":  "west", "effulgent": "true" },
+    { "when":  { "facing":  "east", "effulgent": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_effulgent", "y":  90}
     },
     { "when":  { "facing":  "south", "effulgent": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_effulgent", "y": 180}
     },
-    { "when":  { "facing":  "east", "effulgent": "true" },
+    { "when":  { "facing":  "west", "effulgent": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_effulgent", "y": 270}
     },
     { "when":  { "facing":  "north", "chaotic": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_chaotic"}
     },
-    { "when":  { "facing":  "west", "chaotic": "true" },
+    { "when":  { "facing":  "east", "chaotic": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_chaotic", "y":  90}
     },
     { "when":  { "facing":  "south", "chaotic": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_chaotic", "y": 180}
     },
-    { "when":  { "facing":  "east", "chaotic": "true" },
+    { "when":  { "facing":  "west", "chaotic": "true" },
       "apply": {"model":  "azzyfruits:block/witch_cauldron_chaotic", "y": 270}
     }
   ]

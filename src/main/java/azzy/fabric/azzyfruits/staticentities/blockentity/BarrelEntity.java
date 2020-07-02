@@ -28,7 +28,7 @@ public class BarrelEntity extends MachineEntity implements PropertyDelegateHolde
     public BarrelEntity(){
         super(BARREL_ENTITY);
         inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-        fluidInv = new SimpleFixedFluidInv(1, new FluidAmount(32));
+        fluidInv = new SimpleFixedFluidInv(1, new FluidAmount(16));
         tracker = FermentationTracker.initiate(this);
         hasMetadata = false;
     }

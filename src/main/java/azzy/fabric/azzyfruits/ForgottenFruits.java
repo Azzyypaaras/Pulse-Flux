@@ -2,6 +2,7 @@ package azzy.fabric.azzyfruits;
 
 import azzy.fabric.azzyfruits.config.ConfigGen;
 import azzy.fabric.azzyfruits.registry.*;
+import azzy.fabric.azzyfruits.util.interaction.HeatTransferHelper;
 import azzy.fabric.azzyfruits.util.recipe.JanksonRecipeParser;
 import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
 import blue.endless.jankson.Jankson;
@@ -50,6 +51,7 @@ public class ForgottenFruits implements ModInitializer {
 		ContainerRegistry.init();
 		FluidRegistry.init();
 		RecipeRegistry.init();
+		HeatTransferHelper.init();
 	}
 
 	public void onInitializing(){

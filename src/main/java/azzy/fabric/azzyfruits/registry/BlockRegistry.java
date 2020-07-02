@@ -1,9 +1,6 @@
 package azzy.fabric.azzyfruits.registry;
 
-import azzy.fabric.azzyfruits.block.BEBlocks.BarrelBlock;
-import azzy.fabric.azzyfruits.block.BEBlocks.BasketBlock;
-import azzy.fabric.azzyfruits.block.BEBlocks.PressBlock;
-import azzy.fabric.azzyfruits.block.BEBlocks.WoodPipe;
+import azzy.fabric.azzyfruits.block.BEBlocks.*;
 import azzy.fabric.azzyfruits.block.NetherFarmland;
 import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
 import net.fabricmc.api.EnvType;
@@ -45,7 +42,7 @@ public class BlockRegistry {
     public static final Block BASKET_BLOCK = register("basket_block", new BasketBlock(null, "basket", Material.WOOL, BlockSoundGroup.WOOL, 0, Block.createCuboidShape(1, 0, 1, 15, 8, 15)), new Item.Settings().group(BLOCKENTITIES).maxCount(1), true);
     public static final Block WOODPIPE_BLOCK = register("wooden_pipe", new WoodPipe(null, "woodpipe", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE), machineSettings());
     public static final Block BARREL_BLOCK = register("barrel_block", new BarrelBlock(null, "barrel", Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE), machineSettings());
-    public static final Block WITCH_CAULDRON_BLOCK = register("")
+    public static final Block WITCH_CAULDRON_BLOCK = register("witch_cauldron_block", new WitchCauldronBlock(null, "cauldron", Material.METAL, BlockSoundGroup.METAL, 0, Block.createCuboidShape(0, 0, 0, 16, 11, 16)), machineSettings());
 
     private static Item.Settings defaultSettings(){
         return new Item.Settings().group(PLANTSTUFF);

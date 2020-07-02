@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "azzyfrutis:block/witch_cauldron",
+		"0": "azzyfruits:block/witch_cauldron",
 		"particle": "azzyfruits:block/witch_cauldron"
 	},
 	"elements": [

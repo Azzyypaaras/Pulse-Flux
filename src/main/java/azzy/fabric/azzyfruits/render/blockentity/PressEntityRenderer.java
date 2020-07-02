@@ -1,6 +1,8 @@
 package azzy.fabric.azzyfruits.render.blockentity;
 
 import azzy.fabric.azzyfruits.registry.FluidRegistry;
+import azzy.fabric.azzyfruits.render.util.FFRenderLayers;
+import azzy.fabric.azzyfruits.render.util.HexColorTranslator;
 import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.MinecraftClient;
@@ -46,9 +48,11 @@ public class PressEntityRenderer extends BlockEntityRenderer<PressEntity> {
         else
             hex = -1;
 
-        int r = (hex & 0xFF0000) >> 16;
-        int g = (hex & 0xFF00) >> 8;
-        int b = (hex & 0xFF);
+        int[] rgb = HexColorTranslator.translate(hex);
+
+        int r = rgb[0];
+        int g = rgb[1];
+        int b = rgb[2];
 
         double height = (double) blockEntity.fluidInv.getTank(0).get().getAmount_F().asInt(1) / blockEntity.fluidInv.getMaxAmount_F(0).asInt(1);
 
@@ -65,24 +69,26 @@ public class PressEntityRenderer extends BlockEntityRenderer<PressEntity> {
 
         VertexConsumer consumer;
 
+        Fluid emissive = blockEntity.fluidInv.getInvFluid(0).getRawFluid();
+
         MinecraftClient.getInstance().getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
         Sprite sprite;
 
-        if (blockEntity.fluidInv.getInvFluid(0).getRawFluid() == Fluids.LAVA) {
+        if (emissive == Fluids.LAVA) {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("minecraft:block/lava_still"));
             consumer = vertexConsumers.getBuffer(RenderLayer.getSolid());
-        } else {
+        }
+        else {
             sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("minecraft:block/water_still"));
-            consumer = vertexConsumers.getBuffer(RenderLayer.getTranslucentNoCrumbling());
+            consumer = vertexConsumers.getBuffer(RenderLayer.getTranslucent());
         }
 
-        Fluid emissive = blockEntity.fluidInv.getInvFluid(0).getRawFluid();
         toplight = emissive == Fluids.LAVA || emissive == FluidRegistry.STILL_CINDERJUICE ? 14680160 : toplight;
 
-        consumer.vertex(matrix.getModel(), 0, 0, 1).color(r, g, b, 255).texture(sprite.getMinU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 0, 0, 0).next();
-        consumer.vertex(matrix.getModel(), 1, 0, 1).color(r, g, b, 255).texture(sprite.getMaxU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 0, 0, 0).next();
-        consumer.vertex(matrix.getModel(), 1, 0, 0).color(r, g, b, 255).texture(sprite.getMaxU(), sprite.getMinV()).light(toplight).normal(matrix.getNormal(), 0, 0, 0).next();
-        consumer.vertex(matrix.getModel(), 0, 0, 0).color(r, g, b, 255).texture(sprite.getMinU(), sprite.getMinV()).light(toplight).normal(matrix.getNormal(), 0, 0, 0).next();
+        consumer.vertex(matrix.getModel(), 0, 0, 1).color(r, g, b, 200).texture(sprite.getMinU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 1, 1 ,1).next();
+        consumer.vertex(matrix.getModel(), 1, 0, 1).color(r, g, b, 200).texture(sprite.getMaxU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 1, 1 ,1).next();
+        consumer.vertex(matrix.getModel(), 1, 0, 0).color(r, g, b, 200).texture(sprite.getMaxU(), sprite.getMinV()).light(toplight).normal(matrix.getNormal(), 1, 1 ,1).next();
+        consumer.vertex(matrix.getModel(), 0, 0, 0).color(r, g, b, 200).texture(sprite.getMinU(), sprite.getMinV()).light(toplight).normal(matrix.getNormal(), 1, 1 ,1).next();
 
         matrices.pop();
     }
