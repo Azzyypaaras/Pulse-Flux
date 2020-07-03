@@ -1,6 +1,8 @@
 package azzy.fabric.azzyfruits.staticentities.blockentity;
 
 import azzy.fabric.azzyfruits.registry.ItemRegistry;
+import azzy.fabric.azzyfruits.registry.ParticleRegistry;
+import azzy.fabric.azzyfruits.render.util.HexColorTranslator;
 import azzy.fabric.azzyfruits.util.interaction.HeatHolder;
 import azzy.fabric.azzyfruits.util.interaction.HeatTransferHelper;
 import azzy.fabric.azzyfruits.util.tracker.BrewMetadata;
@@ -8,6 +10,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.item.ItemStack;
@@ -67,9 +71,23 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         }
         if(world.getTime() % 20 == 0){
             if (!world.isClient() && heat >= 100) {
-                ((ServerWorld) world).spawnParticles(ParticleTypes.BUBBLE, pos.getX()+0.125, pos.getY()+0.69, pos.getZ()+0.125, 3 + world.random.nextInt(4), 0.75, 0, 0.75, 0);
+                //((ServerWorld) world).spawnParticles(ParticleTypes.BUBBLE, pos.getX()+0.125, pos.getY()+0.69, pos.getZ()+0.125, 3 + world.random.nextInt(4), 0.75, 0, 0.75, 0);
             }
-            if (world.isClient() && heat >= 100 && )
+            if (world.isClient() && heat >= 100 && hasMetadata){
+                Particle particle;
+                int variation = world.getRandom().nextInt(4);
+                double positionx;
+                double positionz;
+                for(int i = 0; i < 3 + variation; i++) {
+                    positionx = world.getRandom().nextInt(5)/10.0;
+                    positionz = world.getRandom().nextInt(5)/10.0;
+                    particle = MinecraftClient.getInstance().particleManager.addParticle(ParticleRegistry.CAULDRON_BUBBLES, pos.getX() + 0.2+positionx, pos.getY() + 0.6875, pos.getZ() + 0.2+positionz, 0, 0.2, 0);
+                    int[] rgb = HexColorTranslator.translate(metadata.getColor());
+                    particle.setColor(rgb[0]/255f, rgb[1]/255f, rgb[2]/255f);
+                    MinecraftClient.getInstance().particleManager.addParticle(particle);
+                    particle.setMaxAge(5+world.getRandom().nextInt(15));
+                }
+            }
             if(config.isDebugOn())
                 FFLog.error("Cauldron Temperature: "+heat);
             Block source = world.getBlockState(pos.down()).getBlock();
