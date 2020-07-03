@@ -20,14 +20,25 @@ public class JanksonRecipeParser {
     private static Jankson recipeLoader;
     private static volatile File recipes;
     private static final String BASE_URL = "https://raw.githubusercontent.com/Dragonoidzero/Forgotten-Fruits/master/config/";
-    private static final String[] configFiles = {"AMALGAM.json5", "BARREL.json5", "BREW.json5", "CAULDRON.json5", "PRESS.json5"};
+    /* If we are adding a new config file, follow the following steps.
+    1.  Add the file (case sensitive) to the configFiles variable below
+    2.  Add the file to the config/BASE folder.  This gets downloaded at runtime (from github directly)
+    3.  Add the file to the various version folders in config/$VERSION_NUMBER$
+     */
+    private static final String[] configFiles = {
+            "AMALGAM.json5",
+            "BARREL.json5",
+            "BREW.json5",
+            "CAULDRON.json5",
+            "PRESS.json5"
+    };
 
-    public static void init(){
+    public static void init() {
         recipeLoader = Jankson.builder().build();
 
         // Get the config folder path.
         File configDirectory = FabricLoader.getInstance().getConfigDirectory();
-        if(!configDirectory.exists()) {
+        if (!configDirectory.exists()) {
             // Severe error.  Minecraft config folder doesn't exist.  Report error to Fabric!!!
             FFLog.fatal("Minecraft config folder: '" + configDirectory.getAbsolutePath() + "' doesn't exist!  Please report error to Fabric!");
 
@@ -36,11 +47,11 @@ public class JanksonRecipeParser {
         }
         recipes = new File(configDirectory, "forgottenfruits");
 
-        if((config.isRegenOn()) && recipes.exists()) {
+        if ((config.isRegenOn()) && recipes.exists()) {
             // Folder exists and needs to be regenerated.  Do a recursive drop of the folder.
             try {
                 FileUtils.deleteDirectory(recipes);
-                if(!recipes.mkdir()) {
+                if (!recipes.mkdir()) {
                     FFLog.error("Unable to create 'forgottenfruits' config folder.");
                 }
             } catch (IOException e) {
@@ -60,7 +71,7 @@ public class JanksonRecipeParser {
         try {
             URL configPath = new URL(BASE_URL);
 
-            for(String configFile : configFiles) {
+            for (String configFile : configFiles) {
                 FileUtils.copyURLToFile(new URL(configPath, versionStr + "/" + configFile), new File(recipes, configFile));
             }
         } catch (IOException e) {
@@ -68,7 +79,7 @@ public class JanksonRecipeParser {
 
             try {
                 URL configPath = new URL(BASE_URL);
-                for(String configFile : configFiles) {
+                for (String configFile : configFiles) {
                     FileUtils.copyURLToFile(new URL(configPath, "BASE/" + configFile), new File(recipes, configFile));
                 }
             } catch (IOException ioException) {
@@ -77,7 +88,7 @@ public class JanksonRecipeParser {
         }
     }
 
-    public static Queue<Iterator<String>> getRecipeQueue(RecipeRegistryKey key){
+    public static Queue<Iterator<String>> getRecipeQueue(RecipeRegistryKey key) {
         Stream<File> jsons = Stream.of(recipes.listFiles());
         Queue recipes = new LinkedList();
         jsons = jsons.filter(e -> e.getName().endsWith(".json5"));
@@ -97,7 +108,8 @@ public class JanksonRecipeParser {
                 Stream<String> rawStrings = Stream.of(arr.replace("[", "").replace("]", "").trim().split(","));
                 rawStrings.forEach(a -> {
                     Queue out = new LinkedList();
-                    for (Object o : new LinkedList(Arrays.asList(a.replace("\"", "").split(";")))) out.offer(((String) o).trim());
+                    for (Object o : new LinkedList(Arrays.asList(a.replace("\"", "").split(";"))))
+                        out.offer(((String) o).trim());
                     recipes.offer(out.iterator());
                 });
             } catch (IOException | SyntaxError ex) {
@@ -107,7 +119,7 @@ public class JanksonRecipeParser {
         return recipes;
     }
 
-    private static boolean dataCheck(JsonObject json){
+    private static boolean dataCheck(JsonObject json) {
         Optional<JsonElement> type = Optional.ofNullable(json.get("type"));
         Optional<JsonElement> enabled = Optional.ofNullable(json.get("enabled"));
         Optional<JsonElement> recipes = Optional.ofNullable(json.get("recipes"));
@@ -117,7 +129,6 @@ public class JanksonRecipeParser {
     public static Jankson getRecipeLoader() {
         return recipeLoader;
     }
-
 
 
 }
