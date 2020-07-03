@@ -53,7 +53,7 @@ public class JanksonRecipeParser {
 
     private static void validateRecipeCategories() {
         // Damn, this is a hard way to get the version number.
-        net.fabricmc.loader.api.metadata.ModMetadata modMetaData = FabricLoader.getInstance().getModContainer("azzyfruits").get().getMetadata();
+        net.fabricmc.loader.api.metadata.ModMetadata modMetaData = FabricLoader.getInstance().getModContainer("forgottenfruits").get().getMetadata();
         net.fabricmc.loader.api.Version version = modMetaData.getVersion();
         String versionStr = version.getFriendlyString();
 

@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "azzyfruits:item/drinks/drink_cloudberry",
-    "layer1": "azzyfruits:item/drink"
+    "layer0": "forgottenfruits:item/drinks/drink_cloudberry",
+    "layer1": "forgottenfruits:item/drink"
   }
 }

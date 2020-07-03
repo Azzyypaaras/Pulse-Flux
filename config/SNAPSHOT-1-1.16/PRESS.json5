@@ -3,7 +3,7 @@
 	"enabled": true,
 	"type": "PRESS",
 	"recipes": [
-		"azzyfruits:cloudberry_fruit; 4; azzyfruits:mulch; azzyfruits:still_cloudberry; cloudberry",
-		"azzyfruits:cindermote_fruit; 4; azzyfruits:mulch; azzyfruits:still_cinder; cindermote"
+		"forgottenfruits:cloudberry_fruit; 4; forgottenfruits:mulch; forgottenfruits:still_cloudberry; cloudberry",
+		"forgottenfruits:cindermote_fruit; 4; forgottenfruits:mulch; forgottenfruits:still_cinder; cindermote"
 	]
 }

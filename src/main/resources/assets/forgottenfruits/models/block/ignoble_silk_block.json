@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "azzyfruits:block/basket_weave"
+    "all": "forgottenfruits:block/basket_weave"
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "azzyfruits:block/ignoble_silk_block"
+      "model": "forgottenfruits:block/ignoble_silk_block"
     }
   }
 }

@@ -1,8 +1,8 @@
 {
   "variants": {
     "facing=north": { "model": "forgottenfruits:block/fruitpress" },
-    "facing=west": { "model": "azzyfruits:block/fruitpress", "y": 90},
-    "facing=south": { "model": "azzyfruits:block/fruitpress", "y": 180},
-    "facing=east": { "model": "azzyfruits:block/fruitpress", "y": 270}
+    "facing=west": { "model": "forgottenfruits:block/fruitpress", "y": 90},
+    "facing=south": { "model": "forgottenfruits:block/fruitpress", "y": 180},
+    "facing=east": { "model": "forgottenfruits:block/fruitpress", "y": 270}
   }
 }

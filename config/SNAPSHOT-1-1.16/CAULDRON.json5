@@ -3,6 +3,6 @@
 	"enabled": true,
 	"type": "CAULDRON",
 	"recipes": [
-		"mutandis; azzyfruits:drinkcloudberry; azzyfruits:mutandis; 4; minecraft:glowstone_dust ~ minecraft:kelp ~ minecraft:egg"
+		"mutandis; forgottenfruits:drinkcloudberry; forgottenfruits:mutandis; 4; minecraft:glowstone_dust ~ minecraft:kelp ~ minecraft:egg"
 	]
 }

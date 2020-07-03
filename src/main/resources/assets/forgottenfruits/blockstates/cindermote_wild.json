@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "azzyfruits:block/crops/cindermote/cindermote_wild"
+      "model": "forgottenfruits:block/crops/cindermote/cindermote_wild"
     }
   }
 }

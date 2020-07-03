@@ -3,7 +3,7 @@
 	"enabled": true,
 	"type": "BARREL",
 	"recipes": [
-		"cloudbrew; azzyfruits:drinkcloudberry; azzyfruits:still_cloudberry; 0xffc982; 0.5; -1; -1; 0.8; 0.055",
-		"cinderbrew; azzyfruits:drinkcindermote; azzyfruits:still_cinder; 0xf5cb00; 0.4; -1; -1; 1.2; 0.12"
+		"cloudbrew; forgottenfruits:drinkcloudberry; forgottenfruits:still_cloudberry; 0xffc982; 0.5; -1; -1; 0.8; 0.055",
+		"cinderbrew; forgottenfruits:drinkcindermote; forgottenfruits:still_cinder; 0xf5cb00; 0.4; -1; -1; 1.2; 0.12"
 	]
 }

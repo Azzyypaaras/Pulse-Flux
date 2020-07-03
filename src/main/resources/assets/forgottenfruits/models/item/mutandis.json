@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "azzyfruits:item/mutandis"
+    "layer0": "forgottenfruits:item/mutandis"
   }
 }

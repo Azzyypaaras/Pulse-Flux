@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "azzyfruits:block/basket_weave",
-		"1": "azzyfruits:block/press_wood",
-		"2": "azzyfruits:block/rag",
-		"3": "azzyfruits:block/orange_cotton",
-		"particle": "azzyfruits:block/basket_weave"
+		"0": "forgottenfruits:block/basket_weave",
+		"1": "forgottenfruits:block/press_wood",
+		"2": "forgottenfruits:block/rag",
+		"3": "forgottenfruits:block/orange_cotton",
+		"particle": "forgottenfruits:block/basket_weave"
 	},
 	"elements": [
 		{
