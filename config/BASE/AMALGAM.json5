@@ -1,0 +1,8 @@
+{
+	"Notes": "Recipe format - Id, Brew item, Item output, Item inputs (split by ~, not commas)",
+	"enabled": true,
+	"type": "AMALGAM",
+	"recipes": [
+		""
+	]
+}

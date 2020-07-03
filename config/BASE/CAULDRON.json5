@@ -1,0 +1,8 @@
+{
+	"Notes": "Recipe format - Id, Brew item, Output item, Output amount, Input items (split by ~, not commas)",
+	"enabled": true,
+	"type": "CAULDRON",
+	"recipes": [
+		"mutandis; azzyfruits:drinkcloudberry; azzyfruits:mutandis; 4; minecraft:glowstone_dust ~ minecraft:kelp ~ minecraft:egg"
+	]
+}
