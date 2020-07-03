@@ -1,6 +1,6 @@
     {
       "variants": {
-        "": { "model": "azzyfruits:block/cloudberry_block" }
+        "": { "model": "forgottenfruits:block/cloudberry_block" }
       }
     }
 
