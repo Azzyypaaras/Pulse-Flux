@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -18,7 +19,8 @@ public class JanksonRecipeParser {
 
     private static Jankson recipeLoader;
     private static volatile File recipes;
-    private static String baseURL = "";
+    private static final String BASE_URL = "https://raw.githubusercontent.com/Dragonoidzero/Forgotten-Fruits/master/config/";
+    private static final String[] configFiles = {"AMALGAM.json5", "BARREL.json5", "BREW.json5", "CAULDRON.json5", "PRESS.json5"};
 
     public static void init(){
         recipeLoader = Jankson.builder().build();
@@ -49,13 +51,30 @@ public class JanksonRecipeParser {
         validateRecipeCategories();
     }
 
-    private static void validateRecipeCategories(){
+    private static void validateRecipeCategories() {
         // Damn, this is a hard way to get the version number.
         net.fabricmc.loader.api.metadata.ModMetadata modMetaData = FabricLoader.getInstance().getModContainer("azzyfruits").get().getMetadata();
         net.fabricmc.loader.api.Version version = modMetaData.getVersion();
         String versionStr = version.getFriendlyString();
 
-        FileUtils.copyURLToFile();
+        try {
+            URL configPath = new URL(BASE_URL);
+
+            for(String configFile : configFiles) {
+                FileUtils.copyURLToFile(new URL(configPath, versionStr + configFile), new File(recipes, configFile));
+            }
+        } catch (IOException e) {
+            FFLog.error("Error accessing config file: '" + BASE_URL + "' for version '" + versionStr + "' of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.  Attempting to access default config files.", e);
+
+            try {
+                URL configPath = new URL(BASE_URL);
+                for(String configFile : configFiles) {
+                    FileUtils.copyURLToFile(new URL(configPath, "BASE" + configFile), new File(recipes, configFile));
+                }
+            } catch (IOException ioException) {
+                FFLog.error("Error accessing config file: '" + BASE_URL + "' for ANY version of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.", e);
+            }
+        }
     }
 
     public static Queue<Iterator<String>> getRecipeQueue(RecipeRegistryKey key){
