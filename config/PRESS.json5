@@ -1,0 +1,9 @@
+{
+	"Notes": "Recipe format - Item input, amount, Item byproduct, Fluid output, Recipe id",
+	"enabled": true,
+	"type": "PRESS",
+	"recipes": [
+		"azzyfruits:cloudberry_fruit; 4; azzyfruits:mulch; azzyfruits:still_cloudberry; cloudberry",
+		"azzyfruits:cindermote_fruit; 4; azzyfruits:mulch; azzyfruits:still_cinder; cindermote"
+	]
+}

@@ -1,0 +1,8 @@
+{
+	"Notes": "Recipe format - Id, Item input, Potion Effect, Base duration, Base level, Duration modifier factor, Single level?",
+	"enabled": true,
+	"type": "BREW",
+	"recipes": [
+		""
+	]
+}
