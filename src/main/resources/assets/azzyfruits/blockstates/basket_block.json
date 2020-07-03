@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "azzyfruits:block/basket_block" },
-    "facing=west": { "model": "azzyfruits:block/basket_block", "y": 90},
-    "facing=south": { "model": "azzyfruits:block/basket_block", "y": 180},
-    "facing=east": { "model": "azzyfruits:block/basket_block", "y": 270}
-  }
-}

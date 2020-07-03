@@ -4,7 +4,7 @@ import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
 import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
 
-@Config(name = "azzyfruits")
+@Config(name = "forgottenfruits")
 @Config.Gui.Background(value = "minecraft:textures/block/dark_oak_planks.png")
 public class ConfigGen implements ConfigData {
 

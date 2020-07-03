@@ -108,11 +108,11 @@ public class LiquorBottle extends Item {
             double quality = Double.parseDouble(format.format(metadata.getQuality()*100.0));
             double purity = Double.parseDouble(format.format(metadata.getPurity()*100.0));
             int content = (int) (metadata.getContent()*200.0);
-            tooltip.add(new LiteralText(I18n.translate("drink.azzyfruits.quality", quality)));
-            tooltip.add(new LiteralText(I18n.translate("drink.azzyfruits.purity", purity)));
-            tooltip.add(new LiteralText(I18n.translate("drink.azzyfruits.content", content)));
+            tooltip.add(new LiteralText(I18n.translate("drink.forgottenfruits.quality", quality)));
+            tooltip.add(new LiteralText(I18n.translate("drink.forgottenfruits.purity", purity)));
+            tooltip.add(new LiteralText(I18n.translate("drink.forgottenfruits.content", content)));
         }
         else
-            tooltip.add(new TranslatableText("drink.azzyfruits.invalid"));
+            tooltip.add(new TranslatableText("drink.forgottenfruits.invalid"));
     }
 }

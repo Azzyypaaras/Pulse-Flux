@@ -59,9 +59,9 @@ public class AmalgamItems extends Item {
     @Override
     public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
         if(getJellyType().equals(AMALGAMS[0]))
-            tooltip.add(new TranslatableText("item.azzyfruits." + AMALGAMS[0] + "_amalgam.tooltip"));
+            tooltip.add(new TranslatableText("item.forgottenfruits." + AMALGAMS[0] + "_amalgam.tooltip"));
         else if(getJellyType().equals(AMALGAMS[1]))
-            tooltip.add(new TranslatableText("item.azzyfruits." + AMALGAMS[1] + "_amalgam.tooltip"));
+            tooltip.add(new TranslatableText("item.forgottenfruits." + AMALGAMS[1] + "_amalgam.tooltip"));
     }
 
 

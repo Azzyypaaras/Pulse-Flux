@@ -1,8 +1,0 @@
-{
-	"layers": [
-		{
-			"vertexSource": "azzyfruits:shaders/material/default.vert",
-			"fragmentSource": "azzyfruits:shaders/material/fiery.frag"
-		}
-	]
-}

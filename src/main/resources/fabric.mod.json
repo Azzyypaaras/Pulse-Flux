@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "azzyfruits",
+  "id": "forgottenfruits",
   "version": "ALPHA-1.14",
 
   "name": "Forgotten Fruits",
@@ -14,22 +14,22 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/azzyfruits/icon.png",
+  "icon": "assets/forgottenfruits/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "azzy.fabric.azzyfruits.ForgottenFruits"
+      "azzy.fabric.forgottenfruits.ForgottenFruits"
     ],
     "client": [
-      "azzy.fabric.azzyfruits.ClientInit"
+      "azzy.fabric.forgottenfruits.ClientInit"
     ],
     "modmenu": [
-      "azzy.fabric.azzyfruits.config.FFConfig"
+      "azzy.fabric.forgottenfruits.config.FFConfig"
     ]
   },
   "mixins": [
-    "azzyfruits.mixins.json"
+    "forgottenfruits.mixins.json"
   ],
 
   "depends": {

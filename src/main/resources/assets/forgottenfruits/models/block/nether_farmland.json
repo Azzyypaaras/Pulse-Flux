@@ -1,0 +1,9 @@
+{
+  "parent": "forgottenfruits:base/farmland_special",
+  "textures": {
+    "particle": "forgottenfruits:block/special/nether_farmland/nether_farmland_top",
+    "side": "forgottenfruits:block/special/nether_farmland/nether_farmland_side",
+    "top": "forgottenfruits:block/special/nether_farmland/nether_farmland_top",
+    "down": "forgottenfruits:block/special/nether_farmland/nether_farmland_bottom"
+  }
+}
