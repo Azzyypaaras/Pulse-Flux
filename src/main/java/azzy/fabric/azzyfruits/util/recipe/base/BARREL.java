@@ -9,7 +9,7 @@ public class BARREL implements RecipeIntermediary{
 
         @Override
         public String getInfo() {
-                return "Recipe format - Id, Item output, Fluid input, Color , Quality, Ideal height, Ideal light, Ideal temperature, Alcohol content. Color must be hexadecimal. Quality and Alcohol must be between 0 and 1. Refer to biome temperatures for sensible temperature values. Ideal height and Ideal light may be set to negative one to disable them.";
+                return "Recipe format - Id, Item output, Fluid input, Color, Quality, Ideal height, Ideal light, Ideal temperature, Alcohol content. Color must be hexadecimal. Quality and Alcohol must be between 0 and 1. Refer to biome temperatures for sensible temperature values. Ideal height and Ideal light may be set to negative one to disable them.";
         }
 
         @Override

@@ -2,6 +2,7 @@ package azzy.fabric.azzyfruits.registry;
 
 import azzy.fabric.azzyfruits.mixin.ParticleFactoryMixin;
 import azzy.fabric.azzyfruits.util.interaction.UnprotectedParticleType;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
@@ -14,6 +15,7 @@ public class ParticleRegistry {
 
     public static void init(){
         CAULDRON_BUBBLES = register("cauldron_bubbles", true);
+        FabricParticleTypes.simple();
     }
 
 

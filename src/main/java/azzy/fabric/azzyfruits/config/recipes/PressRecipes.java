@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 import static azzy.fabric.azzyfruits.ForgottenFruits.FFLog;
@@ -29,14 +30,19 @@ public class PressRecipes extends RecipeTemplate {
         Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.PRESS);
         while(recipes.peek() != null) {
             Iterator<String> recipeBits = recipes.poll();
-            inject(recipeBits.next(), Integer.parseInt(recipeBits.next()), recipeBits.next(), recipeBits.next(), recipeBits.next());
+            try {
+                inject(recipeBits.next(), Integer.parseInt(recipeBits.next()), recipeBits.next(), recipeBits.next(), recipeBits.next());
+            }
+            catch (NoSuchElementException e){
+                FFLog.error("A PRESS RECIPE IS INVALID");
+            }
         }
     }
 
-    public void inject(String in, int amount, String by, String out, String id) {
+    private void inject(String in, int amount, String by, String out, String id) {
         ItemStack input = new ItemStack(Registry.ITEM.get(new Identifier(in)), amount);
-        RECIPES.put(serialize(input), new FFPressRecipe(RecipeRegistryKey.PRESS, id, input, Registry.ITEM.get(new Identifier(by)), FluidVolume.create(FluidKeys.get(Registry.FLUID.get(new Identifier(out))), BUCKET)));
+        RECIPES.put(serialize(new ItemStack[]{input}), new FFPressRecipe(RecipeRegistryKey.PRESS, id, input, Registry.ITEM.get(new Identifier(by)), FluidVolume.create(FluidKeys.get(Registry.FLUID.get(new Identifier(out))), BUCKET)));
         if(config.isDebugOn())
-            FFLog.debug("DEBUG - KEY - "+serialize(input));
+            FFLog.debug("DEBUG - KEY - "+serialize(new ItemStack[]{input}));
     }
 }

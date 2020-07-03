@@ -12,8 +12,8 @@ import static azzy.fabric.azzyfruits.ForgottenFruits.REGISTEREDRECIPES;
 //Don't ask why, just look at it and cry
 
 public class TrueRecipeRegistry {
-    static boolean initComplete = false;
-    volatile static ArrayList<RegistryPair> RegistryBuffer = new ArrayList<>();
+    private static boolean initComplete = false;
+   private volatile static ArrayList<RegistryPair> RegistryBuffer = new ArrayList<>();
 
 
     static void registerRecipeType(RecipeRegistryKey id, RecipeHandler handler, RecipeTemplate recipes){

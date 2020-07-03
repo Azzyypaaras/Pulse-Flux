@@ -65,6 +65,7 @@ public class WitchCauldronBlock extends BaseMachine {
                 cauldron.setMetadata(BrewMetadata.fromTag(tag), Registry.ITEM.getId(stone));
             if(!player.isCreative())
                 player.getStackInHand(hand).decrement(1);
+            cauldron.setCachedBrew(Registry.ITEM.getId(stone).toString());
             cauldron.setHasMetadata(true);
             player.swingHand(hand);
             world.playSound(pos.getX()+0.5, pos.getY()+0.68, pos.getZ()+0.5, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 0.7f, 1.15f+(world.random.nextInt(2) / 10.0f), true);

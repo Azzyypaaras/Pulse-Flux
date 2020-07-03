@@ -25,6 +25,7 @@ public class ItemRegistry extends Item{
     public static Item MULCH;
     public static Item SAMMICH;
     public static Item ATTUNED, ATTUNED_EFFULGENT, ATTUNED_CHAOTIC;
+    public static Item MUTANDIS;
     public static ArrayList<AmalgamItems.ConstructAmalgam> AMALGAM_REGISTRY = new ArrayList<AmalgamItems.ConstructAmalgam>();
 
     private ItemRegistry(Item.Settings settings){
@@ -41,6 +42,7 @@ public class ItemRegistry extends Item{
         ATTUNED = register(new Identifier(MODID, "attuned_stone"), new Item(new Item.Settings().group(PLANTMATERIALS)));
         ATTUNED_EFFULGENT = register(new Identifier(MODID, "effulgent_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANTMATERIALS)));
         ATTUNED_CHAOTIC = register(new Identifier(MODID, "chaotic_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANTMATERIALS)));
+        MUTANDIS = register(new Identifier(MODID, "mutandis"), new Item(defaultSettings()));
 
         //Drinks
         DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(drinkSettings()));

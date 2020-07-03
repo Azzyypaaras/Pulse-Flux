@@ -6,6 +6,7 @@ import azzy.fabric.azzyfruits.render.util.HexColorTranslator;
 import azzy.fabric.azzyfruits.util.interaction.HeatHolder;
 import azzy.fabric.azzyfruits.util.interaction.HeatTransferHelper;
 import azzy.fabric.azzyfruits.util.tracker.BrewMetadata;
+import azzy.fabric.azzyfruits.util.tracker.BrewingTracker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -45,6 +46,7 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
     private String cachedBrew;
     private int cachedColor;
     private double heat;
+    private BrewingTracker tracker;
     //Yeah so, you can't get world on init :p
     private boolean heatInit = true;
 
@@ -66,42 +68,52 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
             heat = HeatTransferHelper.translateBiomeHeat(this.world.getBiome(this.pos));
             heatInit = false;
         }
+        if (world.isClient() && heat >= 100 && world.getRandom().nextInt(9) == 0){
+            spawnParticles();
+        }
         if(world.getTime() % 5 == 0 && hasMetadata) {
             fetchDroppedItems();
-        }
-        if(world.getTime() % 20 == 0){
-            if (!world.isClient() && heat >= 100) {
-                //((ServerWorld) world).spawnParticles(ParticleTypes.BUBBLE, pos.getX()+0.125, pos.getY()+0.69, pos.getZ()+0.125, 3 + world.random.nextInt(4), 0.75, 0, 0.75, 0);
-            }
-            if (world.isClient() && heat >= 100 && hasMetadata){
-                Particle particle;
-                int variation = world.getRandom().nextInt(4);
-                double positionx;
-                double positionz;
-                for(int i = 0; i < 3 + variation; i++) {
-                    positionx = world.getRandom().nextInt(5)/10.0;
-                    positionz = world.getRandom().nextInt(5)/10.0;
-                    particle = MinecraftClient.getInstance().particleManager.addParticle(ParticleRegistry.CAULDRON_BUBBLES, pos.getX() + 0.2+positionx, pos.getY() + 0.6875, pos.getZ() + 0.2+positionz, 0, 0.2, 0);
-                    int[] rgb = HexColorTranslator.translate(metadata.getColor());
-                    particle.setColor(rgb[0]/255f, rgb[1]/255f, rgb[2]/255f);
-                    MinecraftClient.getInstance().particleManager.addParticle(particle);
-                    particle.setMaxAge(5+world.getRandom().nextInt(15));
+
+            if(world.getTime() % 20 == 0){
+                if(config.isDebugOn())
+                    FFLog.error("Cauldron Temperature: "+heat);
+                Block source = world.getBlockState(pos.down()).getBlock();
+                BlockEntity entity = world.getBlockEntity(pos.down());
+                if(entity instanceof HeatHolder){
+                    HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, (HeatHolder) entity);
                 }
+                else if(HeatTransferHelper.isHeatSource(source)){
+                    HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, source);
+                }
+                HeatTransferHelper.simulateAmbientHeat(this, world.getBiome(pos));
             }
-            if(config.isDebugOn())
-                FFLog.error("Cauldron Temperature: "+heat);
-            Block source = world.getBlockState(pos.down()).getBlock();
-            BlockEntity entity = world.getBlockEntity(pos.down());
-            if(entity instanceof HeatHolder){
-                HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, (HeatHolder) entity);
-            }
-            else if(HeatTransferHelper.isHeatSource(source)){
-                HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, source);
-            }
-            HeatTransferHelper.simulateAmbientHeat(this, world.getBiome(pos));
         }
 
         super.tick();
+    }
+
+    public String getCachedBrew() {
+        return cachedBrew;
+    }
+
+    public void setCachedBrew(String cachedBrew) {
+        this.cachedBrew = cachedBrew;
+    }
+
+    public void spawnParticles(){
+        Particle particle;
+        int variation = world.getRandom().nextInt(17);
+        double positionx;
+        double positionz;
+        for(int i = 0; i < 1 + variation; i++) {
+            positionx = world.getRandom().nextInt(7)/10.0;
+            positionz = world.getRandom().nextInt(7)/10.0;
+            particle = MinecraftClient.getInstance().particleManager.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.2+positionx, pos.getY() + 0.6875, pos.getZ() + 0.2+positionz, 0, 0.0, 0);
+            int[] rgb = HexColorTranslator.translate(metadata.getColor());
+            particle.setColor(rgb[0]/255f, rgb[1]/255f, rgb[2]/255f);
+            MinecraftClient.getInstance().particleManager.addParticle(particle);
+            particle.setMaxAge(10+world.getRandom().nextInt(40));
+        }
     }
 
     public void fetchDroppedItems(){
@@ -149,6 +161,10 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         this.cachedBrew = brew.toString();
     }
 
+    public BrewingTracker getTracker() {
+        return tracker;
+    }
+
     public int getCachedColor() {
         return cachedColor;
     }
@@ -171,7 +187,6 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         tag.putDouble("heat", heat);
         tag.putBoolean("init", heatInit);
         tag.putBoolean("hasmetadata", hasMetadata);
-        tag.putInt("color", cachedColor);
         return super.toTag(tag);
     }
 
@@ -181,7 +196,8 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         heat = tag.getDouble("heat");
         heatInit = tag.getBoolean("init");
         hasMetadata = tag.getBoolean("hasmetadata");
-        cachedColor = tag.getInt("color");
+        if(metadata != null)
+            cachedColor = metadata.getColor();
         super.fromTag(state, tag);
     }
 

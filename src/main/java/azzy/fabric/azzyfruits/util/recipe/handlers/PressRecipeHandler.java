@@ -7,6 +7,7 @@ import azzy.fabric.azzyfruits.staticentities.blockentity.PressEntity;
 import azzy.fabric.azzyfruits.util.recipe.FFRecipe;
 import azzy.fabric.azzyfruits.util.recipe.RecipeHandler;
 import azzy.fabric.azzyfruits.util.recipe.RecipeRegistryKey;
+import azzy.fabric.azzyfruits.util.recipe.RecipeTemplate;
 import azzy.fabric.azzyfruits.util.recipe.templates.FFPressRecipe;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
@@ -25,9 +26,11 @@ public class PressRecipeHandler extends RecipeHandler {
         ItemStack item = (ItemStack) args[0];
         PressRecipes recipes = (PressRecipes) REGISTEREDRECIPES.get(id).getRecipes();
 
-        if(recipes.RECIPES.containsKey(""+Registry.ITEM.getId(item.getItem())))
-            if(valid((FFRecipe) recipes.RECIPES.get(""+Registry.ITEM.getId(item.getItem()))))
-                return (FFPressRecipe) recipes.RECIPES.get(""+Registry.ITEM.getId(item.getItem()));
+        String key = RecipeTemplate.serialize(new ItemStack[]{item});
+
+        if(recipes.RECIPES.containsKey(key))
+            if(valid((FFRecipe) recipes.RECIPES.get(key)))
+                return (FFPressRecipe) recipes.RECIPES.get(key);
 
         return null;
     }
