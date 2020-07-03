@@ -4,6 +4,7 @@ import azzy.fabric.azzyfruits.util.recipe.base.RecipeIntermediary;
 import blue.endless.jankson.*;
 import blue.endless.jankson.impl.Marshaller;
 import blue.endless.jankson.impl.SyntaxError;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,23 +22,22 @@ public class JanksonRecipeParser {
 
     public static void init(){
         recipeLoader = Jankson.builder().build();
-        Queue<File> reader = new LinkedList<>(Arrays.asList(Objects.requireNonNull(new File("config").listFiles(), "The config folder is... missing? What did you do?!?")));
-        check:
-        {
-            while (reader.peek() != null) {
-                if(config.isRegenOn()){
-                    Stream.of(new File("config\\azzyfruits").listFiles()).forEach(File::delete);
-                    FFLog.error("Forgotten Fruits recipe configs regenerated.");
-                    break;
+
+        // Get the config folder path.
+        recipes = new File("config/azzyfruits");
+
+        if((config.isRegenOn()) && recipes.exists()) {
+            // Folder exists and needs to be regenerated.  Do a recursive drop of the folder.
+            try {
+                FileUtils.deleteDirectory(recipes);
+                if(!recipes.mkdir()) {
+                    FFLog.error("Unable to create azzyfruits config folder.");
                 }
-                recipes = reader.poll();
-                if (recipes.isDirectory() && recipes.getName().equals("azzyfruits"))
-                    break check;
+            } catch (IOException e) {
+                FFLog.error("Unable to delete azzyfruits config folder to regenerate", e);
             }
-            FFLog.error("Forgotten Fruits recipe configs not found. Creating new config directory.");
-            new File("config\\azzyfruits").mkdir();
         }
-        recipes = new File("config\\azzyfruits");
+
         validateRecipeCategories();
     }
 
