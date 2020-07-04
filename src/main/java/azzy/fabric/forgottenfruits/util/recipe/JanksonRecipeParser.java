@@ -31,7 +31,8 @@ public class JanksonRecipeParser {
             "BARREL.json5",
             "BREW.json5",
             "CAULDRON.json5",
-            "PRESS.json5"
+            "PRESS.json5",
+            "forgottenfruits_recipes.xml"
     };
 
     public static void init() {
@@ -60,10 +61,10 @@ public class JanksonRecipeParser {
             }
         }
 
-        validateRecipeCategories();
+        downloadRecipeFilesIfRequired();
     }
 
-    private static void validateRecipeCategories() {
+    private static void downloadRecipeFilesIfRequired() {
         // Damn, this is a hard way to get the version number.
         net.fabricmc.loader.api.metadata.ModMetadata modMetaData = FabricLoader.getInstance().getModContainer("forgottenfruits").get().getMetadata();
         net.fabricmc.loader.api.Version version = modMetaData.getVersion();

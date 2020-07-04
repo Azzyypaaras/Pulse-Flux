@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<recipes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FFRecipes.xsd">
+    <recipe type="AMALGAM" enabled="true">
+        <![CDATA[
+        Recipe format - Id, Brew item, Item output, Item inputs (split by ~, not commas)
+        ]]>
+
+    </recipe>
+    <recipe type="BARREL" enabled="true">
+        <![CDATA[
+	Recipe format - Id, Item output, Fluid input, Color,
+	Quality, Ideal height, Ideal light, Ideal temperature,
+	Alcohol content. Color must be hexadecimal. Quality and Alcohol must be between 0 and 1. Refer to biome temperatures for sensible temperature values. Ideal height and Ideal light may be set to negative one to disable them.
+        ]]>
+        <outputId>cloudbrew</outputId>
+        <outputItem>forgottenfruits:drinkcloudberry</outputItem>
+        <inputItem>forgottenfruits:still_cloudberry</inputItem>
+        <outputColor>0xffc982</outputColor>
+        <outputQuality>0.5</outputQuality>
+        <idealHeight>-1</idealHeight>
+        <idealLight>-1</idealLight>
+        <idealTemperature>0.8</idealTemperature>
+        <alcoholContent>0.055</alcoholContent>
+    </recipe>
+</recipes>
