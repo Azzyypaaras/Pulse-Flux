@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Stream;
@@ -68,23 +69,29 @@ public class JanksonRecipeParser {
         net.fabricmc.loader.api.Version version = modMetaData.getVersion();
         String versionStr = version.getFriendlyString();
 
+        URL configPath = null;
         try {
-            URL configPath = new URL(BASE_URL);
+            configPath = new URL(BASE_URL);
+        } catch (MalformedURLException e) {
+            FFLog.error("Error accessing config files for download from URL: '" + BASE_URL + "'.");
+        }
 
-            for (String configFile : configFiles) {
-                FileUtils.copyURLToFile(new URL(configPath, versionStr + "/" + configFile), new File(recipes, configFile));
-            }
-        } catch (IOException e) {
-            FFLog.error("Error accessing config file: '" + BASE_URL + "' for version '" + versionStr + "' of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.  Attempting to access default config files.", e);
+        for (String configFile : configFiles) {
+            File targetFile = new File(recipes, configFile);
 
-            try {
-                URL configPath = new URL(BASE_URL);
-                for (String configFile : configFiles) {
-                    FileUtils.copyURLToFile(new URL(configPath, "BASE/" + configFile), new File(recipes, configFile));
+            // If the file doesn't exist OR regen is on, download it from the correct version in github.
+            if (config.isRegenOn() || !targetFile.exists())
+                try {
+                    FileUtils.copyURLToFile(new URL(configPath, versionStr + "/" + configFile), targetFile);
+                } catch (IOException e) {
+                    FFLog.error("Error accessing config file: '" + BASE_URL + "' for version '" + versionStr + "' of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.  Attempting to access default config files.", e);
+                    try {
+                        configPath = new URL(BASE_URL);
+                        FileUtils.copyURLToFile(new URL(configPath, "BASE/" + configFile), targetFile);
+                    } catch (IOException ioException) {
+                        FFLog.error("Error accessing config file: '" + BASE_URL + "' for ANY version of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.", e);
+                    }
                 }
-            } catch (IOException ioException) {
-                FFLog.error("Error accessing config file: '" + BASE_URL + "' for ANY version of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.", e);
-            }
         }
     }
 
