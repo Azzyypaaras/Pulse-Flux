@@ -33,8 +33,8 @@ public class BarrelBlock extends BaseMachine {
 
     public static final Identifier GID = new Identifier(MODID, "barrel_gui");
 
-    public BarrelBlock(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
-        super(settings, identifier, material, sound, glow, bounds, effects);
+    public BarrelBlock(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
+        super(settings, material, sound, glow, bounds, effects);
     }
 
     @Override

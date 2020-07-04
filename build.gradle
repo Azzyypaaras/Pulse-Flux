@@ -66,13 +66,11 @@ dependencies {
 	//REQUIRED IF WORKING ON THE HQ SHADERPACK
 	modCompile "grondag:canvas-mc116:1.0.+"
 
-	//I have no idea what to classify this as
-	modImplementation "io.github.prospector:modmenu:1.12.2+build.17"
-
 	//NOTE, TESTING ONLY, NOT LIBRARIES, DO NOT IMPLEMENT AS LIBRARIES, DO NOT USE IN CODE
 	modCompile "alexiil.mc.lib:libmultipart-all:0.4.0"
 	modCompile "alexiil.mc.lib:libnetworkstack-base:0.4.0"
 	modCompile "alexiil.mc.mod:simplepipes-all:0.4.0"
+	modImplementation "io.github.prospector:modmenu:1.12.2+build.17"
 
 }
 

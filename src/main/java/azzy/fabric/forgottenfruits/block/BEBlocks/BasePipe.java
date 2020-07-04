@@ -38,8 +38,8 @@ public class BasePipe extends BaseMachine implements Waterloggable {
     public BooleanProperty[] connections = new BooleanProperty[9];
     public BooleanProperty[] components = new BooleanProperty[8];
 
-    public BasePipe(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
-        super(settings, identifier, material, sound, glow, bounds, effects);
+    public BasePipe(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
+        super(settings, material, sound, glow, bounds, effects);
         connections[0] = north;
         connections[1] = south;
         connections[2] = east;

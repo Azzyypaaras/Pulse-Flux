@@ -23,15 +23,13 @@ import net.minecraft.world.World;
 
 public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider, AttributeProvider {
 
-        protected String identifier;
         protected VoxelShape bounds;
         protected ParticleEffect[] effects;
         public static final VoxelShape TOPDOWN = VoxelShapes.cuboid(1, 0, 1, 15, 16, 15);
         public static final VoxelShape SIDES = VoxelShapes.cuboid(0, 1, 0, 16, 15, 16);
 
-    public BaseMachine(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect ... effects) {
+    public BaseMachine(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect ... effects) {
         super(FabricBlockSettings.of(material).breakByTool(FabricToolTags.AXES, 1).sounds(sound).nonOpaque().hardness(0.4f).lightLevel(glow).build());
-        this.identifier = identifier;
         this.bounds = bounds;
         this.effects = effects;
         setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));

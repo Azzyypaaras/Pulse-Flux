@@ -26,8 +26,8 @@ public class BasketBlock extends BaseMachine {
 
     public static final Identifier GID = new Identifier(MODID, "basket_gui");
 
-    public BasketBlock(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
-        super(settings, identifier, material, sound, glow, bounds, effects);
+    public BasketBlock(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
+        super(settings, material, sound, glow, bounds, effects);
     }
 
     @Override

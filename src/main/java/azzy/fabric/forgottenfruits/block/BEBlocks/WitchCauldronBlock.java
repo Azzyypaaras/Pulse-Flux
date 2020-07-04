@@ -36,8 +36,8 @@ public class WitchCauldronBlock extends BaseMachine {
     public static final BooleanProperty EFFULGENT = BooleanProperty.of("effulgent");
     public static final BooleanProperty CHAOTIC = BooleanProperty.of("chaotic");
 
-    public WitchCauldronBlock(Settings settings, String identifier, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
-        super(settings, identifier, material, sound, glow, bounds, effects);
+    public WitchCauldronBlock(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
+        super(settings, material, sound, glow, bounds, effects);
         setDefaultState(this.getStateManager().getDefaultState().with(EFFULGENT, false).with(CHAOTIC, false));
     }
 
