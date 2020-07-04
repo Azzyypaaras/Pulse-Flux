@@ -7,7 +7,7 @@ import azzy.fabric.forgottenfruits.util.recipe.RecipeTemplate;
 import java.util.ArrayList;
 
 import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
-import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTEREDRECIPES;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTERED_RECIPES;
 
 //Don't ask why, just look at it and cry
 
@@ -27,7 +27,7 @@ public class TrueRecipeRegistry {
 
     static void sealRegistry(){
         for (RegistryPair register: RegistryBuffer) {
-            REGISTEREDRECIPES.put(register.id, register.type);
+            REGISTERED_RECIPES.put(register.id, register.type);
         }
 
         initComplete = true;

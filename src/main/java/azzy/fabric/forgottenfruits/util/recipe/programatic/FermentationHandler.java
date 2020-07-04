@@ -8,7 +8,7 @@ import azzy.fabric.forgottenfruits.util.recipe.templates.FFFermentingOutput;
 import net.minecraft.block.entity.BlockEntity;
 
 import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
-import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTEREDRECIPES;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTERED_RECIPES;
 
 public class FermentationHandler extends RecipeHandler {
     public FermentationHandler(RecipeRegistryKey id) {
@@ -18,7 +18,7 @@ public class FermentationHandler extends RecipeHandler {
     @Override
     public FFFermentingOutput search(Object[] args) {
         String key = (String) args[0];
-        BarrelRecipes recipes = (BarrelRecipes) REGISTEREDRECIPES.get(id).getRecipes();
+        BarrelRecipes recipes = (BarrelRecipes) REGISTERED_RECIPES.get(id).getRecipes();
 
         if(recipes.RECIPES.containsKey(key))
             if(valid((FFRecipe) recipes.RECIPES.get(key)))

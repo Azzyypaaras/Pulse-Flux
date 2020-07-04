@@ -16,8 +16,8 @@ import net.minecraft.world.explosion.Explosion;
 
 import java.util.List;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
-import static azzy.fabric.forgottenfruits.ForgottenFruits.PLANTSTUFF;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.PLANT_STUFF;
 
 public class AmalgamItems extends Item {
 
@@ -72,8 +72,8 @@ public class AmalgamItems extends Item {
         private Identifier type;
 
         public ConstructAmalgam(Rarity rarity, int loop){
-            jelly = new AmalgamItems(new Item.Settings().group(PLANTSTUFF).maxCount(32).rarity(rarity).food(FoodItems.FoodBackend(6, 1.0f, true)), AMALGAMS[loop]);
-            type = new Identifier(MODID, AMALGAMS[loop] + "_amalgam");
+            jelly = new AmalgamItems(new Item.Settings().group(PLANT_STUFF).maxCount(32).rarity(rarity).food(FoodItems.FoodBackend(6, 1.0f, true)), AMALGAMS[loop]);
+            type = new Identifier(MOD_ID, AMALGAMS[loop] + "_amalgam");
         }
 
         public Identifier getKey(){

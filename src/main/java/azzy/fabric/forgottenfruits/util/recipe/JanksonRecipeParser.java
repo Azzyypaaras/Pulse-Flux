@@ -49,7 +49,7 @@ public class JanksonRecipeParser {
         }
         recipes = new File(configDirectory, "forgottenfruits");
 
-        if ((config.isRegenOn()) && recipes.exists()) {
+        if ((config.isRegen()) && recipes.exists()) {
             // Folder exists and needs to be regenerated.  Do a recursive drop of the folder.
             try {
                 FileUtils.deleteDirectory(recipes);
@@ -81,7 +81,7 @@ public class JanksonRecipeParser {
             File targetFile = new File(recipes, configFile);
 
             // If the file doesn't exist OR regen is on, download it from the correct version in github.
-            if (config.isRegenOn() || !targetFile.exists())
+            if (config.isRegen() || !targetFile.exists())
                 try {
                     FileUtils.copyURLToFile(new URL(configPath, versionStr + "/" + configFile), targetFile);
                 } catch (IOException e) {

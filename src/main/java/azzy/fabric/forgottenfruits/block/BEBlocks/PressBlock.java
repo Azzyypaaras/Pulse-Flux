@@ -30,11 +30,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 
 public class PressBlock extends BaseMachine{
 
-    public static final Identifier GID = new Identifier(MODID, "press_gui");
+    public static final Identifier GID = new Identifier(MOD_ID, "press_gui");
 
     public PressBlock(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
         super(settings, material, sound, glow, bounds, effects);

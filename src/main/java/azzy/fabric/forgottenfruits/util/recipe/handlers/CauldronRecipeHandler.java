@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.registry.Registry;
 
 import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
-import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTEREDRECIPES;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTERED_RECIPES;
 
 public class CauldronRecipeHandler extends RecipeHandler {
 
@@ -23,7 +23,7 @@ public class CauldronRecipeHandler extends RecipeHandler {
     @Override
     public FFRecipe search(Object[] args) {
         ItemStack[] in = (ItemStack[]) args;
-        CauldronRecipes recipes = (CauldronRecipes) REGISTEREDRECIPES.get(id).getRecipes();
+        CauldronRecipes recipes = (CauldronRecipes) REGISTERED_RECIPES.get(id).getRecipes();
 
         String key = RecipeTemplate.serialize(in);
 

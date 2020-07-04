@@ -23,7 +23,7 @@ public class PressRecipeHandler extends RecipeHandler {
     @Override
     public FFPressRecipe search(Object[] args) {
         ItemStack item = (ItemStack) args[0];
-        PressRecipes recipes = (PressRecipes) REGISTEREDRECIPES.get(id).getRecipes();
+        PressRecipes recipes = (PressRecipes) REGISTERED_RECIPES.get(id).getRecipes();
 
         String key = RecipeTemplate.serialize(new ItemStack[]{item});
 
@@ -43,7 +43,7 @@ public class PressRecipeHandler extends RecipeHandler {
         FluidVolume craftOut = crafted.output, invOut = crafter.fluidInv.getInvFluid(0);
 
         if(valid(recipe)){
-            if(config.isDebugOn() && entity.getWorld().getTime() % 100 == 0){
+            if(config.isDebug() && entity.getWorld().getTime() % 100 == 0){
                 FFLog.error("DEBUG MESSAGE START");
                 FFLog.error("ITEM MATCH "+ (craftIn.getItem() == invIn.getItem()));
                 FFLog.error("ITEM COUNT MATCH "+ (invIn.getCount() >= craftIn.getCount()));

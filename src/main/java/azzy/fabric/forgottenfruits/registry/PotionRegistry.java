@@ -9,7 +9,7 @@ import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 
 public class PotionRegistry {
 
@@ -20,7 +20,7 @@ public class PotionRegistry {
     }
 
     public static FFStatusEffect registerEffect(String id, StatusEffect entry){
-        return (FFStatusEffect) Registry.register(Registry.STATUS_EFFECT, new Identifier(MODID, id), entry);
+        return (FFStatusEffect) Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, id), entry);
     }
 
 }

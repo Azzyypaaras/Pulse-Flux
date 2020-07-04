@@ -34,7 +34,7 @@ public class PressRecipes extends RecipeTemplate {
     private void inject(String in, int amount, String by, String out, String id) {
         ItemStack input = new ItemStack(Registry.ITEM.get(new Identifier(in)), amount);
         RECIPES.put(serialize(new ItemStack[]{input}), new FFPressRecipe(RecipeRegistryKey.PRESS, id, input, Registry.ITEM.get(new Identifier(by)), FluidVolume.create(FluidKeys.get(Registry.FLUID.get(new Identifier(out))), BUCKET)));
-        if(config.isDebugOn())
+        if(config.isDebug())
             FFLog.debug("DEBUG - KEY - "+serialize(new ItemStack[]{input}));
     }
 }

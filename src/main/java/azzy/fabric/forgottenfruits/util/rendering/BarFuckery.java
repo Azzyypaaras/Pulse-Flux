@@ -13,7 +13,7 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 
 public class BarFuckery extends WBar {
 
@@ -24,7 +24,7 @@ public class BarFuckery extends WBar {
         super(bg, new Identifier("thonk"), field, maxfield, dir);
         this.color = color;
         if(type == BarType.FRUIT)
-            this.bar = new Identifier(MODID, "textures/gui/bars/juicebase.png");
+            this.bar = new Identifier(MOD_ID, "textures/gui/bars/juicebase.png");
         else if(type == BarType.GENERIC)
             this.bar = special;
         else

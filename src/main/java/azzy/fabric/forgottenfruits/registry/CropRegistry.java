@@ -10,7 +10,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 import static azzy.fabric.forgottenfruits.registry.ItemRegistry.*;
 
 public class CropRegistry {
@@ -22,7 +22,7 @@ public class CropRegistry {
     public static final Block CINDERMOTE_WILD = register("cindermote_wild", new WildPlantBase("cindermote", Material.SOLID_ORGANIC, BlockSoundGroup.NETHER_WART, ParticleTypes.FLAME, 10, 20, 0.05f, 30));
 
     private static Block register(String name, Block item){
-        Registry.register(Registry.BLOCK, new Identifier(MODID, name), item);
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, name), item);
         return item;
     }
 

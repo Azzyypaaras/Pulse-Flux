@@ -8,11 +8,8 @@ import static azzy.fabric.forgottenfruits.registry.BlockEntityRegistry.*;
 
 public class RenderRegistry {
 
-    public static void init(){
-
+    public static void init() {
         BlockEntityRendererRegistry.INSTANCE.register(PRESS_ENTITY, PressEntityRenderer::new);
         BlockEntityRendererRegistry.INSTANCE.register(WITCH_CAULDRON_ENTITY, WitchCauldronEntityRenderer::new);
-
     }
-
 }

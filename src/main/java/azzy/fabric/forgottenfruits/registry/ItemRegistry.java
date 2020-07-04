@@ -35,35 +35,35 @@ public class ItemRegistry extends Item{
     public static void init(){
 
         //What, why
-        SAMMICH = register(new Identifier(MODID, "sammich"), new Item(defaultSettings().food(FoodItems.FoodBackend(8, 1f, false))));
+        SAMMICH = register(new Identifier(MOD_ID, "sammich"), new Item(defaultSettings().food(FoodItems.FoodBackend(8, 1f, false))));
 
         //Misc
-        MULCH = register(new Identifier(MODID, "mulch"), new Item(new Item.Settings().group(PLANTMATERIALS)));
-        ATTUNED = register(new Identifier(MODID, "attuned_stone"), new Item(new Item.Settings().group(PLANTMATERIALS)));
-        ATTUNED_EFFULGENT = register(new Identifier(MODID, "effulgent_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANTMATERIALS)));
-        ATTUNED_CHAOTIC = register(new Identifier(MODID, "chaotic_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANTMATERIALS)));
-        MUTANDIS = register(new Identifier(MODID, "mutandis"), new Item(defaultSettings()));
+        MULCH = register(new Identifier(MOD_ID, "mulch"), new Item(new Item.Settings().group(PLANT_MATERIALS)));
+        ATTUNED = register(new Identifier(MOD_ID, "attuned_stone"), new Item(new Item.Settings().group(PLANT_MATERIALS)));
+        ATTUNED_EFFULGENT = register(new Identifier(MOD_ID, "effulgent_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANT_MATERIALS)));
+        ATTUNED_CHAOTIC = register(new Identifier(MOD_ID, "chaotic_stone"), new AttunedAttunedStone(new Item.Settings().group(PLANT_MATERIALS)));
+        MUTANDIS = register(new Identifier(MOD_ID, "mutandis"), new Item(defaultSettings()));
 
         //Drinks
-        DRINKCLOUDBERRY = register(new Identifier(MODID, "drinkcloudberry"), new LiquorBottle(drinkSettings()));
-        DRINKCINDERMOTE = register(new Identifier(MODID, "drinkcindermote"), new LiquorBottle(drinkSettings()));
+        DRINKCLOUDBERRY = register(new Identifier(MOD_ID, "drinkcloudberry"), new LiquorBottle(drinkSettings()));
+        DRINKCINDERMOTE = register(new Identifier(MOD_ID, "drinkcindermote"), new LiquorBottle(drinkSettings()));
 
         //Threads
-        IGNOBLE_SILK = register(new Identifier(MODID, "thread_basic"),  new Item(new Item.Settings().group(PLANTMATERIALS)));
+        IGNOBLE_SILK = register(new Identifier(MOD_ID, "thread_basic"),  new Item(new Item.Settings().group(PLANT_MATERIALS)));
 
         //Storage
-        BASKET_ITEM = register(new Identifier(MODID, "basket_block"), new AliasedBlockItem(BlockRegistry.BASKET_BLOCK, new Item.Settings().group(BLOCKENTITIES)));
+        BASKET_ITEM = register(new Identifier(MOD_ID, "basket_block"), new AliasedBlockItem(BlockRegistry.BASKET_BLOCK, new Item.Settings().group(BLOCK_ENTITIES)));
 
         //Alloys
-        APPLE_ALLOY = register(new Identifier(MODID, "apple_alloy"), new Item(new Item.Settings().group(PLANTMATERIALS)));
+        APPLE_ALLOY = register(new Identifier(MOD_ID, "apple_alloy"), new Item(new Item.Settings().group(PLANT_MATERIALS)));
 
         //Berries
-        CLOUDBERRY_FRUIT = register(new Identifier(MODID, "cloudberry_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(3, 0.5f, true, false, StatusEffects.LEVITATION, 0.1f, 200))));
-        CINDERMOTE_FRUIT = register(new Identifier(MODID, "cindermote_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackend(6, 0.3f, false)).fireproof()));
+        CLOUDBERRY_FRUIT = register(new Identifier(MOD_ID, "cloudberry_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(3, 0.5f, true, false, StatusEffects.LEVITATION, 0.1f, 200))));
+        CINDERMOTE_FRUIT = register(new Identifier(MOD_ID, "cindermote_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackend(6, 0.3f, false)).fireproof()));
 
         //Seeds
-        CLOUDBERRY_SEEDS = register(new Identifier(MODID, "cloudberry_seeds"), new AliasedBlockItem(CropRegistry.CLOUDBERRY_CROP, defaultSettings().food(FoodItems.FoodBackendSpecial(-3, -2f, false, false, StatusEffects.LEVITATION, 1f, 600))));
-        CINDERMOTE_SEEDS = register(new Identifier(MODID, "cindermote_seeds"), new AliasedBlockItem(CropRegistry.CINDERMOTE_CROP, defaultSettings().fireproof()));
+        CLOUDBERRY_SEEDS = register(new Identifier(MOD_ID, "cloudberry_seeds"), new AliasedBlockItem(CropRegistry.CLOUDBERRY_CROP, defaultSettings().food(FoodItems.FoodBackendSpecial(-3, -2f, false, false, StatusEffects.LEVITATION, 1f, 600))));
+        CINDERMOTE_SEEDS = register(new Identifier(MOD_ID, "cindermote_seeds"), new AliasedBlockItem(CropRegistry.CINDERMOTE_CROP, defaultSettings().fireproof()));
 
         //Jellies
         for (int i = 0; i < 2; i++) {
@@ -76,10 +76,10 @@ public class ItemRegistry extends Item{
     }
 
     private static Item.Settings defaultSettings(){
-        return new Item.Settings().group(PLANTSTUFF);
+        return new Item.Settings().group(PLANT_STUFF);
     }
-    private static Item.Settings materialSettings(){return new Item.Settings().group(PLANTMATERIALS);}
-    private static Item.Settings drinkSettings() {return new Item.Settings().group(PLANTSTUFF).food(FoodItems.FoodBackend(0, 0, false)).maxCount(16);}
+    private static Item.Settings materialSettings(){return new Item.Settings().group(PLANT_MATERIALS);}
+    private static Item.Settings drinkSettings() {return new Item.Settings().group(PLANT_STUFF).food(FoodItems.FoodBackend(0, 0, false)).maxCount(16);}
 
     private static Item register(Identifier name, Item item){
         Registry.register(Registry.ITEM, name, item);

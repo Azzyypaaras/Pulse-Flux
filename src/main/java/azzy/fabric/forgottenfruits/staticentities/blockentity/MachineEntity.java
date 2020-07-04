@@ -28,7 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTEREDRECIPES;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.REGISTERED_RECIPES;
 
 public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable, InventoryProvider, NamedScreenHandlerFactory {
 
@@ -116,8 +116,8 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     }
 
     public RecipeHandler getRecipeHandler(RecipeRegistryKey id){
-        if (REGISTEREDRECIPES.containsKey(id)){
-            return REGISTEREDRECIPES.get(id).getHandler();
+        if (REGISTERED_RECIPES.containsKey(id)){
+            return REGISTERED_RECIPES.get(id).getHandler();
         }
         else{
             return null;

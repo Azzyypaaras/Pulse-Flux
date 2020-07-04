@@ -15,12 +15,12 @@ import java.util.Random;
 
 public class PlantGen extends Feature<DefaultFeatureConfig> {
 
-    private int quantity, spread, steepness;
-    private Block plant, tile;
+    private final int spread;
+    private final int steepness;
+    private final Block plant, tile;
 
-    public PlantGen(Codec<DefaultFeatureConfig> codec, int quantity, int spread, int steepness, Block plant, Block tile) {
+    public PlantGen(Codec<DefaultFeatureConfig> codec, int spread, int steepness, Block plant, Block tile) {
         super(codec);
-        this.quantity = quantity;
         this.spread = spread;
         this.plant = plant;
         this.steepness = steepness;
@@ -28,20 +28,19 @@ public class PlantGen extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(ServerWorldAccess serverWorldAccess, StructureAccessor accessor, ChunkGenerator generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
-        World world = serverWorldAccess.getWorld();
+    public boolean generate(ServerWorldAccess world, StructureAccessor accessor, ChunkGenerator generator, Random random, BlockPos pos, DefaultFeatureConfig config) {
         BlockPos topPos = world.getTopPosition(Heightmap.Type.WORLD_SURFACE, pos);
         double multiplier;
         for (int j = steepness; j > 0; j--) {
-            if(world.getBlockState(pos.add(0, -1, 0)).getBlock() == tile) {
+            BlockPos down = topPos.down();
+            if (world.getBlockState(down).getBlock() == tile) {
                 for (int i = 1; i < 6; i++) {
                     multiplier = (Math.random() - 0.5) * 2;
                     world.setBlockState(topPos.add(i + (spread * multiplier), 0D, i + (spread * multiplier)), plant.getDefaultState(), 1);
                 }
                 return true;
-            }
-            else
-                topPos = topPos.add(0, -1, 0);
+            } else
+                topPos = down;
         }
         return false;
     }

@@ -57,7 +57,7 @@ public class FermentationTracker {
         time = 0;
         minTime = 72000;
         minTime = (int) ((minTime / (fermenter.fluidInv.getMaxAmount_F(0).as1620() / liquid))*1.5);
-        if(minTime > 800 && config.isDebugOn())
+        if(minTime > 800 && config.isDebug())
             minTime = 800;
     }
 
@@ -110,7 +110,7 @@ public class FermentationTracker {
         if(time%100==0){
             fetchInWorldStatus();
             calculateTargetQuality();
-            if(!fermenter.getWorld().isClient && config.isDebugOn())
+            if(!fermenter.getWorld().isClient && config.isDebug())
                 FFLog.info("Light "+light+", MinTime "+minTime+", Quality "+quality+", Time "+time+", Target Quality"+targetQuality+", Current Temperature "+appliedTemp);
 
         }

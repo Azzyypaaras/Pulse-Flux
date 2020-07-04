@@ -1,10 +1,17 @@
 package azzy.fabric.forgottenfruits.render.particle;
 
+import azzy.fabric.forgottenfruits.ForgottenFruits;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.util.Identifier;
+
+import java.util.Random;
 
 public class CauldronParticle extends SpriteBillboardParticle {
 
@@ -17,6 +24,7 @@ public class CauldronParticle extends SpriteBillboardParticle {
         this.velocityZ = f * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
         this.maxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
     }
+
     public void tick() {
         this.prevPosX = this.x;
         this.prevPosY = this.y;
@@ -38,11 +46,23 @@ public class CauldronParticle extends SpriteBillboardParticle {
 
     @Environment(EnvType.CLIENT)
     public static class Factory implements ParticleFactory<DefaultParticleType> {
-        private final SpriteProvider spriteProvider;
+        public final SpriteProvider spriteProvider = new SpriteProvider() {
+            private Sprite sprite;
 
-        public Factory(SpriteProvider spriteProvider) {
-            this.spriteProvider = spriteProvider;
-        }
+            @Override
+            public Sprite getSprite(int i, int j) {
+                return getSprite();
+            }
+
+            @Override
+            public Sprite getSprite(Random random) {
+                return getSprite();
+            }
+
+            private Sprite getSprite() {
+                return sprite == null ? sprite = MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(new Identifier(ForgottenFruits.MOD_ID, "particle/bubble")) : sprite;
+            }
+        };
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
             CauldronParticle particle = new CauldronParticle(clientWorld, d, e, f, g, h, i);

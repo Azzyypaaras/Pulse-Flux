@@ -45,36 +45,34 @@ public class WitchCauldronBlock extends BaseMachine {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         Item stone = player.getStackInHand(hand).getItem();
         WitchCauldronEntity cauldron = (WitchCauldronEntity) world.getBlockEntity(pos);
-        if(stone instanceof AttunedAttunedStone && cauldron.inventory.get(0) == ItemStack.EMPTY && !player.handSwinging) {
+        if (cauldron == null) return ActionResult.FAIL;
+        if (stone instanceof AttunedAttunedStone && cauldron.inventory.get(0).isEmpty() && !player.handSwinging) {
             cauldron.inventory.set(0, new ItemStack(stone));
-            world.playSound(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.BLOCKS, 0.5f, 2.0f, true);
+            world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.BLOCKS, 0.5f, 2.0f, true);
             player.getStackInHand(hand).decrement(1);
             cauldron.updateGem();
             return ActionResult.SUCCESS;
-        }
-        else if(stone instanceof LiquorBottle && !cauldron.hasMetadata()){
+        } else if (stone instanceof LiquorBottle && !cauldron.hasMetadata()) {
             CompoundTag tag = player.getStackInHand(hand).getSubTag("brewmetadata");
-            if(tag == null)
+            if (tag == null)
                 cauldron.setMetadata(new BrewMetadata(true, false, 1, 1, 1, 0xffffff), Registry.ITEM.getId(stone));
             else
                 cauldron.setMetadata(BrewMetadata.fromTag(tag), Registry.ITEM.getId(stone));
-            if(!player.isCreative())
+            if (!player.isCreative())
                 player.getStackInHand(hand).decrement(1);
             cauldron.setCachedBrew(Registry.ITEM.getId(stone).toString());
             cauldron.setHasMetadata(true);
             player.swingHand(hand);
-            world.playSound(pos.getX()+0.5, pos.getY()+0.68, pos.getZ()+0.5, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 0.7f, 1.15f+(world.random.nextInt(2) / 10.0f), true);
+            world.playSound(pos.getX() + 0.5, pos.getY() + 0.68, pos.getZ() + 0.5, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 0.7f, 1.15f + (world.random.nextInt(2) / 10.0f), true);
 
             return ActionResult.SUCCESS;
-        }
-        else if(player.getStackInHand(hand).isEmpty() && player.isInSneakingPose() && cauldron.inventory.get(0) != ItemStack.EMPTY && !player.handSwinging){
+        } else if (player.getStackInHand(hand).isEmpty() && player.isInSneakingPose() && !cauldron.inventory.get(0).isEmpty() && !player.handSwinging) {
             player.setStackInHand(hand, cauldron.inventory.get(0));
             cauldron.inventory.set(0, ItemStack.EMPTY);
-            world.playSound(pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.BLOCKS, 0.5f, 2.0f, true);
+            world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.BLOCKS, 0.5f, 2.0f, true);
             cauldron.updateGem();
             return ActionResult.SUCCESS;
-        }
-        else if(player.isInSneakingPose())
+        } else if (player.isInSneakingPose())
             return ActionResult.PASS;
 
         return ActionResult.SUCCESS;

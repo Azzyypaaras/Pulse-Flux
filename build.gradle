@@ -53,7 +53,7 @@ dependencies {
 
 	//REQUIRED LIBRARIES
 	modCompile "alexiil.mc.lib:libblockattributes-all:"+libblockattributesver
-	modCompile "me.shedaniel:RoughlyEnoughItems:3.6.4"
+	modCompile "me.shedaniel:RoughlyEnoughItems:4.6.6"
 	modImplementation "io.github.cottonmc:LibGui:"+libguiver+"+1.16.1"
 	modImplementation "io.github.cottonmc:Jankson-Fabric:"+jankver
 	modApi "me.shedaniel.cloth:config-2:"+clothconfver

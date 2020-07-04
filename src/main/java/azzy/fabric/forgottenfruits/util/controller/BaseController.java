@@ -16,7 +16,7 @@ public class BaseController extends SyncedGuiDescription {
     WPlainPanel root = new WPlainPanel();
     int slotY, slotX, sizeY, sizeX, spacing, alignment;
     protected String name;
-    protected String MODID = ForgottenFruits.MODID;
+    protected String MODID = ForgottenFruits.MOD_ID;
     protected WItemSlot itemSlot;
 
     BaseController(ScreenHandlerType recipeType, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {

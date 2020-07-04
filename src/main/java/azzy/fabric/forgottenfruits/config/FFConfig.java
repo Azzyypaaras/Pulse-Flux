@@ -13,7 +13,7 @@ public class FFConfig implements ModMenuApi {
 
     @Override
     public String getModId() {
-        return MODID;
+        return MOD_ID;
     }
 
     @Override

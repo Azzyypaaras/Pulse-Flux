@@ -17,19 +17,19 @@ import net.minecraft.world.gen.placer.SimpleBlockPlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 import static azzy.fabric.forgottenfruits.registry.CropRegistry.CLOUDBERRY_WILD;
 
 public class GeneratedRegistry {
 
     public static Feature<DefaultFeatureConfig> register(String name, PlantGen item){
-        Registry.register(Registry.FEATURE, new Identifier(MODID, name), item);
+        Registry.register(Registry.FEATURE, new Identifier(MOD_ID, name), item);
         return item;
     }
 
     private static final Feature<DefaultFeatureConfig> CINDERMOTE_FIELD = Registry.register(
             Registry.FEATURE,
-            new Identifier(MODID, "cindermote_field"),
+            new Identifier(MOD_ID, "cindermote_field"),
             new CindermoteFeature(DefaultFeatureConfig.CODEC)
     );
 

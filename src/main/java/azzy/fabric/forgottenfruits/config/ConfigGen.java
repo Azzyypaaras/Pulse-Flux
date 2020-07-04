@@ -14,8 +14,11 @@ public class ConfigGen implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     private boolean debug = false;
 
-    public boolean isRegenOn(){return regen;}
-    public boolean isDebugOn() {
+    public boolean isRegen() {
+        return regen;
+    }
+
+    public boolean isDebug() {
         return debug;
     }
 }

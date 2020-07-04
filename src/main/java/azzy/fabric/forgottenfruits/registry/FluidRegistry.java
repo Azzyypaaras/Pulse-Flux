@@ -17,7 +17,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 
 public class FluidRegistry {
 
@@ -52,24 +52,24 @@ public class FluidRegistry {
     }
 
     public static FlowableFluid registerStill(String name, FlowableFluid item){
-        Registry.register(Registry.FLUID, new Identifier(MODID, name), item);
+        Registry.register(Registry.FLUID, new Identifier(MOD_ID, name), item);
         return item;
     }
 
     public static FlowableFluid registerFlowing(String name, FlowableFluid item){
-        Registry.register(Registry.FLUID, new Identifier(MODID, name), item);
+        Registry.register(Registry.FLUID, new Identifier(MOD_ID, name), item);
         return item;
     }
 
     public static Item registerBucket(String name, FlowableFluid item){
         BucketItem temp = new BucketItem(item, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ItemGroup.MISC));
-        Registry.register(Registry.ITEM, new Identifier(MODID, name), temp);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, name), temp);
         return temp;
     }
 
     public static Block registerFluidBlock(String name, FlowableFluid item, AbstractBlock.Settings base){
         Block temp = new FluidBlock(item, base){};
-        Registry.register(Registry.BLOCK, new Identifier(MODID, name), temp);
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, name), temp);
         return temp;
     }
 

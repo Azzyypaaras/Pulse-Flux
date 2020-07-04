@@ -1,7 +1,7 @@
 package azzy.fabric.forgottenfruits.staticentities.blockentity;
 
 import azzy.fabric.forgottenfruits.registry.ItemRegistry;
-import azzy.fabric.forgottenfruits.render.util.HexColorTranslator;
+import azzy.fabric.forgottenfruits.registry.ParticleRegistry;
 import azzy.fabric.forgottenfruits.util.interaction.HeatHolder;
 import azzy.fabric.forgottenfruits.util.interaction.HeatTransferHelper;
 import azzy.fabric.forgottenfruits.util.tracker.BrewMetadata;
@@ -26,6 +26,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Objects;
 
 import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
 import static azzy.fabric.forgottenfruits.ForgottenFruits.config;
@@ -52,34 +53,36 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
 
     @Override
     public void tick() {
-        if(metadata == null){
+        if (metadata == null) {
             hasMetadata = false;
-        }
-        else if(cachedColor == 	0xFFFFFF || cachedColor == 	0){
+        } else if (cachedColor == 0xFFFFFF || cachedColor == 0) {
             cachedColor = metadata.getColor();
         }
-        if(heatInit){
-            heat = HeatTransferHelper.translateBiomeHeat(this.world.getBiome(this.pos));
-            heatInit = false;
-        }
-        if (world.isClient() && heat >= 100 && world.getRandom().nextInt(9) == 0){
-            spawnParticles();
-        }
-        if(world.getTime() % 5 == 0 && hasMetadata) {
-            fetchDroppedItems();
+        if (hasWorld()) {
+            World world = Objects.requireNonNull(getWorld());
 
-            if(world.getTime() % 20 == 0){
-                if(config.isDebugOn())
-                    FFLog.error("Cauldron Temperature: "+heat);
-                Block source = world.getBlockState(pos.down()).getBlock();
-                BlockEntity entity = world.getBlockEntity(pos.down());
-                if(entity instanceof HeatHolder){
-                    HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, (HeatHolder) entity);
+            if (heatInit) {
+                heat = HeatTransferHelper.translateBiomeHeat(world.getBiome(this.pos));
+                heatInit = false;
+            }
+            if (world.isClient() && heat >= 100 && world.getRandom().nextInt(9) == 0) {
+                spawnParticles();
+            }
+            if (world.getTime() % 5 == 0 && hasMetadata) {
+                fetchDroppedItems();
+
+                if (world.getTime() % 20 == 0) {
+                    if (config.isDebug())
+                        FFLog.error("Cauldron Temperature: " + heat);
+                    Block source = world.getBlockState(pos.down()).getBlock();
+                    BlockEntity entity = world.getBlockEntity(pos.down());
+                    if (entity instanceof HeatHolder) {
+                        HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, (HeatHolder) entity);
+                    } else if (HeatTransferHelper.isHeatSource(source)) {
+                        HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, source);
+                    }
+                    HeatTransferHelper.simulateAmbientHeat(this, world.getBiome(pos));
                 }
-                else if(HeatTransferHelper.isHeatSource(source)){
-                    HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, this, source);
-                }
-                HeatTransferHelper.simulateAmbientHeat(this, world.getBiome(pos));
             }
         }
 
@@ -94,45 +97,44 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         this.cachedBrew = cachedBrew;
     }
 
-    public void spawnParticles(){
-        Particle particle;
-        int variation = world.getRandom().nextInt(17);
-        double positionx;
-        double positionz;
-        for(int i = 0; i < 1 + variation; i++) {
-            positionx = world.getRandom().nextInt(7)/10.0;
-            positionz = world.getRandom().nextInt(7)/10.0;
-            particle = MinecraftClient.getInstance().particleManager.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.2+positionx, pos.getY() + 0.6875, pos.getZ() + 0.2+positionz, 0, 0.0, 0);
-            int[] rgb = HexColorTranslator.translate(metadata.getColor());
-            particle.setColor(rgb[0]/255f, rgb[1]/255f, rgb[2]/255f);
-            MinecraftClient.getInstance().particleManager.addParticle(particle);
-            particle.setMaxAge(10+world.getRandom().nextInt(40));
+    public void spawnParticles() {
+        if (hasWorld()) {
+            int variation = Objects.requireNonNull(world).getRandom().nextInt(17);
+            for (int i = 0; i < 1 + variation; i++) {
+                double positionX = world.getRandom().nextInt(7) / 10.0;
+                double positionZ = world.getRandom().nextInt(7) / 10.0;
+                Particle particle = MinecraftClient.getInstance().particleManager.addParticle(ParticleRegistry.CAULDRON_BUBBLES, pos.getX() + 0.2 + positionX, pos.getY() + 0.6875, pos.getZ() + 0.2 + positionZ, 0, 0.0, 0);
+                if (particle != null) {
+                    int color = metadata.getColor();
+                    int r = color >> 16 & 0xFF;
+                    int b = color >> 8 & 0xFF;
+                    int g = color & 0xFF;
+                    particle.setColor(r / 255f, g / 255f, b / 255f);
+                    MinecraftClient.getInstance().particleManager.addParticle(particle);
+                    particle.setMaxAge(10 + world.getRandom().nextInt(40));
+                }
+            }
         }
     }
 
-    public void fetchDroppedItems(){
-        BlockState cauldron = this.getCachedState();
-        World world = this.getWorld();
-        List<ItemEntity> items = world.getNonSpectatingEntities(ItemEntity.class, new Box(this.pos.add(0, 0.6875, 0), this.pos.add(1, 1, 1)));
-        items.stream().forEach(e -> {
+    public void fetchDroppedItems() {
+        List<ItemEntity> items = Objects.requireNonNull(getWorld()).getNonSpectatingEntities(ItemEntity.class, new Box(this.pos.add(0, 0.6875, 0), this.pos.add(1, 1, 1)));
+        items.forEach(e -> {
             for (int i = 1; i < inventory.size(); i++) {
                 ItemStack stack = inventory.get(i);
                 ItemStack drops = e.getStack();
-                if(stack.isEmpty()) {
+                if (stack.isEmpty()) {
                     inventory.set(i, drops);
                     e.kill();
                     playDropEffects();
-                    return;
-                }
-                else if(drops.getItem() == stack.getItem() && stack.getCount() < 64){
-                    if(drops.getCount() + stack.getCount() > 64)
-                        return;
-                    else{
+                    break;
+                } else if (drops.getItem() == stack.getItem() && stack.getCount() < 64) {
+                    if (drops.getCount() + stack.getCount() <= 64) {
                         inventory.get(i).increment(drops.getCount());
                         e.kill();
                         playDropEffects();
-                        return;
                     }
+                    break;
                 }
             }
         });
@@ -142,7 +144,7 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         hasMetadata = bool;
     }
 
-    public boolean hasMetadata(){
+    public boolean hasMetadata() {
         return hasMetadata;
     }
 
@@ -155,6 +157,7 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         this.cachedBrew = brew.toString();
     }
 
+    //This is unused
     public BrewingTracker getTracker() {
         return tracker;
     }
@@ -163,15 +166,16 @@ public class WitchCauldronEntity extends MachineEntity implements HeatHolder {
         return cachedColor;
     }
 
-    public void playDropEffects(){
-        if(!world.isClient()){
+    public void playDropEffects() {
+        if(world instanceof ServerWorld){
             ((ServerWorld) world).spawnParticles(ParticleTypes.SPLASH, this.pos.getX()+0.5, this.pos.getY()+0.69, this.pos.getZ()+0.5, world.random.nextInt(5)+2, 0, 0.0, 0, 0);
+        } else {
+            world.playSound(this.pos.getX() + 0.5, this.pos.getY() + 0.7, this.pos.getZ() + 0.5, SoundEvents.ENTITY_PLAYER_SPLASH, SoundCategory.BLOCKS, 0.9f, 1.1f, false);
         }
-        world.playSound(this.pos.getX()+0.5, this.pos.getY()+0.7, this.pos.getZ()+0.5, SoundEvents.ENTITY_PLAYER_SPLASH, SoundCategory.BLOCKS, 0.9f, 1.1f, false);
     }
 
     public void updateGem(){
-        this.world.setBlockState(this.pos, this.getCachedState().with(EFFULGENT, inventory.get(0).getItem() == ItemRegistry.ATTUNED_EFFULGENT).with(CHAOTIC, inventory.get(0).getItem() == ItemRegistry.ATTUNED_CHAOTIC));
+        Objects.requireNonNull(this.world).setBlockState(this.pos, this.getCachedState().with(EFFULGENT, inventory.get(0).getItem() == ItemRegistry.ATTUNED_EFFULGENT).with(CHAOTIC, inventory.get(0).getItem() == ItemRegistry.ATTUNED_CHAOTIC));
     }
 
     @Override

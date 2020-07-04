@@ -19,7 +19,7 @@ public class BlockEntityRegistry {
 
 
     public static void register(BlockEntityType<? extends BlockEntity> blockEntityType, String name) {
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, name+"_entity"), blockEntityType);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, name+"_entity"), blockEntityType);
     }
 
     public static void init(){

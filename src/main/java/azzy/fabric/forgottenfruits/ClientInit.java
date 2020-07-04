@@ -36,8 +36,7 @@ public class ClientInit implements ClientModInitializer {
         ColorRegistry.init();
 
 
-        for (int i = 0; i < juiceRenderRegistry.size(); i++) {
-            FluidRegistry.FluidPair temp = juiceRenderRegistry.get(i);
+        for (FluidRegistry.FluidPair temp : juiceRenderRegistry) {
             FluidRenderRegistry.setupFluidRendering(temp.getStillState(), temp.getFlowState(), new Identifier("minecraft", "water"), temp.getColor());
         }
     }
