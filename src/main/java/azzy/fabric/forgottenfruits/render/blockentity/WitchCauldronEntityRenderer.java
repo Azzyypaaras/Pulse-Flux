@@ -1,19 +1,20 @@
 package azzy.fabric.forgottenfruits.render.blockentity;
 
 import azzy.fabric.forgottenfruits.render.util.FFRenderLayers;
-import azzy.fabric.forgottenfruits.render.util.HexColorTranslator;
 import azzy.fabric.forgottenfruits.staticentities.blockentity.WitchCauldronEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
 public class WitchCauldronEntityRenderer extends BlockEntityRenderer<WitchCauldronEntity> {
 
+    public static final Identifier WATER_STILL = new Identifier("block/water_still");
 
     public WitchCauldronEntityRenderer(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);
@@ -21,30 +22,27 @@ public class WitchCauldronEntityRenderer extends BlockEntityRenderer<WitchCauldr
 
     @Override
     public void render(WitchCauldronEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        if (entity.getMetadata() != null) {
+            int color = entity.getTracker().getColor();
+            int r = color >> 16 & 0xFF;
+            int b = color >> 8 & 0xFF;
+            int g = color & 0xFF;
 
-        if(!entity.hasMetadata())
-            return;
+            MinecraftClient mc = MinecraftClient.getInstance();
+            mc.getTextureManager().bindTexture(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
+            Sprite sprite = mc.getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(WATER_STILL);
 
-        int hex = entity.getCachedColor();
+            matrices.push();
+            matrices.translate(0, 0.6, 0);
 
-        int[] rgb = HexColorTranslator.translate(hex);
-        int r = rgb[0];
-        int g = rgb[1];
-        int b = rgb[2];
+            MatrixStack.Entry matrix = matrices.peek();
+            VertexConsumer consumer = vertexConsumers.getBuffer(FFRenderLayers.IRIDESCENT);
 
-        MinecraftClient.getInstance().getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
-        Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("minecraft:block/water_still"));
-
-        matrices.push();
-        matrices.translate(0, 0.6, 0);
-
-        MatrixStack.Entry matrix = matrices.peek();
-        VertexConsumer consumer = vertexConsumers.getBuffer(FFRenderLayers.IRIDESCENT);
-
-        consumer.vertex(matrix.getModel(), 0.1f, 0, 0.9f).color(r, g, b, 255).texture(sprite.getMinU(), sprite.getMaxV()).next();
-        consumer.vertex(matrix.getModel(), 0.9f, 0, 0.9f).color(r, g, b, 255).texture(sprite.getMaxU(), sprite.getMaxV()).next();
-        consumer.vertex(matrix.getModel(), 0.9f, 0, 0.1f).color(r, g, b, 255).texture(sprite.getMaxU(), sprite.getMinV()).next();
-        consumer.vertex(matrix.getModel(), 0.1f, 0, 0.1f).color(r, g, b, 255).texture(sprite.getMinU(), sprite.getMinV()).next();
-        matrices.pop();
+            consumer.vertex(matrix.getModel(), 0.1f, 0, 0.9f).color(r, g, b, 255).texture(sprite.getMinU(), sprite.getMaxV()).next();
+            consumer.vertex(matrix.getModel(), 0.9f, 0, 0.9f).color(r, g, b, 255).texture(sprite.getMaxU(), sprite.getMaxV()).next();
+            consumer.vertex(matrix.getModel(), 0.9f, 0, 0.1f).color(r, g, b, 255).texture(sprite.getMaxU(), sprite.getMinV()).next();
+            consumer.vertex(matrix.getModel(), 0.1f, 0, 0.1f).color(r, g, b, 255).texture(sprite.getMinU(), sprite.getMinV()).next();
+            matrices.pop();
+        }
     }
 }

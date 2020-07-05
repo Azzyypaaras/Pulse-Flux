@@ -6,12 +6,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 
-import static azzy.fabric.forgottenfruits.registry.BlockEntityRegistry.BASKET_ENTITY;
+import static azzy.fabric.forgottenfruits.registry.BlockEntityRegistry.BASKET;
 
 public class BasketEntity extends MachineEntity {
 
-    public BasketEntity(){
-        super(BASKET_ENTITY);
+    public BasketEntity() {
+        super(BASKET);
         inventory = DefaultedList.ofSize(18, ItemStack.EMPTY);
     }
 
@@ -30,7 +30,7 @@ public class BasketEntity extends MachineEntity {
         return inventory;
     }
 
-    public void setFromItem(CompoundTag data){
+    public void setFromItem(CompoundTag data) {
         Inventories.fromTag(data, inventory);
         this.markDirty();
     }

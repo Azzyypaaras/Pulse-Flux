@@ -10,7 +10,7 @@ public class FFCauldronRecipe extends FFRecipe {
     final public ItemStack output;
     final public Item brew;
 
-    public FFCauldronRecipe(RecipeRegistryKey type, String id, Item brew, ItemStack output, ItemStack ... inputs){
+    public FFCauldronRecipe(RecipeRegistryKey type, String id, Item brew, ItemStack output, ItemStack... inputs) {
         super(type, id);
         this.brew = brew;
         this.output = output;

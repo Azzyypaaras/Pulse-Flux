@@ -1,5 +1,6 @@
-package azzy.fabric.forgottenfruits.block.BEBlocks;
+package azzy.fabric.forgottenfruits.block.entity;
 
+import azzy.fabric.forgottenfruits.registry.BlockEntityRegistry;
 import azzy.fabric.forgottenfruits.staticentities.blockentity.WoodPipeEntity;
 import net.minecraft.block.Material;
 import net.minecraft.particle.ParticleEffect;
@@ -15,6 +16,6 @@ public class WoodPipe extends BasePipe {
 
     @Override
     public WoodPipeEntity createBlockEntity(BlockView view) {
-        return new WoodPipeEntity();
+        return BlockEntityRegistry.WOOD_PIPE.instantiate();
     }
 }

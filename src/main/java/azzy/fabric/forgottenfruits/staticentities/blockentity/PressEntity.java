@@ -3,8 +3,8 @@ package azzy.fabric.forgottenfruits.staticentities.blockentity;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import azzy.fabric.forgottenfruits.util.controller.PressController;
+import azzy.fabric.forgottenfruits.util.recipe.RecipeHandler;
 import azzy.fabric.forgottenfruits.util.recipe.RecipeRegistryKey;
-import azzy.fabric.forgottenfruits.util.recipe.handlers.PressRecipeHandler;
 import azzy.fabric.forgottenfruits.util.recipe.templates.FFPressRecipe;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,53 +17,14 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 
-import java.util.Optional;
-
-import static azzy.fabric.forgottenfruits.registry.BlockEntityRegistry.PRESS_ENTITY;
+import static azzy.fabric.forgottenfruits.registry.BlockEntityRegistry.PRESS;
 
 public class PressEntity extends MachineEntity implements PropertyDelegateHolder {
 
-    public PressEntity(){
-        super(PRESS_ENTITY);
-        inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-        fluidInv = new SimpleFixedFluidInv(1, new FluidAmount(8));
-    }
-    
-    @Override
-    public void tick(){
-        super.tick();
-        if(progress >= 200) {
-            progress = 0;
-            cycleComplete();
-        }
-        else if(cycleCheck()){
-            progress++;
-        }
-        if(!cycleCheck()){
-            progress = 0;
-        }
-    }
-
-    private void cycleComplete(){
-        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler(RecipeRegistryKey.PRESS);
-        if(handler != null){
-            FFPressRecipe recipe = handler.search(new Object[]{inventory.get(0)});
-            handler.craft(recipe, this);
-        }
-    }
-
-    private boolean cycleCheck(){
-        if(inventory.get(0).isEmpty())
-            return false;
-        PressRecipeHandler handler = (PressRecipeHandler) getRecipeHandler(RecipeRegistryKey.PRESS);
-        Optional<FFPressRecipe> recipe = Optional.ofNullable(handler.search(new Object[]{inventory.get(0)}));
-        return recipe.filter(ffPressRecipe -> handler.matches(ffPressRecipe, this)).isPresent();
-    }
-
-    PropertyDelegate tankHolder = new PropertyDelegate() {
+    final PropertyDelegate tankHolder = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            switch(index){
+            switch (index) {
                 case 0:
                     return fluidInv.getTank(0).get().getAmount_F().asInt(1);
                 case 1:
@@ -87,6 +48,42 @@ public class PressEntity extends MachineEntity implements PropertyDelegateHolder
             return 4;
         }
     };
+
+    public PressEntity() {
+        super(PRESS);
+        inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+        fluidInv = new SimpleFixedFluidInv(1, new FluidAmount(8));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (progress >= 200) {
+            progress = 0;
+            cycleComplete();
+        } else if (cycleCheck()) {
+            progress++;
+        }
+        if (!cycleCheck()) {
+            progress = 0;
+        }
+    }
+
+    private void cycleComplete() {
+        RecipeHandler<FFPressRecipe, ?> handler = getRecipeHandler(RecipeRegistryKey.PRESS);
+        if (handler != null) {
+            FFPressRecipe recipe = handler.search(new Object[]{inventory.get(0)});
+            handler.craft(recipe, this);
+        }
+    }
+
+    private boolean cycleCheck() {
+        if (inventory.get(0).isEmpty())
+            return false;
+        RecipeHandler<FFPressRecipe, ?> handler = getRecipeHandler(RecipeRegistryKey.PRESS);
+        FFPressRecipe recipe = handler.search(new Object[]{inventory.get(0)});
+        return recipe != null && handler.matches(recipe, this);
+    }
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, Direction direction) {

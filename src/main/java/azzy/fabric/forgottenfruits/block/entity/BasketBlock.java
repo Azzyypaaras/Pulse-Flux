@@ -1,6 +1,7 @@
-package azzy.fabric.forgottenfruits.block.BEBlocks;
+package azzy.fabric.forgottenfruits.block.entity;
 
 import azzy.fabric.forgottenfruits.block.BaseMachine;
+import azzy.fabric.forgottenfruits.registry.BlockEntityRegistry;
 import azzy.fabric.forgottenfruits.staticentities.blockentity.BasketEntity;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.BlockState;
@@ -12,22 +13,24 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 import static azzy.fabric.forgottenfruits.registry.ItemRegistry.BASKET_ITEM;
 
 public class BasketBlock extends BaseMachine {
 
-    public static final Identifier GID = new Identifier(MODID, "basket_gui");
+    public static final Identifier GID = new Identifier(MOD_ID, "basket_gui");
 
     public BasketBlock(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
-        super(settings, material, sound, glow, bounds, effects);
+        super(material, sound, glow, bounds, effects);
     }
 
     @Override
@@ -36,8 +39,7 @@ public class BasketBlock extends BaseMachine {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof BasketEntity && !player.isInSneakingPose()) {
                 ContainerProviderRegistry.INSTANCE.openContainer(GID, player, (packetByteBuf -> packetByteBuf.writeBlockPos(pos)));
-            }
-            else
+            } else
                 world.breakBlock(pos, true, player);
         }
         return ActionResult.SUCCESS;
@@ -50,7 +52,7 @@ public class BasketBlock extends BaseMachine {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof BasketEntity) {
                 block.getOrCreateTag();
-                Inventories.toTag( block.getOrCreateTag(), ((BasketEntity) blockEntity).getItems());
+                Inventories.toTag(block.getOrCreateTag(), ((BasketEntity) blockEntity).getItems());
                 dropStack(world, pos, block);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -59,7 +61,7 @@ public class BasketBlock extends BaseMachine {
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        if(!world.isClient){
+        if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof BasketEntity) {
                 ((BasketEntity) blockEntity).setFromItem(itemStack.getOrCreateTag());
@@ -69,6 +71,6 @@ public class BasketBlock extends BaseMachine {
 
     @Override
     public BlockEntity createBlockEntity(BlockView blockView) {
-        return new BasketEntity();
+        return BlockEntityRegistry.BASKET.instantiate();
     }
 }

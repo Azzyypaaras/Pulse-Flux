@@ -8,7 +8,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 /**
  * A simple {@code Inventory} implementation with only default methods + an item list getter.
- *
+ * <p>
  * Originally by Juuz
  */
 public interface InventoryWrapper extends Inventory {
@@ -18,12 +18,14 @@ public interface InventoryWrapper extends Inventory {
      */
     DefaultedList<ItemStack> getItems();
     // Creation
+
     /**
      * Creates an inventory from the item list.
      */
     static InventoryWrapper of(DefaultedList<ItemStack> items) {
         return () -> items;
     }
+
     /**
      * Creates a new inventory with the size.
      */
@@ -31,6 +33,7 @@ public interface InventoryWrapper extends Inventory {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }
     // Inventory
+
     /**
      * Returns the inventory size.
      */
@@ -38,6 +41,7 @@ public interface InventoryWrapper extends Inventory {
     default int size() {
         return getItems().size();
     }
+
     /**
      * @return true if this inventory has only empty stacks, false otherwise
      */
@@ -51,6 +55,7 @@ public interface InventoryWrapper extends Inventory {
         }
         return true;
     }
+
     /**
      * Gets the item in the slot.
      */
@@ -58,6 +63,7 @@ public interface InventoryWrapper extends Inventory {
     default ItemStack getStack(int slot) {
         return getItems().get(slot);
     }
+
     /**
      * Takes a stack of the size from the slot.
      * <p>(default implementation) If there are less items in the slot than what are requested,
@@ -71,6 +77,7 @@ public interface InventoryWrapper extends Inventory {
         }
         return result;
     }
+
     /**
      * Removes the current stack in the {@code slot} and returns it.
      */
@@ -78,9 +85,10 @@ public interface InventoryWrapper extends Inventory {
     default ItemStack removeStack(int slot) {
         return Inventories.removeStack(getItems(), slot);
     }
+
     /**
      * Replaces the current stack in the {@code slot} with the provided stack.
-     * <p>If the stack is too big for this inventory ({@link Inventory#getInvMaxStackAmount()}),
+     * <p>If the stack is too big for this inventory ({@link Inventory#getMaxCountPerStack()}),
      * it gets resized to this inventory's maximum amount.
      */
     @Override
@@ -90,6 +98,7 @@ public interface InventoryWrapper extends Inventory {
             stack.setCount(getMaxCountPerStack());
         }
     }
+
     /**
      * Clears {@linkplain #getItems() the item list}}.
      */
@@ -97,10 +106,12 @@ public interface InventoryWrapper extends Inventory {
     default void clear() {
         getItems().clear();
     }
+
     @Override
     default void markDirty() {
         // Override if you want behavior.
     }
+
     @Override
     default boolean canPlayerUse(PlayerEntity player) {
         return true;

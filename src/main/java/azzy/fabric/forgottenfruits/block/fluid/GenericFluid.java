@@ -15,51 +15,43 @@ import net.minecraft.world.WorldView;
 public abstract class GenericFluid extends FlowableFluid {
 
     @Override
-    public boolean matchesType(Fluid fluid)
-    {
+    public boolean matchesType(Fluid fluid) {
         return fluid == getStill() || fluid == getFlowing();
     }
 
     @Override
-    protected boolean isInfinite()
-    {
+    protected boolean isInfinite() {
         return false;
     }
 
     @Override
-    protected void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state)
-    {
+    protected void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state) {
         final BlockEntity blockEntity = state.getBlock().hasBlockEntity() ? world.getBlockEntity(pos) : null;
         Block.dropStacks(state, world.getWorld(), pos, blockEntity);
     }
 
     @Override
-    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction)
-    {
+    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
         return false;
     }
 
     @Override
-    protected int getFlowSpeed(WorldView worldView)
-    {
+    protected int getFlowSpeed(WorldView worldView) {
         return 3;
     }
 
     @Override
-    protected int getLevelDecreasePerBlock(WorldView worldView)
-    {
+    protected int getLevelDecreasePerBlock(WorldView worldView) {
         return 1;
     }
 
     @Override
-    public int getTickRate(WorldView worldView)
-    {
+    public int getTickRate(WorldView worldView) {
         return 15;
     }
 
     @Override
-    protected float getBlastResistance()
-    {
+    protected float getBlastResistance() {
         return 1000.0F;
     }
 }

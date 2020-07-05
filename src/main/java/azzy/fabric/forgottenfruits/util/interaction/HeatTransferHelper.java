@@ -1,7 +1,7 @@
 package azzy.fabric.forgottenfruits.util.interaction;
 
+import azzy.fabric.forgottenfruits.registry.BlockRegistry;
 import azzy.fabric.forgottenfruits.registry.CropRegistry;
-import azzy.fabric.forgottenfruits.registry.FluidRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
@@ -14,72 +14,71 @@ public class HeatTransferHelper {
 
     private static final HashMap<Block, HeatSource> heatMap = new HashMap<>();
 
-    public static void init(){
-        for(int i = 0; i < HeatSource.values().length; i++)
+    public static void init() {
+        for (int i = 0; i < HeatSource.values().length; i++)
             heatMap.put(HeatSource.values()[i].block, HeatSource.values()[i]);
     }
 
-    private static double calculateHeat(HeatMaterial medium, double bodyATemp, HeatSource bodyB){
+    private static double calculateHeat(HeatMaterial medium, double bodyATemp, HeatSource bodyB) {
         double transfer;
         transfer = medium.transfer * Math.pow(bodyB.size, 2) * (bodyATemp - bodyB.temp);
         return transfer;
     }
 
-    private static double calculateHeat(HeatMaterial medium, double bodyATemp, double bodyBTemp){
+    private static double calculateHeat(HeatMaterial medium, double bodyATemp, double bodyBTemp) {
         double transfer;
         transfer = medium.transfer * 0.75 * (bodyATemp - bodyBTemp);
         return transfer;
     }
 
-    public static <T extends HeatHolder> void simulateHeat(HeatMaterial medium, T bodyA, T bodyB){
+    public static <T extends HeatHolder> void simulateHeat(HeatMaterial medium, T bodyA, T bodyB) {
         double flux = calculateHeat(medium, bodyA.getHeat(), bodyB.getHeat());
         bodyA.moveHeat(-flux);
         bodyB.moveHeat(flux);
     }
 
-    public static <T extends HeatHolder> void simulateHeat(HeatMaterial medium, T bodyA, Block bodyB){
+    public static <T extends HeatHolder> void simulateHeat(HeatMaterial medium, T bodyA, Block bodyB) {
         HeatSource source = heatMap.get(bodyB);
         double flux = calculateHeat(medium, bodyA.getHeat(), source);
         flux = bodyA.getHeat() > source.temp ? -flux : flux;
         bodyA.moveHeat(-flux);
     }
 
-    public static boolean isHeatSource(Block body){
+    public static boolean isHeatSource(Block body) {
         return heatMap.containsKey(body);
     }
 
-    public static <T extends HeatHolder> double translateBiomeHeat(Biome biome){
-        if(biome.getCategory() == Biome.Category.NETHER){
+    public static double translateBiomeHeat(Biome biome) {
+        if (biome.getCategory() == Biome.Category.NETHER) {
             return (biome.getTemperature() + 2) * 31.25;
-        }
-        else if(biome.getCategory() == Biome.Category.THEEND){
-            return (biome.getTemperature() - 1.5 ) * 31.25;
-        }
-        else{
+        } else if (biome.getCategory() == Biome.Category.THEEND) {
+            return (biome.getTemperature() - 1.5) * 31.25;
+        } else {
             return biome.getTemperature() * 31.25;
         }
     }
 
-    public static <T extends HeatHolder> void simulateAmbientHeat(T bodyA, Biome biome){
+    public static <T extends HeatHolder> void simulateAmbientHeat(T bodyA, Biome biome) {
         double flux = calculateHeat(HeatMaterial.AIR, bodyA.getHeat(), translateBiomeHeat(biome));
         bodyA.moveHeat(-flux);
     }
 
-    public enum HeatMaterial{
-        AIR( 0.026 ),
+    public enum HeatMaterial {
+        AIR(0.026),
         IRON(52.0);
 
         private final double transfer;
-        private HeatMaterial(double transfer){
+
+        HeatMaterial(double transfer) {
             this.transfer = transfer;
         }
     }
 
-    public enum HeatSource{
+    public enum HeatSource {
         FIRE(800, Blocks.FIRE, 0.7),
         MAGMA(500, Blocks.MAGMA_BLOCK, 1),
         LAVA(1200, Blocks.LAVA, 1),
-        CINDER(400, FluidRegistry.CINDERJUICE, 1),
+        CINDER(400, BlockRegistry.CINDERMOTE_JUICE, 1),
         GLOWSTONE(200, Blocks.GLOWSTONE, 1),
         TORCH(700, Blocks.TORCH, 0.125),
         WALLTORCH(700, Blocks.WALL_TORCH, 0.125),
@@ -97,14 +96,15 @@ public class HeatTransferHelper {
         private final int temp;
         private final Block block;
         private final double size;
-        HeatSource(int temp, Block block, double size){
+
+        HeatSource(int temp, Block block, double size) {
             this.temp = temp;
             this.block = block;
             this.size = size;
         }
 
-        public HeatSource getSource(Block block){
-            if(heatMap.containsKey(block))
+        public HeatSource getSource(Block block) {
+            if (heatMap.containsKey(block))
                 return heatMap.get(block);
             return null;
         }

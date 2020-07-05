@@ -1,11 +1,11 @@
 package azzy.fabric.forgottenfruits.staticentities.blockentity;
 
-import static azzy.fabric.forgottenfruits.registry.BlockEntityRegistry.WOODPIPE_ENTITY;
+import static azzy.fabric.forgottenfruits.registry.BlockEntityRegistry.WOOD_PIPE;
 
 public class WoodPipeEntity extends MachineEntity {
 
     public WoodPipeEntity() {
-        super(WOODPIPE_ENTITY);
+        super(WOOD_PIPE);
     }
 
 }

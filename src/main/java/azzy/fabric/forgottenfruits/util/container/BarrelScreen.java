@@ -5,5 +5,7 @@ import io.github.cottonmc.cotton.gui.client.CottonInventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class BarrelScreen extends CottonInventoryScreen<BarrelController> {
-    public BarrelScreen(BarrelController container, PlayerEntity player) {super(container, player);}
+    public BarrelScreen(BarrelController container, PlayerEntity player) {
+        super(container, player);
+    }
 }

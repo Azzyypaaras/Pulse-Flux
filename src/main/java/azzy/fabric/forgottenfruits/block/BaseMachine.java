@@ -1,11 +1,10 @@
 package azzy.fabric.forgottenfruits.block;
 
-
 import alexiil.mc.lib.attributes.AttributeList;
 import alexiil.mc.lib.attributes.AttributeProvider;
 import azzy.fabric.forgottenfruits.staticentities.blockentity.MachineEntity;
-import net.fabricmc.fabric.api.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.tools.FabricToolTags;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -23,13 +22,13 @@ import net.minecraft.world.World;
 
 public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider, AttributeProvider {
 
-        protected VoxelShape bounds;
-        protected ParticleEffect[] effects;
-        public static final VoxelShape TOPDOWN = VoxelShapes.cuboid(1, 0, 1, 15, 16, 15);
-        public static final VoxelShape SIDES = VoxelShapes.cuboid(0, 1, 0, 16, 15, 16);
+    public static final VoxelShape TOPDOWN = VoxelShapes.cuboid(1, 0, 1, 15, 16, 15);
+    public static final VoxelShape SIDES = VoxelShapes.cuboid(0, 1, 0, 16, 15, 16);
+    protected final VoxelShape bounds;
+    protected final ParticleEffect[] effects;
 
-    public BaseMachine(Settings settings, Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect ... effects) {
-        super(FabricBlockSettings.of(material).breakByTool(FabricToolTags.AXES, 1).sounds(sound).nonOpaque().hardness(0.4f).lightLevel(glow).build());
+    public BaseMachine(Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
+        super(FabricBlockSettings.of(material).breakByTool(FabricToolTags.AXES, 1).sounds(sound).nonOpaque().hardness(0.4f).lightLevel(glow));
         this.bounds = bounds;
         this.effects = effects;
         setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
@@ -55,7 +54,7 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
 
     @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context){
+    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         return bounds;
     }
 

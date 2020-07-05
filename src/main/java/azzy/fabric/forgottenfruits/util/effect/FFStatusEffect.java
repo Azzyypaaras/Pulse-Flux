@@ -5,8 +5,8 @@ import net.minecraft.entity.effect.StatusEffectType;
 
 public class FFStatusEffect extends StatusEffect {
 
-    private boolean instant;
-    private boolean removable;
+    private final boolean instant;
+    private final boolean removable;
 
     public FFStatusEffect(StatusEffectType type, int color, boolean instant, boolean removable) {
         super(type, color);

@@ -9,25 +9,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
 
-public class CauldronRecipes extends RecipeTemplate {
-    public CauldronRecipes(){
+public class CauldronRecipes extends RecipeTemplate<FFCauldronRecipe> {
+    public CauldronRecipes() {
         Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.CAULDRON);
-        while(recipes.peek() != null) {
+        while (recipes.peek() != null) {
             Iterator<String> recipeBits = recipes.poll();
             try {
                 inject(recipeBits.next(), Registry.ITEM.get(new Identifier(recipeBits.next())), Registry.ITEM.get(new Identifier(recipeBits.next())), Integer.parseInt(recipeBits.next()), recipeBits.next());
-            }
-            catch (NoSuchElementException e){
+            } catch (NoSuchElementException e) {
                 FFLog.error("A CAULDRON RECIPE IS INVALID");
             }
         }
     }
 
-    private void inject(String id, Item brew, Item output, int amount, String rawInputs){
+    private void inject(String id, Item brew, Item output, int amount, String rawInputs) {
 
         String[] inputs = rawInputs.split("~");
         ItemStack[] items = new ItemStack[inputs.length];
@@ -35,6 +36,6 @@ public class CauldronRecipes extends RecipeTemplate {
             items[i] = new ItemStack(Registry.ITEM.get(new Identifier(inputs[i].trim())));
         }
 
-        RECIPES.put(serialize(items), new FFCauldronRecipe(RecipeRegistryKey.CAULDRON, id, brew, new ItemStack(output, amount), items));
+        recipes.put(serialize(items), new FFCauldronRecipe(RecipeRegistryKey.CAULDRON, id, brew, new ItemStack(output, amount), items));
     }
 }

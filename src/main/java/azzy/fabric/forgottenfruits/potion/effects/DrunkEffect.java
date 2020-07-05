@@ -19,15 +19,15 @@ public class DrunkEffect extends FFStatusEffect {
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         amplifier++;
 
-        if(entity.world.isClient() && entity instanceof PlayerEntity){
+        if (entity.world.isClient() && entity instanceof PlayerEntity) {
             Random random = new Random();
             PlayerEntity player = (PlayerEntity) entity;
-                if(player.world.getTime()%100/amplifier == 0 || (ClientInit.getCachedX() == 0 || ClientInit.getCachedY() == 0)){
-                    int x = random.nextInt(2) == 0 ? random.nextInt(4) * amplifier : -(random.nextInt(4) * amplifier);
-                    int y = random.nextInt(2) == 0 ? random.nextInt(2) * amplifier : -(random.nextInt(2) * amplifier);
-                    ClientInit.setCachedLook(x, y);
-                }
-            player.changeLookDirection(ClientInit.getCachedX()/1.5, ClientInit.getCachedY()/1.5);
+            if (player.world.getTime() % 100 / amplifier == 0 || (ClientInit.getCachedX() == 0 || ClientInit.getCachedY() == 0)) {
+                int x = random.nextInt(2) == 0 ? random.nextInt(4) * amplifier : -(random.nextInt(4) * amplifier);
+                int y = random.nextInt(2) == 0 ? random.nextInt(2) * amplifier : -(random.nextInt(2) * amplifier);
+                ClientInit.setCachedLook(x, y);
+            }
+            player.changeLookDirection(ClientInit.getCachedX() / 1.5, ClientInit.getCachedY() / 1.5);
         }
     }
 }

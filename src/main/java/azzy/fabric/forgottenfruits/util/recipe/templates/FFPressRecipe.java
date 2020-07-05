@@ -11,7 +11,7 @@ public class FFPressRecipe extends FFRecipe {
     final public Item byproduct;
     final public FluidVolume output;
 
-    public FFPressRecipe(RecipeRegistryKey type, String id, ItemStack input, Item byproduct, FluidVolume output){
+    public FFPressRecipe(RecipeRegistryKey type, String id, ItemStack input, Item byproduct, FluidVolume output) {
         super(type, id);
         this.input = input;
         this.byproduct = byproduct;

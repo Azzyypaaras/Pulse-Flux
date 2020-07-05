@@ -4,7 +4,10 @@ import azzy.fabric.forgottenfruits.registry.BlockRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.HoeItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.ToolItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -19,44 +22,39 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(HoeItem.class)
 public class HoeMixin {
 
-    public HoeMixin(){
+    public HoeMixin() {
     }
 
     @Inject(method = "useOnBlock", at = @At("HEAD"))
-    private void tillObsidian(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir){
+    private void tillObsidian(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         BlockPos pos = context.getBlockPos();
         Hand hand = context.getHand();
         ItemStack item = context.getStack();
         PlayerEntity player = context.getPlayer();
-            World mixinWorld = context.getWorld();
-            if(((ToolItem) item.getItem()).getMaterial().getMiningLevel() >= 3) {
-                if (mixinWorld.getBlockState(pos) == Blocks.OBSIDIAN.getDefaultState()) {
-                    mixinWorld.breakBlock(pos, false);
-                    mixinWorld.setBlockState(pos, BlockRegistry.NETHER_FARMLAND.getDefaultState());
-                    if (!mixinWorld.isClient) {
-                        mixinWorld.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f, mixinWorld.random.nextFloat() * 0.05f - 0.2f);
-                        if(!player.isCreative()) {
-                            item.damage(4, player, (e) -> {
-                                e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND);
-                            });
-                        }
-                    }
-                    if (mixinWorld.isClient)
-                        player.swingHand(hand);
-                }
-            }
-            else{
+        World mixinWorld = context.getWorld();
+        if (((ToolItem) item.getItem()).getMaterial().getMiningLevel() >= 3) {
+            if (mixinWorld.getBlockState(pos) == Blocks.OBSIDIAN.getDefaultState()) {
+                mixinWorld.breakBlock(pos, false);
+                mixinWorld.setBlockState(pos, BlockRegistry.NETHER_FARMLAND.getDefaultState());
                 if (!mixinWorld.isClient) {
-                    mixinWorld.playSound((PlayerEntity) null, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, SoundEvents.BLOCK_CHAIN_BREAK, SoundCategory.BLOCKS, 2f, 0.9f);
-                    if(!player.isCreative()) {
-                        item.damage(100, player, (e) -> {
-                            e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND);
-                        });
+                    mixinWorld.playSound(null, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f, mixinWorld.random.nextFloat() * 0.05f - 0.2f);
+                    if (!player.isCreative()) {
+                        item.damage(4, player, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
                     }
                 }
                 if (mixinWorld.isClient)
                     player.swingHand(hand);
             }
+        } else {
+            if (!mixinWorld.isClient) {
+                mixinWorld.playSound(null, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, SoundEvents.BLOCK_CHAIN_BREAK, SoundCategory.BLOCKS, 2f, 0.9f);
+                if (!player.isCreative()) {
+                    item.damage(100, player, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                }
+            }
+            if (mixinWorld.isClient)
+                player.swingHand(hand);
+        }
     }
 
 }

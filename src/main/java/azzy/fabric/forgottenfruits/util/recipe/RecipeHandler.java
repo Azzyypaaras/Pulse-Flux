@@ -1,21 +1,32 @@
 package azzy.fabric.forgottenfruits.util.recipe;
 
+import azzy.fabric.forgottenfruits.ForgottenFruits;
 import net.minecraft.block.entity.BlockEntity;
 
-public abstract class RecipeHandler<T> {
+public abstract class RecipeHandler<T extends FFRecipe, A> {
+    protected final RecipeRegistryKey id;
 
-    protected RecipeRegistryKey id;
-
-    public RecipeHandler(RecipeRegistryKey id){
+    public RecipeHandler(RecipeRegistryKey id) {
         this.id = id;
     }
 
-    public abstract FFRecipe search(T... args);
+    @SuppressWarnings("unchecked")
+    public final T search(Object[] args) {
+        @SuppressWarnings("unchecked") RecipeTemplate<T> template = (RecipeTemplate<T>) ForgottenFruits.REGISTERED_RECIPES.get(id).getRecipes();
+        String key = getKey((A[]) args);
+        if (template.recipes.containsKey(key))
+            if (valid(template.recipes.get(key)))
+                return template.recipes.get(key);
 
-    public abstract boolean matches(FFRecipe recipe, BlockEntity entity);
+        return null;
+    }
 
-    public abstract boolean valid(FFRecipe recipe);
+    @SuppressWarnings("unchecked")
+    public abstract String getKey(A... args);
 
-    public abstract void craft(FFRecipe recipe, BlockEntity entity);
+    public abstract boolean matches(T recipe, BlockEntity entity);
 
+    public abstract boolean valid(T recipe);
+
+    public abstract void craft(T recipe, BlockEntity entity);
 }

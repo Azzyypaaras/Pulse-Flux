@@ -16,41 +16,40 @@ import net.minecraft.world.explosion.Explosion;
 
 import java.util.List;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.MODID;
-import static azzy.fabric.forgottenfruits.ForgottenFruits.PLANTSTUFF;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.PLANT_STUFF;
 
 public class AmalgamItems extends Item {
 
-    public static final String AMALGAMS[] = new String[]{
+    public static final String[] AMALGAMS = new String[]{
             "cloudberry",
             "incandescent",
             "vompollolowm",
             "ambrosia"
     };
 
-    public String type;
+    public final String type;
 
-    public AmalgamItems(Item.Settings settings, String type){
+    public AmalgamItems(Item.Settings settings, String type) {
         super(settings);
         this.type = type;
     }
 
-    public String getJellyType(){
+    public String getJellyType() {
         return type;
     }
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if(type.equals("incandescent")){
+        if (type.equals("incandescent")) {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 600));
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200));
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 600, 2));
-            if(!world.isClient)
-                if(RANDOM.nextInt(5) == 0) {
+            if (!world.isClient)
+                if (RANDOM.nextInt(5) == 0) {
                     user.setHealth(0.1f);
                     user.world.createExplosion(null, DamageIncandescence.INCANDESCENCE, null, user.getX(), user.getY(), user.getZ(), 6f, false, Explosion.DestructionType.BREAK);
-                }
-                else
+                } else
                     user.setOnFireFor(5);
         }
         return this.isFood() ? user.eatFood(world, stack) : stack;
@@ -58,29 +57,28 @@ public class AmalgamItems extends Item {
 
     @Override
     public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
-        if(getJellyType().equals(AMALGAMS[0]))
+        if (getJellyType().equals(AMALGAMS[0]))
             tooltip.add(new TranslatableText("item.forgottenfruits." + AMALGAMS[0] + "_amalgam.tooltip"));
-        else if(getJellyType().equals(AMALGAMS[1]))
+        else if (getJellyType().equals(AMALGAMS[1]))
             tooltip.add(new TranslatableText("item.forgottenfruits." + AMALGAMS[1] + "_amalgam.tooltip"));
     }
 
 
+    public static class ConstructAmalgam {
 
-    public static class ConstructAmalgam{
+        private final Item jelly;
+        private final Identifier type;
 
-        private Item jelly;
-        private Identifier type;
-
-        public ConstructAmalgam(Rarity rarity, int loop){
-            jelly = new AmalgamItems(new Item.Settings().group(PLANTSTUFF).maxCount(32).rarity(rarity).food(FoodItems.FoodBackend(6, 1.0f, true)), AMALGAMS[loop]);
-            type = new Identifier(MODID, AMALGAMS[loop] + "_amalgam");
+        public ConstructAmalgam(Rarity rarity, int loop) {
+            jelly = new AmalgamItems(new Item.Settings().group(PLANT_STUFF).maxCount(32).rarity(rarity).food(FoodItems.FoodBackend(6, 1.0f, true)), AMALGAMS[loop]);
+            type = new Identifier(MOD_ID, AMALGAMS[loop] + "_amalgam");
         }
 
-        public Identifier getKey(){
+        public Identifier getKey() {
             return type;
         }
 
-        public Item getJelly(){
+        public Item getJelly() {
             return jelly;
         }
 

@@ -6,27 +6,25 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.*;
-import static azzy.fabric.forgottenfruits.registry.BlockRegistry.*;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 
 public class BlockEntityRegistry {
 
-    public static BlockEntityType<PressEntity> PRESS_ENTITY = BlockEntityType.Builder.create(PressEntity::new, PRESS_BLOCK).build(null);
-    public static BlockEntityType<BasketEntity> BASKET_ENTITY = BlockEntityType.Builder.create(BasketEntity::new, BASKET_BLOCK).build(null);
-    public static BlockEntityType<WoodPipeEntity> WOODPIPE_ENTITY = BlockEntityType.Builder.create(WoodPipeEntity::new, WOODPIPE_BLOCK).build(null);
-    public static BlockEntityType<BarrelEntity> BARREL_ENTITY = BlockEntityType.Builder.create(BarrelEntity::new, BARREL_BLOCK).build(null);
-    public static BlockEntityType<WitchCauldronEntity> WITCH_CAULDRON_ENTITY = BlockEntityType.Builder.create(WitchCauldronEntity::new, WITCH_CAULDRON_BLOCK).build(null);
-
+    public final static BlockEntityType<PressEntity> PRESS = BlockEntityType.Builder.create(PressEntity::new, BlockRegistry.PRESS).build(null);
+    public final static BlockEntityType<BasketEntity> BASKET = BlockEntityType.Builder.create(BasketEntity::new, BlockRegistry.BASKET).build(null);
+    public final static BlockEntityType<WoodPipeEntity> WOOD_PIPE = BlockEntityType.Builder.create(WoodPipeEntity::new, BlockRegistry.WOOD_PIPE).build(null);
+    public final static BlockEntityType<BarrelEntity> BARREL = BlockEntityType.Builder.create(BarrelEntity::new, BlockRegistry.BARREL).build(null);
+    public final static BlockEntityType<WitchCauldronEntity> WITCH_CAULDRON = BlockEntityType.Builder.create(WitchCauldronEntity::new, BlockRegistry.WITCH_CAULDRON).build(null);
 
     public static void register(BlockEntityType<? extends BlockEntity> blockEntityType, String name) {
-        Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, name+"_entity"), blockEntityType);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, name), blockEntityType);
     }
 
-    public static void init(){
-        register(PRESS_ENTITY, "press");
-        register(BASKET_ENTITY, "basket");
-        register(WOODPIPE_ENTITY, "woodpipe");
-        register(BARREL_ENTITY, "barrel");
-        register(WITCH_CAULDRON_ENTITY, "witch_cauldron");
+    public static void init() {
+        register(PRESS, "press");
+        register(BASKET, "basket");
+        register(WOOD_PIPE, "woodpipe");
+        register(BARREL, "barrel");
+        register(WITCH_CAULDRON, "witch_cauldron");
     }
 }

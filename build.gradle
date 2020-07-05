@@ -11,7 +11,7 @@ version = project.mod_version
 group = project.maven_group
 
 def libblockattributesver = "0.7.0"
-def libguiver = "2.0.1"
+def libguiver = "2.1.1"
 def clothconfver = "4.5.6"
 def autoconfver = "3.2.0-unstable"
 
@@ -99,7 +99,7 @@ tasks.withType(JavaCompile) {
 // if it is present.
 // If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
+	archiveClassifier = "sources"
 	from sourceSets.main.allSource
 }
 
