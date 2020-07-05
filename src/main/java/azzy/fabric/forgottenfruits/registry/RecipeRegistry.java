@@ -10,7 +10,7 @@ import azzy.fabric.forgottenfruits.util.recipe.programatic.FermentationHandler;
 
 public class RecipeRegistry {
 
-    public static void init(){
+    public static void init() {
         TrueRecipeRegistry.registerRecipeType(RecipeRegistryKey.PRESS, new PressRecipeHandler(RecipeRegistryKey.PRESS), new PressRecipes());
         TrueRecipeRegistry.registerRecipeType(RecipeRegistryKey.BARREL, new FermentationHandler(RecipeRegistryKey.BARREL), new BarrelRecipes());
         TrueRecipeRegistry.registerRecipeType(RecipeRegistryKey.CAULDRON, new CauldronRecipeHandler(RecipeRegistryKey.CAULDRON), new CauldronRecipes());

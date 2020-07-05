@@ -1,19 +1,24 @@
 package azzy.fabric.forgottenfruits.util.recipe;
 
-import blue.endless.jankson.*;
+import blue.endless.jankson.Jankson;
+import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.impl.Marshaller;
 import blue.endless.jankson.impl.SyntaxError;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.Version;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.stream.Stream;
 
-import static azzy.fabric.forgottenfruits.ForgottenFruits.*;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
+import static azzy.fabric.forgottenfruits.ForgottenFruits.config;
 
 //Oh yeah, war crime time
 public class JanksonRecipeParser {
@@ -66,39 +71,40 @@ public class JanksonRecipeParser {
 
     private static void downloadRecipeFilesIfRequired() {
         // Damn, this is a hard way to get the version number.
-        net.fabricmc.loader.api.metadata.ModMetadata modMetaData = FabricLoader.getInstance().getModContainer("forgottenfruits").get().getMetadata();
-        net.fabricmc.loader.api.Version version = modMetaData.getVersion();
-        String versionStr = version.getFriendlyString();
+        FabricLoader.getInstance().getModContainer("forgottenfruits").ifPresent(container -> {
+            Version version = container.getMetadata().getVersion();
+            String versionStr = version.getFriendlyString();
 
-        URL configPath = null;
-        try {
-            configPath = new URL(BASE_URL);
-        } catch (MalformedURLException e) {
-            FFLog.error("Error accessing config files for download from URL: '" + BASE_URL + "'.");
-        }
+            URL configPath = null;
+            try {
+                configPath = new URL(BASE_URL);
+            } catch (MalformedURLException e) {
+                FFLog.error("Error accessing config files for download from URL: '" + BASE_URL + "'.");
+            }
 
-        for (String configFile : configFiles) {
-            File targetFile = new File(recipes, configFile);
+            for (String configFile : configFiles) {
+                File targetFile = new File(recipes, configFile);
 
-            // If the file doesn't exist OR regen is on, download it from the correct version in github.
-            if (config.isRegen() || !targetFile.exists())
-                try {
-                    FileUtils.copyURLToFile(new URL(configPath, versionStr + "/" + configFile), targetFile);
-                } catch (IOException e) {
-                    FFLog.error("Error accessing config file: '" + BASE_URL + "' for version '" + versionStr + "' of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.  Attempting to access default config files.", e);
+                // If the file doesn't exist OR regen is on, download it from the correct version in github.
+                if (config.isRegen() || !targetFile.exists())
                     try {
-                        configPath = new URL(BASE_URL);
-                        FileUtils.copyURLToFile(new URL(configPath, "BASE/" + configFile), targetFile);
-                    } catch (IOException ioException) {
-                        FFLog.error("Error accessing config file: '" + BASE_URL + "' for ANY version of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.", e);
+                        FileUtils.copyURLToFile(new URL(configPath, versionStr + "/" + configFile), targetFile);
+                    } catch (IOException e) {
+                        FFLog.error("Error accessing config file: '" + BASE_URL + "' for version '" + versionStr + "' of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.  Attempting to access default config files.", e);
+                        try {
+                            configPath = new URL(BASE_URL);
+                            FileUtils.copyURLToFile(new URL(configPath, "BASE/" + configFile), targetFile);
+                        } catch (IOException ioException) {
+                            FFLog.error("Error accessing config file: '" + BASE_URL + "' for ANY version of mod 'Forgotten Fruits'.  Please report to the mod-author at https://github.com/Dragonoidzero/Forgotten-Fruits/issues with this message and stack trace.", e);
+                        }
                     }
-                }
-        }
+            }
+        });
     }
 
     public static Queue<Iterator<String>> getRecipeQueue(RecipeRegistryKey key) {
         Stream<File> jsons = Stream.of(recipes.listFiles());
-        Queue recipes = new LinkedList();
+        Queue<Iterator<String>> recipes = new LinkedList<>();
         jsons = jsons.filter(e -> e.getName().endsWith(".json5"));
         jsons = jsons.filter(e -> {
             try {
@@ -111,15 +117,12 @@ public class JanksonRecipeParser {
         });
         jsons.forEach(e -> {
             try {
-                JsonObject entry = recipeLoader.load(e);
-                String arr = entry.get(String.class, "recipes");
-                Stream<String> rawStrings = Stream.of(arr.replace("[", "").replace("]", "").trim().split(","));
-                rawStrings.forEach(a -> {
-                    Queue out = new LinkedList();
-                    for (Object o : new LinkedList(Arrays.asList(a.replace("\"", "").split(";"))))
+                for (String a : recipeLoader.load(e).get(String.class, "recipes").replace("[", "").replace("]", "").trim().split(",")) {
+                    Queue<String> out = new LinkedList<>();
+                    for (Object o : a.replace("\"", "").split(";"))
                         out.offer(((String) o).trim());
                     recipes.offer(out.iterator());
-                });
+                }
             } catch (IOException | SyntaxError ex) {
                 ex.printStackTrace();
             }
@@ -127,7 +130,8 @@ public class JanksonRecipeParser {
         return recipes;
     }
 
-    private static boolean dataCheck(JsonObject json) {
+    //Removed unused stuff
+/*    private static boolean dataCheck(JsonObject json) {
         Optional<JsonElement> type = Optional.ofNullable(json.get("type"));
         Optional<JsonElement> enabled = Optional.ofNullable(json.get("enabled"));
         Optional<JsonElement> recipes = Optional.ofNullable(json.get("recipes"));
@@ -136,7 +140,5 @@ public class JanksonRecipeParser {
 
     public static Jankson getRecipeLoader() {
         return recipeLoader;
-    }
-
-
+    }*/
 }

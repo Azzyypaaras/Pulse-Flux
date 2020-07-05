@@ -9,11 +9,11 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -29,22 +29,21 @@ public class FluidRenderRegistry {
         Identifier stillTexture = new Identifier(texture.getNamespace(), "block/" + texture.getPath() + "_still");
         Identifier flowTexture = new Identifier(texture.getNamespace(), "block/" + texture.getPath() + "_flow");
 
-        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX).register((atlas, registry) -> {
+        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlas, registry) -> {
             registry.register(stillTexture);
             registry.register(flowTexture);
         });
 
         Identifier fluidId = Registry.FLUID.getId(still);
         Identifier listenerId = new Identifier(fluidId.getNamespace(), fluidId.getPath() + "_reload_listener");
-        Sprite[] sprites = { null, null };
+        Sprite[] sprites = {null, null};
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES)
                 .registerReloadListener(new SimpleSynchronousResourceReloadListener() {
 
                     @Override
                     public void apply(ResourceManager manager) {
-                        Function<Identifier, Sprite> atlas = MinecraftClient.getInstance()
-                                .getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
+                        Function<Identifier, Sprite> atlas = MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
                         sprites[0] = atlas.apply(stillTexture);
                         sprites[1] = atlas.apply(flowTexture);
                     }

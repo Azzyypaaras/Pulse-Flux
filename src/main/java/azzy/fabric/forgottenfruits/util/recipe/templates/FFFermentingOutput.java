@@ -14,7 +14,6 @@ public class FFFermentingOutput extends FFRecipe {
     final public int idealHeight, idealLight;
     final public double idealTemp, alcoholContent, quality;
 
-
     public FFFermentingOutput(RecipeRegistryKey type, String id, String out, String fluidIn, int baseColor, double quality, int idealHeight, int idealLight, double idealTemp, double alcoholContent) {
         super(type, id);
         this.fluidIn = Registry.FLUID.get(new Identifier(fluidIn));

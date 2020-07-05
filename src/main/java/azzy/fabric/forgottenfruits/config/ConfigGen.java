@@ -9,10 +9,10 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
 public class ConfigGen implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip(count = 3)
-    private boolean regen = false;
+    private final boolean regen = false;
 
     @ConfigEntry.Gui.Tooltip
-    private boolean debug = false;
+    private final boolean debug = false;
 
     public boolean isRegen() {
         return regen;

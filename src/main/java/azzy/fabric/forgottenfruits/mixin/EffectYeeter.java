@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.Shadow;
 public class EffectYeeter implements EffectGetter {
 
     @Shadow
-    protected void onStatusEffectRemoved(StatusEffectInstance effect) { }
+    protected void onStatusEffectRemoved(StatusEffectInstance effect) {
+    }
 
     @Override
     public void removeStatusEffect(StatusEffectInstance effect) {

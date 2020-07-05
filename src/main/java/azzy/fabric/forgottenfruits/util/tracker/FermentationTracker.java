@@ -1,5 +1,6 @@
 package azzy.fabric.forgottenfruits.util.tracker;
 
+import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import azzy.fabric.forgottenfruits.staticentities.blockentity.BarrelEntity;
 import azzy.fabric.forgottenfruits.util.recipe.templates.FFFermentingOutput;
@@ -26,17 +27,17 @@ public class FermentationTracker {
     private boolean active, hasSkyAccess, hasMetadata = false;
     private BrewMetadata brewMetadata;
 
-    private FermentationTracker(BarrelEntity entity){
+    private FermentationTracker(BarrelEntity entity) {
         fermenter = entity;
         active = false;
         height = fermenter.getPos().getY();
     }
 
-    public static FermentationTracker initiate(BarrelEntity entity){
+    public static FermentationTracker initiate(BarrelEntity entity) {
         return new FermentationTracker(entity);
     }
 
-    public void start(FFFermentingOutput recipe){
+    public void start(FFFermentingOutput recipe) {
         active = true;
         hasMetadata = false;
         brewMetadata = null;
@@ -56,12 +57,12 @@ public class FermentationTracker {
 
         time = 0;
         minTime = 72000;
-        minTime = (int) ((minTime / (fermenter.fluidInv.getMaxAmount_F(0).as1620() / liquid))*1.5);
-        if(minTime > 800 && config.isDebug())
+        minTime = (int) ((minTime / (fermenter.fluidInv.getMaxAmount_F(0).as1620() / liquid)) * 1.5);
+        if (minTime > 800 && config.isDebug())
             minTime = 800;
     }
 
-    public boolean canOutput(){
+    public boolean canOutput() {
         return hasMetadata;
     }
 
@@ -69,14 +70,14 @@ public class FermentationTracker {
         return cachedColor;
     }
 
-    private void fetchInWorldStatus(){
+    private void fetchInWorldStatus() {
         light = fermenter.getWorld().getLightLevel(fermenter.getPos());
         temp = fermenter.getWorld().getBiome(fermenter.getPos()).getTemperature();
         height = fermenter.getPos().getY();
         BlockPos pos = new BlockPos(fermenter.getPos().getX(), fermenter.getWorld().getHeight(), fermenter.getPos().getZ());
 
-        while(pos.getY() > fermenter.getPos().getY()){
-            if(fermenter.getWorld().getBlockState(pos) != Blocks.AIR.getDefaultState()){
+        while (pos.getY() > fermenter.getPos().getY()) {
+            if (fermenter.getWorld().getBlockState(pos) != Blocks.AIR.getDefaultState()) {
                 hasSkyAccess = false;
                 return;
             }
@@ -84,143 +85,136 @@ public class FermentationTracker {
         hasSkyAccess = true;
     }
 
-    public void tick(){
-        if((time >= minTime && active) || hasMetadata){
-            if(!hasMetadata){
+    public void tick() {
+        if ((time >= minTime && active) || hasMetadata) {
+            if (!hasMetadata) {
                 hasMetadata = true;
                 active = false;
             }
-            if(fermenter.fluidInv.getTank(0).get().isEmpty() && hasMetadata) {
+            if (fermenter.fluidInv.getTank(0).get().isEmpty() && hasMetadata) {
                 restart();
                 return;
             }
             outputMetadata();
         }
-        if(!active){
+        if (!active) {
             age++;
             return;
-        }
-        else{
+        } else {
             time++;
             age++;
         }
-        if(liquid != fermenter.fluidInv.getTank(0).get().getAmount_F().as1620()){
+        if (liquid != fermenter.fluidInv.getTank(0).get().getAmount_F().as1620()) {
             cancel();
         }
-        if(time%100==0){
+        if (time % 100 == 0) {
             fetchInWorldStatus();
             calculateTargetQuality();
-            if(!fermenter.getWorld().isClient && config.isDebug())
-                FFLog.info("Light "+light+", MinTime "+minTime+", Quality "+quality+", Time "+time+", Target Quality"+targetQuality+", Current Temperature "+appliedTemp);
+            if (!fermenter.getWorld().isClient && config.isDebug())
+                FFLog.info("Light " + light + ", MinTime " + minTime + ", Quality " + quality + ", Time " + time + ", Target Quality" + targetQuality + ", Current Temperature " + appliedTemp);
 
         }
         calculateQuality();
     }
 
-    private void restart(){
+    private void restart() {
         cancel();
         time = 0;
         hasMetadata = false;
         brewMetadata = null;
     }
 
-    private void outputMetadata(){
-        if(brewMetadata == null){
-            brewMetadata = new BrewMetadata(true, false, quality, purity, content, cachedColor);
+    private void outputMetadata() {
+        if (brewMetadata == null) {
+            brewMetadata = new BrewMetadata(true, false, quality, purity, content);
         }
         ItemStack input = fermenter.inventory.get(0);
         ItemStack output = fermenter.inventory.get(2);
         FluidVolume tank = fermenter.fluidInv.getInvFluid(0);
-        if(!input.isEmpty() && output.getCount() < 16 && input.getItem() == Items.GLASS_BOTTLE && tank.getAmount_F().as1620() >= 1){
+        if (!input.isEmpty() && output.getCount() < 16 && input.getItem() == Items.GLASS_BOTTLE && tank.getAmount_F().as1620() >= 1) {
             FFFermentingOutput recipe = fermenter.lookUp(Registry.FLUID.getId(tank.getRawFluid()).toString());
             String out = recipe.out;
             Item item = Registry.ITEM.get(new Identifier(out));
-            if(output.isEmpty()){
+            if (output.isEmpty()) {
                 input.decrement(1);
                 fermenter.inventory.set(2, new ItemStack(item, 1));
                 fermenter.inventory.get(2).putSubTag("brewmetadata", brewMetadata.toTag());
-                fermenter.fluidInv.getTank(0).extract(FluidVolume.BUCKET);
-            }
-            else if(output.getItem() == item) {
+                fermenter.fluidInv.getTank(0).extract(FluidAmount.BUCKET);
+            } else if (output.getItem() == item) {
                 input.decrement(1);
                 fermenter.inventory.get(2).increment(1);
-                fermenter.fluidInv.getTank(0).extract(FluidVolume.BUCKET);
+                fermenter.fluidInv.getTank(0).extract(FluidAmount.BUCKET);
             }
         }
     }
 
-    private void calculateTargetQuality(){
+    private void calculateTargetQuality() {
         targetQuality = baseQuality;
         double tempDif = Math.abs(idealTemp - getAppliedTemp()), heightDif = Math.abs(idealHeight - height), lightDif = Math.abs(idealLight - light);
-        if(tempDif < 0.3){
-            targetQuality += Math.abs(tempDif-0.3);
+        if (tempDif < 0.3) {
+            targetQuality += Math.abs(tempDif - 0.3);
+        } else if (tempDif > 0.6) {
+            targetQuality -= (tempDif - 0.6) / 2;
         }
-        else if(tempDif > 0.6){
-            targetQuality -= (tempDif-0.6)/2;
-        }
-        if(idealHeight != -1){
-            if(heightDif < 10){
-                targetQuality += Math.abs(heightDif-10)/100.0;
-            }
-            else if(heightDif > 40){
+        if (idealHeight != -1) {
+            if (heightDif < 10) {
+                targetQuality += Math.abs(heightDif - 10) / 100.0;
+            } else if (heightDif > 40) {
                 targetQuality -= Math.min((heightDif - 40) / 400.0, 0.2);
             }
         }
-        if(idealLight != -1){
-            if(lightDif < 4){
-                targetQuality += Math.abs(lightDif-4)/40;
-            }
-            else if(lightDif > 10){
-                targetQuality -= Math.min((lightDif-10)/40, 0.1);
+        if (idealLight != -1) {
+            if (lightDif < 4) {
+                targetQuality += Math.abs(lightDif - 4) / 40;
+            } else if (lightDif > 10) {
+                targetQuality -= Math.min((lightDif - 10) / 40, 0.1);
             }
         }
         targetQuality = Math.min(targetQuality, 1);
         targetQuality = Math.max(targetQuality, 0.05);
     }
 
-    private double getAppliedTemp(){
+    private double getAppliedTemp() {
         World world = fermenter.getWorld();
         Biome biome = world.getBiome(fermenter.getPos());
         appliedTemp = temp;
-        appliedTemp += light/100.0;
+        appliedTemp += light / 100.0;
 
-        if(height < 64){
-            appliedTemp += Math.pow(Math.abs(height-64)/120.0, 2);
-        }
-        else if(height >= 100){
-            appliedTemp -= Math.pow((height-100)/150.0, 2);
+        if (height < 64) {
+            appliedTemp += Math.pow(Math.abs(height - 64) / 120.0, 2);
+        } else if (height >= 100) {
+            appliedTemp -= Math.pow((height - 100) / 150.0, 2);
         }
 
-        if(hasSkyAccess && world.isRaining() && biome.getTemperatureGroup() != Biome.TemperatureGroup.WARM){
-            if(biome.getTemperature() > 0)
+        if (hasSkyAccess && world.isRaining() && biome.getTemperatureGroup() != Biome.TemperatureGroup.WARM) {
+            if (biome.getTemperature() > 0)
                 appliedTemp -= 0.05;
             else
                 appliedTemp -= 0.2;
         }
 
-        if(biome.getCategory() == Biome.Category.NETHER)
+        if (biome.getCategory() == Biome.Category.NETHER)
             appliedTemp += 1;
-        else if(biome.getCategory() == (Biome.Category.THEEND))
+        else if (biome.getCategory() == (Biome.Category.THEEND))
             appliedTemp -= 1;
 
         return appliedTemp;
     }
 
-    private void calculateQuality(){
+    private void calculateQuality() {
         double qualDif = Math.abs(targetQuality - quality);
-        if(qualDif < 0.001){
+        if (qualDif < 0.001) {
             quality = targetQuality;
             return;
         }
-        if(quality > targetQuality){
-            quality -= qualDif/2000;
-        }
-        else if(quality < targetQuality){
-            quality += qualDif/2000;
+        if (quality > targetQuality) {
+            quality -= qualDif / 2000;
+        } else if (quality < targetQuality) {
+            quality += qualDif / 2000;
         }
     }
 
-    public void cancel(){
+    public void cancel() {
         active = false;
     }
 
@@ -228,7 +222,7 @@ public class FermentationTracker {
         return active;
     }
 
-    public void toTag(CompoundTag compoundTag){
+    public void toTag(CompoundTag compoundTag) {
         CompoundTag tag = new CompoundTag();
         tag.putDouble("quality", quality);
         tag.putDouble("content", content);
@@ -247,7 +241,7 @@ public class FermentationTracker {
         compoundTag.put("tracker", tag);
     }
 
-    public void fromTag(CompoundTag compoundTag, BarrelEntity entity){
+    public void fromTag(CompoundTag compoundTag, BarrelEntity entity) {
         CompoundTag tag = compoundTag.getCompound("tracker");
         fermenter = entity;
         quality = tag.getDouble("quality");

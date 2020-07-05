@@ -7,13 +7,11 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.NetherWartBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.util.Iterator;
 import java.util.Random;
 
 public class CindermoteFeature extends Feature<DefaultFeatureConfig> {

@@ -1,17 +1,11 @@
 package azzy.fabric.forgottenfruits.render.particle;
 
-import azzy.fabric.forgottenfruits.ForgottenFruits;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.util.Identifier;
-
-import java.util.Random;
 
 public class CauldronParticle extends SpriteBillboardParticle {
 
@@ -22,7 +16,7 @@ public class CauldronParticle extends SpriteBillboardParticle {
         this.velocityX = d * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
         this.velocityY = e * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
         this.velocityZ = f * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
-        this.maxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
+        this.maxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
     }
 
     public void tick() {
@@ -46,23 +40,11 @@ public class CauldronParticle extends SpriteBillboardParticle {
 
     @Environment(EnvType.CLIENT)
     public static class Factory implements ParticleFactory<DefaultParticleType> {
-        public final SpriteProvider spriteProvider = new SpriteProvider() {
-            private Sprite sprite;
+        private final SpriteProvider spriteProvider;
 
-            @Override
-            public Sprite getSprite(int i, int j) {
-                return getSprite();
-            }
-
-            @Override
-            public Sprite getSprite(Random random) {
-                return getSprite();
-            }
-
-            private Sprite getSprite() {
-                return sprite == null ? sprite = MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(new Identifier(ForgottenFruits.MOD_ID, "particle/bubble")) : sprite;
-            }
-        };
+        public Factory(FabricSpriteProvider provider) {
+            this.spriteProvider = provider;
+        }
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
             CauldronParticle particle = new CauldronParticle(clientWorld, d, e, f, g, h, i);

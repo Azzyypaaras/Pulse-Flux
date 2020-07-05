@@ -22,7 +22,7 @@ import static azzy.fabric.forgottenfruits.registry.CropRegistry.CLOUDBERRY_WILD;
 
 public class GeneratedRegistry {
 
-    public static Feature<DefaultFeatureConfig> register(String name, PlantGen item){
+    public static Feature<DefaultFeatureConfig> register(String name, PlantGen item) {
         Registry.register(Registry.FEATURE, new Identifier(MOD_ID, name), item);
         return item;
     }
@@ -35,7 +35,7 @@ public class GeneratedRegistry {
 
     BlockPileFeatureConfig CINDERMOTES = new BlockPileFeatureConfig(new SimpleBlockStateProvider(CropRegistry.CINDERMOTE_WILD.getDefaultState()));
 
-    public static void init(){
+    public static void init() {
         Biomes.TAIGA.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.RANDOM_PATCH.configure(new RandomPatchFeatureConfig.Builder(new WeightedBlockStateProvider().addState(CLOUDBERRY_WILD.getDefaultState(), 1), new SimpleBlockPlacer()).tries(30).spreadX(4).spreadZ(4).build()).createDecoratedFeature(Decorator.COUNT_CHANCE_HEIGHTMAP_DOUBLE.configure(new CountChanceDecoratorConfig(1, 0.075f))));
         Biomes.NETHER_WASTES.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, CINDERMOTE_FIELD.configure(new DefaultFeatureConfig()).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new ChanceDecoratorConfig(50))));
     }

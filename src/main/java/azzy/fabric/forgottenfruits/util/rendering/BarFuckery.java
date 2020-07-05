@@ -23,24 +23,16 @@ public class BarFuckery extends WBar {
     public BarFuckery(Identifier bg, int color, int field, int maxfield, WBar.Direction dir, BarType type, Identifier special) {
         super(bg, new Identifier("thonk"), field, maxfield, dir);
         this.color = color;
-        if(type == BarType.FRUIT)
+        if (type == BarType.FRUIT)
             this.bar = new Identifier(MOD_ID, "textures/gui/bars/juicebase.png");
-        else if(type == BarType.GENERIC)
+        else if (type == BarType.GENERIC)
             this.bar = special;
         else
             this.bar = null;
     }
 
-    public enum BarType{
-        FRUIT,
-        GENERIC,
-        INCANDESCENT,
-        ESSENCE,
-        SPECIAL;
-    }
-
     @Environment(EnvType.CLIENT)
-    public static void drawShit(int x, int y, int width, int height, Identifier texture, float u1, float v1, float u2, float v2, int color){
+    public static void drawShit(int x, int y, int width, int height, Identifier texture, float u1, float v1, float u2, float v2, int color) {
         MinecraftClient.getInstance().getTextureManager().bindTexture(texture);
         if (width <= 0) {
             width = 1;
@@ -50,19 +42,18 @@ public class BarFuckery extends WBar {
             height = 1;
         }
 
-        float r = (float)(color >> 16 & 255) / 255.0F;
-        float g = (float)(color >> 8 & 255) / 255.0F;
-        float b = (float)(color & 255) / 255.0F;
+        float r = (float) (color >> 16 & 255) / 255.0F;
+        float g = (float) (color >> 8 & 255) / 255.0F;
+        float b = (float) (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
-        RenderSystem.color4f(r, g, b, 1.0F);
-        buffer.begin(7, VertexFormats.POSITION_TEXTURE);
-        buffer.vertex((double)x, (double)(y + height), 0.0D).texture(u1, v2).next();
-        buffer.vertex((double)(x + width), (double)(y + height), 0.0D).texture(u2, v2).next();
-        buffer.vertex((double)(x + width), (double)y, 0.0D).texture(u2, v1).next();
-        buffer.vertex((double)x, (double)y, 0.0D).texture(u1, v1).next();
+        buffer.begin(7, VertexFormats.POSITION_COLOR_TEXTURE);
+        buffer.vertex(x, y + height, 0.0D).color(r, g, b, 1.0F).texture(u1, v2).next();
+        buffer.vertex(x + width, y + height, 0.0D).color(r, g, b, 1.0F).texture(u2, v2).next();
+        buffer.vertex(x + width, y, 0.0D).color(r, g, b, 1.0F).texture(u2, v1).next();
+        buffer.vertex(x, y, 0.0D).color(r, g, b, 1.0F).texture(u1, v1).next();
         tessellator.draw();
         RenderSystem.disableBlend();
     }
@@ -75,7 +66,7 @@ public class BarFuckery extends WBar {
             ScreenDrawing.coloredRect(x, y, this.getWidth(), this.getHeight(), ScreenDrawing.colorAtOpacity(0, 0.25F));
         }
 
-        float percent = (float)this.properties.get(this.field) / (float)this.properties.get(this.max);
+        float percent = (float) this.properties.get(this.field) / (float) this.properties.get(this.max);
         if (percent < 0.0F) {
             percent = 0.0F;
         }
@@ -89,10 +80,10 @@ public class BarFuckery extends WBar {
             barMax = this.getHeight();
         }
 
-        percent = (float)((int)(percent * (float)barMax)) / (float)barMax;
-        int barSize = (int)((float)barMax * percent);
+        percent = (float) ((int) (percent * (float) barMax)) / (float) barMax;
+        int barSize = (int) ((float) barMax * percent);
         if (barSize > 0) {
-            switch(this.direction) {
+            switch (this.direction) {
                 case UP:
                     int top = y + this.getHeight();
                     top -= barSize;
@@ -127,5 +118,13 @@ public class BarFuckery extends WBar {
             }
 
         }
+    }
+
+    public enum BarType {
+        FRUIT,
+        GENERIC,
+        INCANDESCENT,
+        ESSENCE,
+        SPECIAL
     }
 }

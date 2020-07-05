@@ -3,6 +3,7 @@ package azzy.fabric.forgottenfruits.staticentities.blockentity;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import azzy.fabric.forgottenfruits.util.InventoryWrapper;
+import azzy.fabric.forgottenfruits.util.recipe.FFRecipe;
 import azzy.fabric.forgottenfruits.util.recipe.RecipeHandler;
 import azzy.fabric.forgottenfruits.util.recipe.RecipeRegistryKey;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
@@ -41,17 +42,27 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     protected int progress = 0;
     protected String technicalState = "default";
 
-    public MachineEntity(BlockEntityType<? extends MachineEntity> entityType){
-        super(entityType);
-        fluidInv = new SimpleFixedFluidInv(0, new FluidAmount(0));
-    }
+    final PropertyDelegate tankHolder = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            return 0;
+        }
+
+        @Override
+        public void set(int index, int value) {
+        }
+
+        @Override
+        public int size() {
+            return 0;
+        }
+    };
 
     //ALSO OVERRIDE THIS
 
-    @Override
-    public void tick(){
-        if(!world.isClient)
-            sync();
+    public MachineEntity(BlockEntityType<? extends MachineEntity> entityType) {
+        super(entityType);
+        fluidInv = new SimpleFixedFluidInv(0, new FluidAmount(0));
     }
 
     @Override
@@ -64,22 +75,9 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        super.toTag(tag);
-
-        //Inventory nbt
-        Inventories.toTag(tag, inventory);
-
-        //Fluid nbt
-        tag.put("fluid", fluidInv.toTag());
-
-        //State nbt
-        if(isActive || technicalState != "default"){
-            tag.putInt("progress", progress);
-            tag.putBoolean("active", isActive);
-            tag.putString("state", technicalState);
-        }
-        return tag;
+    public void tick() {
+        if (!world.isClient)
+            sync();
     }
 
     @Override
@@ -101,11 +99,6 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
-    }
-
-    @Override
     public boolean canInsert(int slot, ItemStack stack, Direction direction) {
         return direction == Direction.UP;
     }
@@ -115,38 +108,29 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         return direction == Direction.DOWN;
     }
 
-    public RecipeHandler getRecipeHandler(RecipeRegistryKey id){
-        if (REGISTERED_RECIPES.containsKey(id)){
-            return REGISTERED_RECIPES.get(id).getHandler();
+    @Override
+    public CompoundTag toTag(CompoundTag tag) {
+        super.toTag(tag);
+
+        //Inventory nbt
+        Inventories.toTag(tag, inventory);
+
+        //Fluid nbt
+        tag.put("fluid", fluidInv.toTag());
+
+        //State nbt
+        if (isActive || !technicalState.equals("default")) {
+            tag.putInt("progress", progress);
+            tag.putBoolean("active", isActive);
+            tag.putString("state", technicalState);
         }
-        else{
-            return null;
-        }
+        return tag;
     }
 
-    PropertyDelegate tankHolder = new PropertyDelegate() {
-        @Override
-        public int get(int index) {
-            switch(index){
-                case 0:
-                    return 0;
-            }
-            return 0;
-        }
-
-        @Override
-        public void set(int index, int value) {
-            switch(index) {
-                case 0:
-                    break;
-            }
-        }
-
-        @Override
-        public int size() {
-            return 0;
-        }
-    };
+    @SuppressWarnings("unchecked")
+    public <T extends FFRecipe> RecipeHandler<T, ?> getRecipeHandler(RecipeRegistryKey id) {
+        return REGISTERED_RECIPES.containsKey(id) ? (RecipeHandler<T, ?>) REGISTERED_RECIPES.get(id).getHandler() : null;
+    }
 
     @Override
     public PropertyDelegate getPropertyDelegate() {

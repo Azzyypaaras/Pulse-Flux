@@ -8,11 +8,13 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
 public class WitchCauldronEntityRenderer extends BlockEntityRenderer<WitchCauldronEntity> {
+
+    public static final Identifier WATER_STILL = new Identifier("block/water_still");
 
     public WitchCauldronEntityRenderer(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);
@@ -20,14 +22,15 @@ public class WitchCauldronEntityRenderer extends BlockEntityRenderer<WitchCauldr
 
     @Override
     public void render(WitchCauldronEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        if(entity.hasMetadata()) {
-            int color = entity.getCachedColor();
+        if (entity.getMetadata() != null) {
+            int color = entity.getTracker().getColor();
             int r = color >> 16 & 0xFF;
             int b = color >> 8 & 0xFF;
             int g = color & 0xFF;
 
-            MinecraftClient.getInstance().getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
-            Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEX).apply(new Identifier("minecraft:block/water_still"));
+            MinecraftClient mc = MinecraftClient.getInstance();
+            mc.getTextureManager().bindTexture(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
+            Sprite sprite = mc.getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(WATER_STILL);
 
             matrices.push();
             matrices.translate(0, 0.6, 0);
