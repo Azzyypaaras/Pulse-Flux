@@ -19,7 +19,8 @@ import static azzy.fabric.forgottenfruits.ForgottenFruits.config;
 
 public class PressRecipes extends RecipeTemplate<FFPressRecipe> {
     public PressRecipes() {
-        Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.PRESS);
+//        Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.PRESS);
+        Queue<Iterator<String>> recipes = null;
         while (recipes.peek() != null) {
             Iterator<String> recipeBits = recipes.poll();
             try {

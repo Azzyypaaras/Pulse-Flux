@@ -17,7 +17,8 @@ import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
 
 public class CauldronRecipes extends RecipeTemplate<FFCauldronRecipe> {
     public CauldronRecipes() {
-        Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.CAULDRON);
+//        Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.CAULDRON);
+        Queue<Iterator<String>> recipes = null;
         while (recipes.peek() != null) {
             Iterator<String> recipeBits = recipes.poll();
             try {

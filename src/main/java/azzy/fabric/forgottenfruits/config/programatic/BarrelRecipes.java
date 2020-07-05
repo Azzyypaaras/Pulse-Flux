@@ -13,7 +13,8 @@ import static azzy.fabric.forgottenfruits.ForgottenFruits.FFLog;
 
 public class BarrelRecipes extends RecipeTemplate<FFFermentingOutput> {
     public BarrelRecipes() {
-        Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.BARREL);
+//        Queue<Iterator<String>> recipes = JanksonRecipeParser.getRecipeQueue(RecipeRegistryKey.BARREL);
+        Queue<Iterator<String>> recipes = null;
         while (recipes.peek() != null) {
             Iterator<String> recipeBits = recipes.poll();
             try {
