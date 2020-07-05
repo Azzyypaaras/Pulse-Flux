@@ -11,7 +11,7 @@ version = project.mod_version
 group = project.maven_group
 
 def libblockattributesver = "0.7.0"
-def libguiver = "2.0.1"
+def libguiver = "2.1.1"
 def clothconfver = "4.5.6"
 def autoconfver = "3.2.0-unstable"
 def jankver = "3.0.0+j1.2.0"
@@ -60,7 +60,7 @@ dependencies {
 	modApi "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
 
 	include "alexiil.mc.lib:libblockattributes-all:"+libblockattributesver
-	include "io.github.cottonmc:LibGui:"+libguiver+"+2.1.1"
+	include "io.github.cottonmc:LibGui:"+libguiver+"+1.16.1"
 	include "me.shedaniel.cloth:config-2:"+clothconfver
 	include "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
 
