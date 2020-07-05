@@ -18,7 +18,7 @@ import net.minecraft.world.explosion.Explosion;
 
 public class CindermoteBlock extends PlantBase {
 
-    public CindermoteBlock(String type, int stages, Material material, BlockSoundGroup sound, ItemConvertible seeds, int minLight, int maxLight, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion) {
+    public CindermoteBlock(int stages, Material material, BlockSoundGroup sound, ItemConvertible seeds, int minLight, int maxLight, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion) {
         super(stages, material, sound, seeds, minLight, maxLight, effects, flight, count, donotusethis, dispersion);
     }
 

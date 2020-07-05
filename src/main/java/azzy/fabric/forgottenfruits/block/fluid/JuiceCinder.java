@@ -7,29 +7,31 @@ import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 
-import static azzy.fabric.forgottenfruits.registry.FluidRegistry.CINDER_MOTE;
-import static azzy.fabric.forgottenfruits.registry.FluidRegistry.CINDER_MOTE_FLOWING;
+import static azzy.fabric.forgottenfruits.registry.BlockRegistry.CINDERMOTE_JUICE;
+import static azzy.fabric.forgottenfruits.registry.FluidRegistry.CINDERMOTE;
+import static azzy.fabric.forgottenfruits.registry.FluidRegistry.CINDERMOTE_FLOWING;
+import static azzy.fabric.forgottenfruits.registry.ItemRegistry.CINDERMOTE_BUCKET;
 
 public abstract class JuiceCinder extends GenericFluid {
     @Override
     public Fluid getStill() {
-        return CINDER_MOTE;
+        return CINDERMOTE;
     }
 
     @Override
     public Fluid getFlowing() {
-        return CINDER_MOTE_FLOWING;
+        return CINDERMOTE_FLOWING;
     }
 
     @Override
     public Item getBucketItem() {
-        return BUCKET_CINDERJUICE;
+        return CINDERMOTE_BUCKET;
     }
 
     @Override
     protected BlockState toBlockState(FluidState fluidState) {
         // method_15741 converts the LEVEL_1_8 of the fluid state to the LEVEL_15 the fluid block uses
-        return CINDERJUICE.getDefaultState().with(Properties.LEVEL_15, method_15741(fluidState));
+        return CINDERMOTE_JUICE.getDefaultState().with(Properties.LEVEL_15, method_15741(fluidState));
     }
 
     public static class Flowing extends JuiceCinder {

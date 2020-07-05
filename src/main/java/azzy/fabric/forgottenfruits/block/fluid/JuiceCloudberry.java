@@ -7,8 +7,10 @@ import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 
+import static azzy.fabric.forgottenfruits.registry.BlockRegistry.CLOUD_BERRY_JUICE;
 import static azzy.fabric.forgottenfruits.registry.FluidRegistry.CLOUD_BERRY;
 import static azzy.fabric.forgottenfruits.registry.FluidRegistry.CLOUD_BERRY_FLOWING;
+import static azzy.fabric.forgottenfruits.registry.ItemRegistry.CLOUD_BERRY_BUCKET;
 
 public abstract class JuiceCloudberry extends GenericFluid {
     @Override
@@ -23,13 +25,13 @@ public abstract class JuiceCloudberry extends GenericFluid {
 
     @Override
     public Item getBucketItem() {
-        return BUCKET_CLOUDJUICE;
+        return CLOUD_BERRY_BUCKET;
     }
 
     @Override
     protected BlockState toBlockState(FluidState fluidState) {
         // method_15741 converts the LEVEL_1_8 of the fluid state to the LEVEL_15 the fluid block uses
-        return CLOUDJUICE.getDefaultState().with(Properties.LEVEL_15, method_15741(fluidState));
+        return CLOUD_BERRY_JUICE.getDefaultState().with(Properties.LEVEL_15, method_15741(fluidState));
     }
 
     public static class Flowing extends JuiceCloudberry {

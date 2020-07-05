@@ -65,7 +65,7 @@ public class PressEntityRenderer extends BlockEntityRenderer<PressEntity> {
         }
 
         if (blockEntity.hasWorld()) {
-            int toplight = emissive != Fluids.LAVA && emissive != FluidRegistry.CINDER_MOTE ? WorldRenderer.getLightmapCoordinates(Objects.requireNonNull(blockEntity.getWorld()), blockEntity.getPos().up()) : 14680160;
+            int toplight = emissive != Fluids.LAVA && emissive != FluidRegistry.CINDERMOTE ? WorldRenderer.getLightmapCoordinates(Objects.requireNonNull(blockEntity.getWorld()), blockEntity.getPos().up()) : 14680160;
 
             consumer.vertex(matrix.getModel(), 0, 0, 1).color(r, g, b, 200).texture(sprite.getMinU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 1, 1, 1).next();
             consumer.vertex(matrix.getModel(), 1, 0, 1).color(r, g, b, 200).texture(sprite.getMaxU(), sprite.getMaxV()).light(toplight).normal(matrix.getNormal(), 1, 1, 1).next();

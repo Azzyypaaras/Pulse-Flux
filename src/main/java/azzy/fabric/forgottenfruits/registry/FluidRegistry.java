@@ -24,16 +24,16 @@ public class FluidRegistry {
     public static FlowableFluid CLOUD_BERRY_FLOWING = registerFlowing("cloud_berry_flowing", new JuiceCloudberry.Flowing());
     private static final FluidPair cloudberryJuice = new FluidPair(CLOUD_BERRY, CLOUD_BERRY_FLOWING, 0xee9b2f);
     //Cinder
-    public static FlowableFluid CINDER_MOTE = registerStill("cinder_mote", new JuiceCinder.Still());
-    public static FlowableFluid CINDER_MOTE_FLOWING = registerFlowing("cinder_mote_flowing", new JuiceCinder.Flowing());
-    private static final FluidPair cindermoteJuice = new FluidPair(CINDER_MOTE, CINDER_MOTE_FLOWING, 0xe37b00);
+    public static FlowableFluid CINDERMOTE = registerStill("cindermote", new JuiceCinder.Still());
+    public static FlowableFluid CINDERMOTE_FLOWING = registerFlowing("cindermote_flowing", new JuiceCinder.Flowing());
+    private static final FluidPair cindermoteJuice = new FluidPair(CINDERMOTE, CINDERMOTE_FLOWING, 0xe37b00);
 
     @Environment(EnvType.CLIENT)
     public static void initTransparency() {
         FLUID_TRANS.add(CLOUD_BERRY);
         FLUID_TRANS.add(CLOUD_BERRY_FLOWING);
-        FLUID_TRANS.add(CINDER_MOTE);
-        FLUID_TRANS.add(CINDER_MOTE_FLOWING);
+        FLUID_TRANS.add(CINDERMOTE);
+        FLUID_TRANS.add(CINDERMOTE_FLOWING);
     }
 
     public static FlowableFluid registerStill(String name, FlowableFluid item) {

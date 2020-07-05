@@ -60,7 +60,7 @@ dependencies {
 	modApi "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
 
 	include "alexiil.mc.lib:libblockattributes-all:"+libblockattributesver
-	include "io.github.cottonmc:LibGui:"+libguiver+"+1.16.1"
+	include "io.github.cottonmc:LibGui:"+libguiver+"+2.1.1"
 	include "me.shedaniel.cloth:config-2:"+clothconfver
 	include "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
 
@@ -99,7 +99,7 @@ tasks.withType(JavaCompile) {
 // if it is present.
 // If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
+	archiveClassifier = "sources"
 	from sourceSets.main.allSource
 }
 

@@ -11,7 +11,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static azzy.fabric.forgottenfruits.registry.FluidRegistry.JUICE_RENDER;
 
@@ -27,7 +27,7 @@ public class ClientInit implements ClientModInitializer {
         cachedY = y;
     }
 
-    public static void initTransparency(ArrayList<Block> transparentblocks) {
+    public static void initTransparency(List<Block> transparentblocks) {
         for (Block item : transparentblocks)
             BlockRenderLayerMap.INSTANCE.putBlock(item, RenderLayer.getTranslucent());
     }
@@ -40,12 +40,12 @@ public class ClientInit implements ClientModInitializer {
         return cachedY;
     }
 
-    public static void initFluidTransparency(ArrayList<Fluid> transparentfluids) {
+    public static void initFluidTransparency(List<Fluid> transparentfluids) {
         for (Fluid item : transparentfluids)
             BlockRenderLayerMap.INSTANCE.putFluid(item, RenderLayer.getTranslucent());
     }
 
-    public static void initPartialblocks(ArrayList<Block> partialblocks) {
+    public static void initPartialblocks(List<Block> partialblocks) {
         for (Block item : partialblocks)
             BlockRenderLayerMap.INSTANCE.putBlock(item, RenderLayer.getCutoutMipped());
     }
@@ -53,9 +53,9 @@ public class ClientInit implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BlockRegistry.initTransparency();
-        initTransparency(BlockRegistry.registryTrans);
+        initTransparency(BlockRegistry.REGISTRY_TRANS);
         BlockRegistry.initPartialblocks();
-        initPartialblocks(BlockRegistry.registryPartial);
+        initPartialblocks(BlockRegistry.REGISTRY_PARTIAL);
         FluidRegistry.initTransparency();
         initFluidTransparency(FluidRegistry.FLUID_TRANS);
         GuiRegistry.init();

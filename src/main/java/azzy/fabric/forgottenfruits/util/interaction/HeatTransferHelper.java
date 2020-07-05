@@ -1,7 +1,7 @@
 package azzy.fabric.forgottenfruits.util.interaction;
 
+import azzy.fabric.forgottenfruits.registry.BlockRegistry;
 import azzy.fabric.forgottenfruits.registry.CropRegistry;
-import azzy.fabric.forgottenfruits.registry.FluidRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
@@ -78,7 +78,7 @@ public class HeatTransferHelper {
         FIRE(800, Blocks.FIRE, 0.7),
         MAGMA(500, Blocks.MAGMA_BLOCK, 1),
         LAVA(1200, Blocks.LAVA, 1),
-        CINDER(400, FluidRegistry.CINDERJUICE, 1),
+        CINDER(400, BlockRegistry.CINDERMOTE_JUICE, 1),
         GLOWSTONE(200, Blocks.GLOWSTONE, 1),
         TORCH(700, Blocks.TORCH, 0.125),
         WALLTORCH(700, Blocks.WALL_TORCH, 0.125),
