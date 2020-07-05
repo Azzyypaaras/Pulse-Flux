@@ -3,15 +3,30 @@
 <recipes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FFRecipes.xsd">
     <recipe type="AMALGAM" enabled="true">
         <![CDATA[
-        Recipe format - Id, Brew item, Item output, Item inputs (split by ~, not commas)
+        Recipe format - Id, Brew item, Item output, Item inputs (1 - 9)
         ]]>
-
+        <outputId>amalgamBrew</outputId>
+        <outputItem>forgottenfruits:drinkcloudberry</outputItem>
+        <inputs>
+            <inputItem1>forgottenfruits:cloudberry</inputItem1>
+            <inputItem2>forgottenfruits:cloudberry</inputItem2>
+            <inputItem3>forgottenfruits:cloudberry</inputItem3>
+            <inputItem4>forgottenfruits:cloudberry</inputItem4>
+            <inputItem5>forgottenfruits:cloudberry</inputItem5>
+            <inputItem6>forgottenfruits:cloudberry</inputItem6>
+            <inputItem7>forgottenfruits:cloudberry</inputItem7>
+            <inputItem8>forgottenfruits:cloudberry</inputItem8>
+            <inputItem9>forgottenfruits:cloudberry</inputItem9>
+        </inputs>
     </recipe>
     <recipe type="BARREL" enabled="true">
         <![CDATA[
 	Recipe format - Id, Item output, Fluid input, Color,
 	Quality, Ideal height, Ideal light, Ideal temperature,
-	Alcohol content. Color must be hexadecimal. Quality and Alcohol must be between 0 and 1. Refer to biome temperatures for sensible temperature values. Ideal height and Ideal light may be set to negative one to disable them.
+	Alcohol content. Color must be hexadecimal.
+	Quality and Alcohol must be between 0 and 1.
+	Refer to biome temperatures for sensible temperature values.
+	Ideal height and Ideal light may be set to negative one to disable them.
         ]]>
         <outputId>cloudbrew</outputId>
         <outputItem>forgottenfruits:drinkcloudberry</outputItem>
@@ -22,5 +37,38 @@
         <idealLight>-1</idealLight>
         <idealTemperature>0.8</idealTemperature>
         <alcoholContent>0.055</alcoholContent>
+    </recipe>
+    <recipe type="BREW" enabled="true">
+        <![CDATA[
+            Recipe format - Id, Item input, Potion Effect, Base duration, Base level,
+            Duration modifier factor, Single level
+        ]]>
+        <outputId>cloudBrew</outputId>
+        <inputItem>forgottenfruits:drinkcloudberry</inputItem>
+        <potionEffect>effect_id</potionEffect>
+        <baseDuration>24</baseDuration>
+        <baseLevel>2</baseLevel>
+        <durationModifier>1.4</durationModifier>
+        <singleLevel>1</singleLevel>
+    </recipe>
+    <recipe type="CAULDRON" enabled="true">
+        <![CDATA[
+            Recipe format - Id, Brew item, Output item, Output amount, Input items (As many as required.)
+        ]]>
+        <outputId>amalgamBrew</outputId>
+        <brewItem>forgottenfruits:drinkcloudberry</brewItem>
+        <outputItem>forgottenfruits:drinkcloudberry</outputItem>
+        <outputAmount>2</outputAmount>
+        <inputs>
+            <inputItem1>forgottenfruits:cloudberry</inputItem1>
+            <inputItem2>forgottenfruits:cloudberry</inputItem2>
+            <inputItem3>forgottenfruits:cloudberry</inputItem3>
+            <inputItem4>forgottenfruits:cloudberry</inputItem4>
+            <inputItem5>forgottenfruits:cloudberry</inputItem5>
+            <inputItem6>forgottenfruits:cloudberry</inputItem6>
+            <inputItem7>forgottenfruits:cloudberry</inputItem7>
+            <inputItem8>forgottenfruits:cloudberry</inputItem8>
+            <inputItem9>forgottenfruits:cloudberry</inputItem9>
+        </inputs>
     </recipe>
 </recipes>
