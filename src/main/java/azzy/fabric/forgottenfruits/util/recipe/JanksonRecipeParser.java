@@ -1,8 +1,5 @@
 package azzy.fabric.forgottenfruits.util.recipe;
 
-import blue.endless.jankson.*;
-import blue.endless.jankson.impl.Marshaller;
-import blue.endless.jankson.impl.SyntaxError;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.io.FileUtils;
 
@@ -18,7 +15,7 @@ import static azzy.fabric.forgottenfruits.ForgottenFruits.*;
 //Oh yeah, war crime time
 public class JanksonRecipeParser {
 
-    private static Jankson recipeLoader;
+//    private static Jankson recipeLoader;
     private static volatile File recipes;
     private static final String BASE_URL = "https://raw.githubusercontent.com/Dragonoidzero/Forgotten-Fruits/master/config/";
     /* If we are adding a new config file, follow the following steps.
@@ -36,7 +33,7 @@ public class JanksonRecipeParser {
     };
 
     public static void init() {
-        recipeLoader = Jankson.builder().build();
+//        recipeLoader = Jankson.builder().build();
 
         // Get the config folder path.
         File configDirectory = FabricLoader.getInstance().getConfigDirectory();
@@ -97,46 +94,6 @@ public class JanksonRecipeParser {
     }
 
     public static Queue<Iterator<String>> getRecipeQueue(RecipeRegistryKey key) {
-        Stream<File> jsons = Stream.of(recipes.listFiles());
-        Queue recipes = new LinkedList();
-        jsons = jsons.filter(e -> e.getName().endsWith(".json5"));
-        jsons = jsons.filter(e -> {
-            try {
-                JsonObject entry = recipeLoader.load(e);
-                return RecipeRegistryKey.valueOf(new Marshaller().marshall(String.class, entry.get("type"))) == key;
-            } catch (IOException | SyntaxError ex) {
-                ex.printStackTrace();
-            }
-            return false;
-        });
-        jsons.forEach(e -> {
-            try {
-                JsonObject entry = recipeLoader.load(e);
-                String arr = entry.get(String.class, "recipes");
-                Stream<String> rawStrings = Stream.of(arr.replace("[", "").replace("]", "").trim().split(","));
-                rawStrings.forEach(a -> {
-                    Queue out = new LinkedList();
-                    for (Object o : new LinkedList(Arrays.asList(a.replace("\"", "").split(";"))))
-                        out.offer(((String) o).trim());
-                    recipes.offer(out.iterator());
-                });
-            } catch (IOException | SyntaxError ex) {
-                ex.printStackTrace();
-            }
-        });
-        return recipes;
+        return null;
     }
-
-    private static boolean dataCheck(JsonObject json) {
-        Optional<JsonElement> type = Optional.ofNullable(json.get("type"));
-        Optional<JsonElement> enabled = Optional.ofNullable(json.get("enabled"));
-        Optional<JsonElement> recipes = Optional.ofNullable(json.get("recipes"));
-        return type.isPresent() && enabled.isPresent() && recipes.isPresent();
-    }
-
-    public static Jankson getRecipeLoader() {
-        return recipeLoader;
-    }
-
-
 }

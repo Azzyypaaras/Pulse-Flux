@@ -28,9 +28,6 @@
     ],
     "modmenu": [
       "azzy.fabric.forgottenfruits.config.FFConfig"
-    ],
-    "rei_plugins_v0": [
-      "me.shedaniel.rei.plugin.DefaultPlugin"
     ]
   },
   "mixins": [
