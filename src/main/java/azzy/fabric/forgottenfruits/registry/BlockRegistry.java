@@ -30,7 +30,7 @@ public class BlockRegistry {
     public static final NetherFarmland NETHER_FARMLAND = (NetherFarmland) register("nether_farmland", new NetherFarmland(FabricBlockSettings.of(Material.STONE).materialColor(MaterialColor.PURPLE).nonOpaque().sounds(BlockSoundGroup.SAND).lightLevel(2).dropsLike(Blocks.OBSIDIAN).breakByTool(FabricToolTags.PICKAXES, 3).hardness(20f).ticksRandomly().lightLevel(1)), defaultSettings());
 
     //misc blocks
-    public static final Block CLOUD_BERRY_PLANT = register("cloud_berry_plant", new Block(FabricBlockSettings.of(Material.UNDERWATER_PLANT).materialColor(MaterialColor.ORANGE).nonOpaque().breakInstantly().sounds(BlockSoundGroup.SLIME).slipperiness(0.8f)), defaultSettings());
+    public static final Block CLOUDBERRY_AMALGAM_BLOCK = register("cloudberry_block", new Block(FabricBlockSettings.of(Material.UNDERWATER_PLANT).materialColor(MaterialColor.ORANGE).nonOpaque().breakInstantly().sounds(BlockSoundGroup.SLIME).slipperiness(0.8f)), defaultSettings());
     public static final Block IGNOBLE = register("ignoble_silk", new Block(FabricBlockSettings.of(Material.WOOL).materialColor(MaterialColor.BROWN).sounds(BlockSoundGroup.SNOW)), materialSettings());
 
     //Block Entities
@@ -44,7 +44,7 @@ public class BlockRegistry {
     @Environment(EnvType.CLIENT)
     public static final List<Block> REGISTRY_PARTIAL = new ArrayList<>();
     //Fluids
-    public static Block CLOUD_BERRY_JUICE = registerFluidBlock("cloud_berry", FluidRegistry.CLOUD_BERRY, FabricBlockSettings.of(Material.WATER).noCollision().strength(100f).dropsNothing());
+    public static Block CLOUD_BERRY_JUICE = registerFluidBlock("cloudberry", FluidRegistry.CLOUD_BERRY, FabricBlockSettings.of(Material.WATER).noCollision().strength(100f).dropsNothing());
     public static Block CINDERMOTE_JUICE = registerFluidBlock("cindermote", FluidRegistry.CINDERMOTE, FabricBlockSettings.of(Material.WATER).strength(100f).dropsNothing().lightLevel(6));
 
     private static Item.Settings defaultSettings() {
@@ -75,7 +75,7 @@ public class BlockRegistry {
 
     @Environment(EnvType.CLIENT)
     public static void initTransparency() {
-        REGISTRY_TRANS.add(CLOUD_BERRY_PLANT);
+        REGISTRY_TRANS.add(CLOUDBERRY_AMALGAM_BLOCK);
     }
 
     @Environment(EnvType.CLIENT)
