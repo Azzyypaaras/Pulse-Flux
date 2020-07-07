@@ -9,13 +9,14 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.shape.VoxelShapes;
 
 import static azzy.fabric.forgottenfruits.ForgottenFruits.MOD_ID;
 import static azzy.fabric.forgottenfruits.registry.ItemRegistry.*;
 
 public class CropRegistry {
 
-    private static final Material VOMPOLLOLOWM = (new FabricMaterialBuilder(MaterialColor.FOLIAGE)).lightPassesThrough().destroyedByPiston().burnable().build();
+    private static final Material VOMPOLLOLOWM = (new FabricMaterialBuilder(MaterialColor.FOLIAGE)).lightPassesThrough().destroyedByPiston().burnable().allowsMovement().build();
 
     public static final Block CLOUD_BERRY_CROP = register("cloudberry_crop", new PlantBase(6, Material.PLANT, BlockSoundGroup.CROP, CLOUD_BERRY_SEEDS, 8, 16, null, 0, 0, 0, 0));
     public static final Block CLOUD_BERRY_WILD = register("cloudberry_wild", new WildPlantBase("cloudberry", Material.PLANT, BlockSoundGroup.CROP, null, 0, 0, 0, 0));
@@ -24,8 +25,8 @@ public class CropRegistry {
     public static final Block CINDERMOTE_WILD = register("cindermote_wild", new WildPlantBase("cindermote", Material.SOLID_ORGANIC, BlockSoundGroup.NETHER_WART, ParticleTypes.FLAME, 10, 20, 0.05f, 30));
 
     public static final Block VOMPOLLOLOWM_CROP_BASE = register("vompollolowm_crop", new VompollolowmBase(4, Material.PLANT, BlockSoundGroup.CROP, VOMPOLLOLOWM_SEEDS, 8, 16, null, 0 ,0 ,0, 0));
-    public static final Block VOMPOLLOLOWM_CROP_STALK = register("vompollolowm_stalk", new VompollolowmStalk(2, VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 16, null, 0, 0 ,0, 0));
-    public static final Block VOMPOLLOLOWM_CROP_FRUIT = register("vompollolowm_fruit", new VompollolowmFruit(1, VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 16, null, 0, 0 ,0, 0));
+    public static final Block VOMPOLLOLOWM_CROP_STALK = register("vompollolowm_stalk", new VompollolowmStalk(2, VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 16, null, 0, 0 ,0, 0, VoxelShapes.cuboid(0.4375, 0, 0.4375, 0.5625, 1, 0.5625)));
+    public static final Block VOMPOLLOLOWM_CROP_FRUIT = register("vompollolowm_fruit", new VompollolowmFruit(1, VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 16, null, 0, 0 ,0, 0, VoxelShapes.cuboid(0.125, 0.125, 0.125, 0.875, 0.875, 0.875)));
     public static final Block VOMPOLLOLOWM_WILD_BASE = register("vompollolowm_wild", new VompollolowmWildBase("vompollolowm", Material.PLANT, BlockSoundGroup.CROP, null, 0, 0, 0 ,0));
     public static final Block VOMPOLLOLOWM_WILD_STALK = register("vompollolowm_wild_stalk", new VompollolowmWildBase("vompollolowm", VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 0, 0 ,0));
     public static final Block VOMPOLLOLOWM_WILD_FRUIT = register("vompollolowm_wild_fruit", new VompollolowmWildBase("vompollolowm", VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 0, 0 ,0));

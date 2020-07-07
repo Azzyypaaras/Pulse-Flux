@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "forgottenfruits:barrel_block"
+          "name": "forgottenfruits:press"
         }
       ],
       "conditions": [

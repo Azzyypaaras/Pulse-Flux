@@ -8,6 +8,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
@@ -26,10 +27,12 @@ public class PlantBase extends CropBlock {
     private final int maxLight;
     private final ItemConvertible seeds;
     private final ParticleEffect effects;
+    private static final VoxelShape DEFAULT = VoxelShapes.cuboid(0.2f, 0f, 0.2f, 0.8f, 0.8f, 0.8f);;
     private final double flight;
     private final int count;
     private final float donotusethis;
     private final int dispersion;
+    private final VoxelShape shape;
 
     public PlantBase(int stages, Material material, BlockSoundGroup sound, ItemConvertible seeds, int minLight, int maxLight, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion) {
         super(FabricBlockSettings.of(material).sounds(sound).breakInstantly().ticksRandomly().noCollision());
@@ -43,6 +46,27 @@ public class PlantBase extends CropBlock {
         this.count = count;
         this.donotusethis = donotusethis;
         this.dispersion = dispersion;
+        this.shape = null;
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        return new ItemStack(this.getSeedsItem());
+    }
+
+    public PlantBase(int stages, Material material, BlockSoundGroup sound, ItemConvertible seeds, int minLight, int maxLight, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion, VoxelShape shape) {
+        super(FabricBlockSettings.of(material).sounds(sound).breakInstantly().ticksRandomly().noCollision());
+        maxAge = stages - 1;
+        this.setDefaultState((this.getStateManager().getDefaultState()).with(this.getAgeProperty(), 0));
+        this.minLight = minLight;
+        this.maxLight = maxLight;
+        this.effects = effects;
+        this.seeds = seeds;
+        this.flight = flight;
+        this.count = count;
+        this.donotusethis = donotusethis;
+        this.dispersion = dispersion;
+        this.shape = shape;
     }
 
     @Override
@@ -51,8 +75,15 @@ public class PlantBase extends CropBlock {
     }
 
     @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return true;
+    }
+
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext ctx) {
-        return VoxelShapes.cuboid(0.2f, 0f, 0.2f, 0.9f, 0.8f, 0.8f);
+        if(this.shape == null)
+            return DEFAULT;
+        return shape;
     }
 
     @Override
@@ -69,8 +100,7 @@ public class PlantBase extends CropBlock {
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        super.scheduledTick(state, world, pos, random);
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int currentLight = world.getBaseLightLevel(pos, 0);
         if (currentLight >= minLight && currentLight <= maxLight) {
             if (effects != null)

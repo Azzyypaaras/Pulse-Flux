@@ -43,6 +43,11 @@ public class WildPlantBase extends PlantBlock {
     }
 
     @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return true;
+    }
+
+    @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView view, BlockPos pos) {
         Block block = floor.getBlock();
         if (!type.equals("cindermote") && !type.equals("dracora") && !type.equals("vompollolowm") && !type.equals("protestar") && !type.equals("moss berry") && !type.equals("shimmerspark") && !type.equals("haggstrom"))
@@ -80,7 +85,7 @@ public class WildPlantBase extends PlantBlock {
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (effects != null) {
             int spots = (int) (Math.random() * 5) + 5;
             for (int i = 0; i < spots; i++)
