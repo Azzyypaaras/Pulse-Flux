@@ -37,11 +37,11 @@ public class VompollolowmStalk extends PlantBase {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if(world.getTime() % 10 == 0 && !entity.isInSneakingPose())
-            world.playSound(pos.getX()+0.5, entity.getPos().y+1, pos.getZ()+0.5, SoundEvents.BLOCK_GRASS_STEP, SoundCategory.BLOCKS, 0.8f, 1f, true);
-
-        entity.setVelocity(new Vec3d(entity.getVelocity().x, 0.25, entity.getVelocity().z));
-        super.onEntityCollision(state, world, pos, entity);
+        if(!entity.isInSneakingPose()) {
+            if (world.getTime() % 10 == 0)
+                world.playSound(pos.getX() + 0.5, entity.getPos().y + 1, pos.getZ() + 0.5, SoundEvents.BLOCK_GRASS_STEP, SoundCategory.BLOCKS, 0.8f, 1f, true);
+            entity.setVelocity(new Vec3d(entity.getVelocity().x, 0.25, entity.getVelocity().z));
+        }
     }
 
     @Override
@@ -53,7 +53,7 @@ public class VompollolowmStalk extends PlantBase {
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         BlockState floor = world.getBlockState(pos.down());
         BlockState ceil = world.getBlockState(pos.up());
-        if(state.get(AGE) == 0 || (ceil == CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState().with(AGE, 1) && floor == CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState().with(AGE, 1)))
+        if((state.get(AGE) == 0 && !floor.isAir()) || (ceil == CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState().with(AGE, 1) && floor == CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState().with(AGE, 1)))
             return;
         onBroken(world, pos, state);
         world.breakBlock(pos, false);
@@ -73,16 +73,18 @@ public class VompollolowmStalk extends PlantBase {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BlockState minHeight = world.getBlockState(pos.down(10));
-        if (minHeight == CropRegistry.VOMPOLLOLOWM_CROP_BASE.getDefaultState().with(AGE, 3))
-            world.setBlockState(pos, CropRegistry.VOMPOLLOLOWM_CROP_FRUIT.getDefaultState());
-
-        else if (world.getRandom().nextInt(3) == 0 && world.isAir(pos.up()) && this.isMature(state))
+        BlockState minHeight = world.getBlockState(pos.down(7));
+        if (world.getRandom().nextInt(3) == 0 && world.isAir(pos.up()) && this.isMature(state))
                 world.setBlockState(pos.up(), CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState());
 
         else if(!this.isMature(state) && world.isAir(pos.up())) {
+            if ((minHeight == CropRegistry.VOMPOLLOLOWM_CROP_BASE.getDefaultState().with(AGE, 3) || minHeight == CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState().with(AGE, 1)) && random.nextInt(20) == 0) {
+                world.setBlockState(pos, CropRegistry.VOMPOLLOLOWM_CROP_FRUIT.getDefaultState());
+                return;
+            }
             world.setBlockState(pos, this.withAge(this.getAge(state) + 1), 2);
             world.setBlockState(pos.up(), CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState());
+
         }
     }
 

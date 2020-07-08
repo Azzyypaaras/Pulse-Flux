@@ -1,5 +1,6 @@
 package azzy.fabric.forgottenfruits.block;
 
+import azzy.fabric.forgottenfruits.entity.technical.FloatingBlockEntity;
 import azzy.fabric.forgottenfruits.registry.CropRegistry;
 import net.minecraft.block.*;
 import net.minecraft.entity.FallingBlockEntity;
@@ -34,16 +35,12 @@ public class VompollolowmFruit extends PlantBase{
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (canFallThrough(world.getBlockState(pos.down())) && pos.getY() >= 0) {
-            FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(world, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, world.getBlockState(pos));
-            world.spawnEntity(fallingBlockEntity);
-        }
-    }
-
-
-    @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        super.neighborUpdate(state, world, pos, block, fromPos, notify);
+    //    if (canFallThrough(world.getBlockState(pos.down())) && pos.getY() >= 0) {
+    //        FloatingBlockEntity fruit = new FloatingBlockEntity(world, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, world.getBlockState(pos), 1);
+    //        world.spawnEntity(fruit);
+    //
+    //    }
+        world.breakBlock(pos, true);
     }
 
     @Override
