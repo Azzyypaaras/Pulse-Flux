@@ -68,7 +68,7 @@ public class ItemRegistry extends Item {
         VOMPOLLOLOWM_FRUIT = register(new Identifier(MOD_ID, "vompollolowm_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(4, 1.0f, false, false, StatusEffects.SLOW_FALLING, 0.05f, 100))));
 
         //Seeds
-        CLOUD_BERRY_SEEDS = register(new Identifier(MOD_ID, "cloudberry_seeds"), new AliasedBlockItem(CropRegistry.CLOUD_BERRY_CROP, defaultSettings().food(FoodItems.FoodBackendSpecial(-3, -2f, false, false, StatusEffects.LEVITATION, 1f, 600))));
+        CLOUD_BERRY_SEEDS = register(new Identifier(MOD_ID, "cloudberry_seeds"), new AliasedBlockItem(CropRegistry.CLOUD_BERRY_CROP, defaultSettings().food(FoodItems.FoodBackendSpecial(-6, -2f, false, false, StatusEffects.LEVITATION, 1f, 300))));
         CINDERMOTE_SEEDS = register(new Identifier(MOD_ID, "cindermote_seeds"), new AliasedBlockItem(CropRegistry.CINDERMOTE_CROP, defaultSettings().fireproof()));
         VOMPOLLOLOWM_SEEDS = register(new Identifier(MOD_ID, "vompollolowm_seeds"), new AliasedBlockItem(CropRegistry.VOMPOLLOLOWM_CROP_BASE, defaultSettings()));
 

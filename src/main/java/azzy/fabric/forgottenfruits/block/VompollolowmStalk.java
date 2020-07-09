@@ -42,6 +42,8 @@ public class VompollolowmStalk extends PlantBase {
                 world.playSound(pos.getX() + 0.5, entity.getPos().y + 1, pos.getZ() + 0.5, SoundEvents.BLOCK_GRASS_STEP, SoundCategory.BLOCKS, 0.8f, 1f, true);
             entity.setVelocity(new Vec3d(entity.getVelocity().x, 0.25, entity.getVelocity().z));
         }
+        else
+            entity.setVelocity(new Vec3d(entity.getVelocity().x, 0, entity.getVelocity().z));
     }
 
     @Override
@@ -78,7 +80,7 @@ public class VompollolowmStalk extends PlantBase {
                 world.setBlockState(pos.up(), CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState());
 
         else if(!this.isMature(state) && world.isAir(pos.up())) {
-            if ((minHeight == CropRegistry.VOMPOLLOLOWM_CROP_BASE.getDefaultState().with(AGE, 3) || minHeight == CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState().with(AGE, 1)) && random.nextInt(20) == 0) {
+            if ((minHeight == CropRegistry.VOMPOLLOLOWM_CROP_BASE.getDefaultState().with(AGE, 3) || minHeight == CropRegistry.VOMPOLLOLOWM_CROP_STALK.getDefaultState().with(AGE, 1)) && random.nextInt(15) == 0) {
                 world.setBlockState(pos, CropRegistry.VOMPOLLOLOWM_CROP_FRUIT.getDefaultState());
                 return;
             }
