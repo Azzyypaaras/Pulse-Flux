@@ -47,7 +47,6 @@ public class CindermoteFeature extends Feature<DefaultFeatureConfig> {
                 else if (random.nextInt(3) == 0)
                     world.setBlockState(topPos, Blocks.NETHER_WART.getDefaultState().with(NetherWartBlock.AGE, 3), 3);
         }
-
         return true;
     }
 }

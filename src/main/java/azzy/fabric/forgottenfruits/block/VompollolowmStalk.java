@@ -4,24 +4,13 @@ import azzy.fabric.forgottenfruits.registry.CropRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import java.util.Random;
@@ -33,17 +22,6 @@ public class VompollolowmStalk extends PlantBase {
     public VompollolowmStalk(int stages, Material material, BlockSoundGroup sound, ItemConvertible seeds, int minLight, int maxLight, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion, VoxelShape shape) {
         super(stages, material, sound, seeds, minLight, maxLight, effects, flight, count, donotusethis, dispersion, shape);
         this.shape = shape;
-    }
-
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if(!entity.isInSneakingPose()) {
-            if (world.getTime() % 10 == 0)
-                world.playSound(pos.getX() + 0.5, entity.getPos().y + 1, pos.getZ() + 0.5, SoundEvents.BLOCK_GRASS_STEP, SoundCategory.BLOCKS, 0.8f, 1f, true);
-            entity.setVelocity(new Vec3d(entity.getVelocity().x, 0.25, entity.getVelocity().z));
-        }
-        else
-            entity.setVelocity(new Vec3d(entity.getVelocity().x, 0, entity.getVelocity().z));
     }
 
     @Override

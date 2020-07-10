@@ -28,8 +28,8 @@ public class CropRegistry {
     public static final Block VOMPOLLOLOWM_CROP_STALK = register("vompollolowm_stalk", new VompollolowmStalk(2, VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 16, null, 0, 0 ,0, 0, VoxelShapes.cuboid(0.4375, 0, 0.4375, 0.5625, 1, 0.5625)));
     public static final Block VOMPOLLOLOWM_CROP_FRUIT = register("vompollolowm_fruit", new VompollolowmFruit(1, VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 16, null, 0, 0 ,0, 0, VoxelShapes.cuboid(0.125, 0.125, 0.125, 0.875, 0.875, 0.875)));
     public static final Block VOMPOLLOLOWM_WILD_BASE = register("vompollolowm_wild", new VompollolowmWildBase("vompollolowm", Material.PLANT, BlockSoundGroup.CROP, null, 0, 0, 0 ,0));
-    public static final Block VOMPOLLOLOWM_WILD_STALK = register("vompollolowm_wild_stalk", new VompollolowmWildBase("vompollolowm", VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 0, 0 ,0));
-    public static final Block VOMPOLLOLOWM_WILD_FRUIT = register("vompollolowm_wild_fruit", new VompollolowmWildBase("vompollolowm", VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 0, 0 ,0));
+    public static final Block VOMPOLLOLOWM_WILD_STALK = register("vompollolowm_wild_stalk", new VompollolowmWildStalk("vompollolowm", VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 0, 0 ,0, VoxelShapes.cuboid(0.4375, 0, 0.4375, 0.5625, 1, 0.5625)));
+    public static final Block VOMPOLLOLOWM_WILD_FRUIT = register("vompollolowm_wild_fruit", new VompollolowmWildFruit("vompollolowm", VOMPOLLOLOWM, BlockSoundGroup.CROP, null, 0, 0, 0, 0, VoxelShapes.cuboid(0.125, 0.125, 0.125, 0.875, 0.875, 0.875)));
 
     private static Block register(String name, Block item) {
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, name), item);
