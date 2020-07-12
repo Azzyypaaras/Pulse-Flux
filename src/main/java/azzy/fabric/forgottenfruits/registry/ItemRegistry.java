@@ -52,6 +52,7 @@ public class ItemRegistry extends Item {
         //Drinks
         CLOUD_BERRY_DRINK = register(new Identifier(MOD_ID, "drinkcloudberry"), new LiquorBottle(drinkSettings()));
         CINDERMOTE_DRINK = register(new Identifier(MOD_ID, "drinkcindermote"), new LiquorBottle(drinkSettings()));
+        VOMPOLLOLOWM_DRINK = register(new Identifier(MOD_ID, "drinkvompollolowm"), new LiquorBottle(drinkSettings()));
 
         //Threads
         IGNOBLE_SILK = register(new Identifier(MOD_ID, "thread_basic"), new Item(new Item.Settings().group(PLANT_MATERIALS)));
