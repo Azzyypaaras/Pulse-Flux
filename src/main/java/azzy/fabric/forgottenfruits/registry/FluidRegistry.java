@@ -20,7 +20,7 @@ public class FluidRegistry {
     @Environment(EnvType.CLIENT)
     public static final List<Fluid> FLUID_TRANS = new ArrayList<>();
     //Cloudberry
-    public static FlowableFluid CLOUD_BERRY = registerStill("cloud_berry", new JuiceCloudberry.Still());
+    public static FlowableFluid CLOUD_BERRY = registerStill("cloudberry", new JuiceCloudberry.Still());
     public static FlowableFluid CLOUD_BERRY_FLOWING = registerFlowing("cloud_berry_flowing", new JuiceCloudberry.Flowing());
     private static final FluidPair cloudberryJuice = new FluidPair(CLOUD_BERRY, CLOUD_BERRY_FLOWING, 0xee9b2f);
     //Cinder

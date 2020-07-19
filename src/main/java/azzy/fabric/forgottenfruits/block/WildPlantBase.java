@@ -1,5 +1,10 @@
 package azzy.fabric.forgottenfruits.block;
 
+import azzy.fabric.forgottenfruits.registry.CropRegistry;
+import azzy.fabric.forgottenfruits.util.context.ContextConsumer;
+import azzy.fabric.forgottenfruits.util.context.ContextMap;
+import azzy.fabric.forgottenfruits.util.context.PlantPackage;
+import azzy.fabric.forgottenfruits.util.interaction.PlantType.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
@@ -8,38 +13,64 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.mob.RavagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
+import net.minecraft.world.WorldAccess;
 
 import java.util.Random;
 
-public class WildPlantBase extends PlantBlock {
+public class WildPlantBase extends PlantBlock implements FluidFillable{
 
-    private final ParticleEffect effects;
-    private final double flight;
-    private final int count;
-    private final String type;
-    private final StatusEffect[] touchEffects;
-    private final float donotusethis;
-    private final int dispersion;
+    private final PLANTTYPE type;
+    private static final VoxelShape DEFAULT = VoxelShapes.cuboid(0.2f, 0f, 0.2f, 0.8f, 0.8f, 0.8f);;
+    private final VoxelShape shape;
+    private final ContextMap<PlantPackage, PlantPackage.Context> contextConsumers;
+    private final boolean solid;
+    private final FluidState fluid;
 
-    public WildPlantBase(String type, Material material, BlockSoundGroup sound, ParticleEffect effects, double flight, int count, float donotusethis, int dispersion, StatusEffect... touchEffects) {
+    public WildPlantBase(PLANTTYPE type, Material material, BlockSoundGroup sound, ContextConsumer ... consumers) {
         super(FabricBlockSettings.of(material).sounds(sound).breakInstantly().ticksRandomly().noCollision());
-        this.effects = effects;
-        this.flight = flight;
-        this.count = count;
         this.type = type;
-        this.touchEffects = touchEffects;
-        this.donotusethis = donotusethis;
-        this.dispersion = dispersion;
+        this.contextConsumers = ContextMap.construct(consumers);
+        this.shape = DEFAULT;
+        this.solid = false;
+        this.fluid = Fluids.EMPTY.getDefaultState();
+    }
+
+    public WildPlantBase(PLANTTYPE type, Material material, BlockSoundGroup sound, VoxelShape shape, boolean solid, ContextConsumer ... consumers) {
+        super(FabricBlockSettings.of(material).sounds(sound).breakInstantly().ticksRandomly().noCollision());
+        this.type = type;
+        this.contextConsumers = ContextMap.construct(consumers);
+        if(shape != null)
+            this.shape = shape;
+        else
+            this.shape = DEFAULT;
+        this.solid = solid;
+        this.fluid = Fluids.EMPTY.getDefaultState();
+    }
+
+    public WildPlantBase(PLANTTYPE type, Material material, BlockSoundGroup sound, VoxelShape shape, boolean solid, FluidState fluid, ContextConsumer ... consumers) {
+        super(FabricBlockSettings.of(material).sounds(sound).breakInstantly().ticksRandomly().noCollision());
+        this.type = type;
+        this.contextConsumers = ContextMap.construct(consumers);
+        if(shape != null)
+            this.shape = shape;
+        else
+            this.shape = DEFAULT;
+        this.solid = solid;
+        this.fluid = fluid;
     }
 
     @Override
@@ -50,46 +81,75 @@ public class WildPlantBase extends PlantBlock {
     @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView view, BlockPos pos) {
         Block block = floor.getBlock();
-        if (!type.equals("cindermote") && !type.equals("dracora") && !type.equals("vompollolowm") && !type.equals("protestar") && !type.equals("moss berry") && !type.equals("shimmerspark") && !type.equals("haggstrom"))
-            return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL || block == Blocks.FARMLAND;
-        if (type.equals("cindermote"))
-            return block == Blocks.SOUL_SAND || block == Blocks.MAGMA_BLOCK || block == Blocks.CRIMSON_NYLIUM;
-        if (type.equals("dracora"))
-            return block == Blocks.END_STONE;
-        if (type.equals("vompollolowm"))
-            return block == Blocks.STONE || block == Blocks.COBBLESTONE || block == Blocks.MOSSY_COBBLESTONE;
-        if (type.equals("protestar"))
-            return block == Blocks.AIR;
-        if (type.equals("moss berry"))
-            return block == Blocks.WATER || block == Blocks.SAND;
-        if (type.equals("shimmerspark"))
-            return block == Blocks.STONE;
-        return block == Blocks.DARK_OAK_LOG;
+        return type.contains(block);
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext ctx) {
-        return VoxelShapes.cuboid(0.2f, 0f, 0.2f, 0.9f, 0.8f, 0.8f);
+        return shape;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return solid ? shape : VoxelShapes.empty();
     }
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (type.equals("cindermote")) {
-            if ((entity instanceof RavagerEntity && world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) || entity.isSprinting()) {
-                world.createExplosion(null, DamageSource.explosion((LivingEntity) null), null, pos.getX(), pos.getY(), pos.getZ(), 8f, false, Explosion.DestructionType.NONE);
-            } else if (!entity.isInSneakingPose() && entity.getType() != EntityType.ITEM) {
-                entity.setOnFireFor(20);
-                entity.damage(DamageSource.LAVA, 6f);
-            }
-        }
+        contextConsumers.execute(new PlantPackage(state, world, pos, entity), PlantPackage.Context.COLLISION);
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        contextConsumers.execute(new PlantPackage(state, world, pos, null), PlantPackage.Context.DISPlAY);
+    }
+
+    @Override
+    public void rainTick(World world, BlockPos pos) {
+        contextConsumers.execute(new PlantPackage(null, world, pos, null), PlantPackage.Context.RAIN);
+    }
+
+
+    @Override
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        contextConsumers.execute(new PlantPackage(state, world, pos, null), PlantPackage.Context.SCHEDULED);
+    }
+
+    @Override
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        contextConsumers.execute(new PlantPackage(state, world, pos, player), PlantPackage.Context.BROKEN);
+        super.onBreak(world, pos, state, player);
     }
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (effects != null) {
-            int spots = (int) (Math.random() * 5) + 5;
-            for (int i = 0; i < spots; i++)
-                world.spawnParticles(effects, (double) pos.getX() + Math.random(), (double) pos.getY() + (Math.random() / 2), (double) pos.getZ() + Math.random(), (int) (Math.random() * 8) + 1 + count, dispersion, flight, dispersion, donotusethis);
+        contextConsumers.execute(new PlantPackage(state, world, pos, null), PlantPackage.Context.PARTICLE);
+    }
+
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
+        if(fluid != Fluids.EMPTY.getDefaultState()){
+            BlockState blockState = super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
+            if (!blockState.isAir()) {
+                world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            }
+            return blockState;
         }
+        return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
+    }
+
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return fluid;
+    }
+
+    @Override
+    public boolean canFillWithFluid(BlockView world, BlockPos pos, BlockState state, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
+        return false;
     }
 }

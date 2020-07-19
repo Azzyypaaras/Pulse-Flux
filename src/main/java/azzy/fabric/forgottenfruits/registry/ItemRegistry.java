@@ -4,6 +4,7 @@ import azzy.fabric.forgottenfruits.item.AmalgamItems;
 import azzy.fabric.forgottenfruits.item.AttunedAttunedStone;
 import azzy.fabric.forgottenfruits.item.FoodItems;
 import azzy.fabric.forgottenfruits.item.LiquorBottle;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.item.*;
@@ -21,6 +22,7 @@ public class ItemRegistry extends Item {
     public static Item CLOUD_BERRY_FRUIT, CLOUD_BERRY_SEEDS, CLOUD_BERRY_DRINK;
     public static Item CINDERMOTE_FRUIT, CINDERMOTE_SEEDS, CINDERMOTE_DRINK;
     public static Item VOMPOLLOLOWM_FRUIT, VOMPOLLOLOWM_SEEDS, VOMPOLLOLOWM_DRINK;
+    public static Item JELLY_PEAR_FRUIT, JELLY_PEAR_SEEDS, JELLY_PEAR_DRINK;
     public static Item IGNOBLE_SILK;
     public static Item BASKET_ITEM;
     public static Item APPLE_ALLOY;
@@ -63,25 +65,27 @@ public class ItemRegistry extends Item {
         //Alloys
         APPLE_ALLOY = register(new Identifier(MOD_ID, "apple_alloy"), new Item(new Item.Settings().group(PLANT_MATERIALS)));
 
-        //Berries
+        //Fruits
         CLOUD_BERRY_FRUIT = register(new Identifier(MOD_ID, "cloudberry_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(3, 0.5f, true, false, StatusEffects.LEVITATION, 0.1f, 200))));
         CINDERMOTE_FRUIT = register(new Identifier(MOD_ID, "cindermote_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackend(6, 0.3f, false)).fireproof()));
         VOMPOLLOLOWM_FRUIT = register(new Identifier(MOD_ID, "vompollolowm_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(4, 1.0f, false, false, StatusEffects.SLOW_FALLING, 0.05f, 100))));
+        JELLY_PEAR_FRUIT = register(new Identifier(MOD_ID, "jelly_pear_fruit"), new Item(defaultSettings().food(FoodItems.FoodBackendSpecial(2, 3.0f, true, false, StatusEffects.DOLPHINS_GRACE, 0.075f, 100))));
 
         //Seeds
         CLOUD_BERRY_SEEDS = register(new Identifier(MOD_ID, "cloudberry_seeds"), new AliasedBlockItem(CropRegistry.CLOUD_BERRY_CROP, defaultSettings().food(FoodItems.FoodBackendSpecial(-6, -2f, false, false, StatusEffects.LEVITATION, 1f, 300))));
         CINDERMOTE_SEEDS = register(new Identifier(MOD_ID, "cindermote_seeds"), new AliasedBlockItem(CropRegistry.CINDERMOTE_CROP, defaultSettings().fireproof()));
         VOMPOLLOLOWM_SEEDS = register(new Identifier(MOD_ID, "vompollolowm_seeds"), new AliasedBlockItem(CropRegistry.VOMPOLLOLOWM_CROP_BASE, defaultSettings()));
+        JELLY_PEAR_SEEDS = register(new Identifier(MOD_ID, "jelly_pear_seeds"), new AliasedBlockItem(CropRegistry.JELLY_PEAR_CROP, defaultSettings()));
 
         CLOUD_BERRY_BUCKET = registerBucket("cloudberry_bucket", FluidRegistry.CLOUD_BERRY);
         CINDERMOTE_BUCKET = registerBucket("cinder_juice_bucket", FluidRegistry.CINDERMOTE);
 
         //Jellies
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             AMALGAM_REGISTRY.add(i, new AmalgamItems.ConstructAmalgam(Rarity.RARE, i));
         }
 
-        for (int j = 0; j < 2; j++) {
+        for (int j = 0; j < 3; j++) {
             register(AMALGAM_REGISTRY.get(j).getKey(), AMALGAM_REGISTRY.get(j).getJelly());
         }
     }

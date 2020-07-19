@@ -48,7 +48,7 @@ public class PressBlock extends BaseMachine {
             Item item = player.getStackInHand(hand).getItem();
 
             //Why would you be able to insert fluids into an output tank? Why wouldn't you be able to do that!
-            //In reality, I just need to keep this here for reference until I use it elsewhere.
+            //In reality, I just need to keep this here for context until I use it elsewhere.
             if (item instanceof BucketItem && blockEntity != null) {
                 boolean success = BucketHandler.toTank(item, blockEntity.fluidInv.getTank(0));
                 if (success) {

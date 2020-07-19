@@ -27,7 +27,7 @@ public class BlockRegistry {
     public static final VoxelShape DEFAULT_SHAPE = Block.createCuboidShape(1, 0, 1, 15, 15, 15);
 
     //Other
-    public static final NetherFarmland NETHER_FARMLAND = (NetherFarmland) register("nether_farmland", new NetherFarmland(FabricBlockSettings.of(Material.STONE).materialColor(MaterialColor.PURPLE).nonOpaque().sounds(BlockSoundGroup.SAND).lightLevel(2).dropsLike(Blocks.OBSIDIAN).breakByTool(FabricToolTags.PICKAXES, 3).hardness(20f).ticksRandomly().lightLevel(1)), defaultSettings());
+    public static final Block NETHER_FARMLAND = register("nether_farmland", new NetherFarmland(FabricBlockSettings.of(Material.STONE).materialColor(MaterialColor.PURPLE).nonOpaque().sounds(BlockSoundGroup.SAND).lightLevel(2).dropsLike(Blocks.OBSIDIAN).breakByTool(FabricToolTags.PICKAXES, 3).hardness(20f).ticksRandomly().lightLevel(1)), defaultSettings());
 
     //misc blocks
     public static final Block CLOUDBERRY_AMALGAM_BLOCK = register("cloudberry_block", new Block(FabricBlockSettings.of(Material.UNDERWATER_PLANT).materialColor(MaterialColor.ORANGE).nonOpaque().breakInstantly().sounds(BlockSoundGroup.SLIME).slipperiness(0.8f)), defaultSettings());
@@ -39,10 +39,7 @@ public class BlockRegistry {
     public static final Block WOOD_PIPE = register("wooden_pipe", new WoodPipe(null, Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE), machineSettings());
     public static final Block BARREL = register("barrel", new BarrelBlock(null, Material.WOOD, BlockSoundGroup.WOOD, 0, DEFAULT_SHAPE), machineSettings());
     public static final Block WITCH_CAULDRON = register("witch_cauldron", new WitchCauldronBlock(null, Material.METAL, BlockSoundGroup.METAL, 0, Block.createCuboidShape(0, 0, 0, 16, 11, 16)), machineSettings());
-    @Environment(EnvType.CLIENT)
-    public static final List<Block> REGISTRY_TRANS = new ArrayList<>();
-    @Environment(EnvType.CLIENT)
-    public static final List<Block> REGISTRY_PARTIAL = new ArrayList<>();
+
     //Fluids
     public static Block CLOUD_BERRY_JUICE = registerFluidBlock("cloudberry", FluidRegistry.CLOUD_BERRY, FabricBlockSettings.of(Material.WATER).noCollision().strength(100f).dropsNothing());
     public static Block CINDERMOTE_JUICE = registerFluidBlock("cindermote", FluidRegistry.CINDERMOTE, FabricBlockSettings.of(Material.WATER).strength(100f).dropsNothing().lightLevel(6));
@@ -58,6 +55,11 @@ public class BlockRegistry {
     private static Item.Settings materialSettings() {
         return new Item.Settings().group(PLANT_MATERIALS);
     }
+
+    @Environment(EnvType.CLIENT)
+    public static final List<Block> REGISTRY_TRANS = new ArrayList<>();
+    @Environment(EnvType.CLIENT)
+    public static final List<Block> REGISTRY_PARTIAL = new ArrayList<>();
 
     private static Block register(String name, Block block, Item.Settings settings) {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, name), new BlockItem(block, settings));

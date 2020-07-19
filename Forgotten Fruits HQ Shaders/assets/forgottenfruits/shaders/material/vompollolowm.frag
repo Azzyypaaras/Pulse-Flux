@@ -2,12 +2,14 @@
 #include canvas:shaders/lib/math.glsl
 #include canvas:shaders/api/world.glsl
 
+// holds our noise coordinates from the vertex shader
 varying vec2 v_noise_uv;
 
 void cv_startFragment(inout cv_FragmentData fragData) {
-	float time = cv_renderSeconds();
-	if (fragData.spriteColor.r > 0.5f) {
-		fragData.emissivity = abs(sin(time))+0.25;
+
+	if (fragData.spriteColor.r > 0.1f) {
+
+		fragData.emissivity = 1.0f;
 		fragData.ao = false;
 		fragData.diffuse = false;
 	}
