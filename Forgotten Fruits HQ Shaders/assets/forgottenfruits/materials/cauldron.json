@@ -1,8 +1,0 @@
-{
-	"layers": [
-		{
-			"vertexSource": "forgottenfruits:shaders/material/default.vert",
-			"fragmentSource": "forgottenfruits:shaders/material/cauldron.frag"
-		}
-	]
-}

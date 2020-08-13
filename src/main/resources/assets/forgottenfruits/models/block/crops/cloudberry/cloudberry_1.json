@@ -1,6 +1,0 @@
-{
-  "parent": "forgottenfruits:base/cropflower",
-  "textures": {
-    "cross": "forgottenfruits:block/crops/cropcloudberry1"
-  }
-}

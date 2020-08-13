@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "forgottenfruits:block/basket_block" },
-    "facing=west": { "model": "forgottenfruits:block/basket_block", "y": 90},
-    "facing=south": { "model": "forgottenfruits:block/basket_block", "y": 180},
-    "facing=east": { "model": "forgottenfruits:block/basket_block", "y": 270}
-  }
-}

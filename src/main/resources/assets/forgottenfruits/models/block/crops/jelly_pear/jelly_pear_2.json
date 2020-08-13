@@ -1,6 +1,0 @@
-{
-  "parent": "block/cross",
-  "textures": {
-    "cross": "forgottenfruits:block/crops/jelly_pear_2"
-  }
-}
