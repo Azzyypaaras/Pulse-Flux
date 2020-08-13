@@ -20,15 +20,11 @@ import net.minecraft.world.World;
 
 public class BaseMachine extends HorizontalFacingBlock implements BlockEntityProvider {
 
-    public static final VoxelShape TOPDOWN = VoxelShapes.cuboid(1, 0, 1, 15, 16, 15);
-    public static final VoxelShape SIDES = VoxelShapes.cuboid(0, 1, 0, 16, 15, 16);
     protected final VoxelShape bounds;
-    protected final ParticleEffect[] effects;
 
-    public BaseMachine(Material material, BlockSoundGroup sound, int glow, VoxelShape bounds, ParticleEffect... effects) {
-        super(FabricBlockSettings.of(material).breakByTool(FabricToolTags.AXES, 1).sounds(sound).nonOpaque().hardness(0.4f).lightLevel(glow));
+    public BaseMachine(FabricBlockSettings settings, VoxelShape bounds) {
+        super(settings);
         this.bounds = bounds;
-        this.effects = effects;
         setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 

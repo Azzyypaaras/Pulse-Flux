@@ -1,9 +1,13 @@
 package azzy.fabric.pulseflux.staticentities.blockentity;
 
 import azzy.fabric.pulseflux.util.InventoryWrapper;
+import azzy.fabric.pulseflux.util.interaction.HeatHolder;
+import azzy.fabric.pulseflux.util.interaction.HeatTransferHelper;
+import blue.endless.jankson.annotation.Nullable;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -13,21 +17,28 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 
-public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable, InventoryProvider, NamedScreenHandlerFactory {
+public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable, InventoryProvider, NamedScreenHandlerFactory, HeatHolder {
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
+
+    protected final HeatTransferHelper.HeatMaterial material;
 
     public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
     protected String identity = "VOID";
@@ -35,6 +46,8 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     protected boolean isActive = false;
     protected int progress = 0;
     protected String technicalState = "default";
+    protected double heat;
+    private boolean heatInit;
 
     final PropertyDelegate tankHolder = new PropertyDelegate() {
         @Override
@@ -54,8 +67,9 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     //ALSO OVERRIDE THIS
 
-    public MachineEntity(BlockEntityType<? extends MachineEntity> entityType) {
+    public MachineEntity(BlockEntityType<? extends MachineEntity> entityType, HeatTransferHelper.HeatMaterial material) {
         super(entityType);
+        this.material = material;
         //fluidInv = new SimpleFixedFluidInv(0, new FluidAmount(0));
     }
 
@@ -70,6 +84,14 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     @Override
     public void tick() {
+        if(heatInit) {
+            heat = HeatTransferHelper.translateBiomeHeat(this.getWorld().getBiome(pos));
+            heatInit = false;
+        }
+
+        for(int i = 0; i < 4; i++)
+            calcHeat();
+
         if (!world.isClient)
             sync();
     }
@@ -88,6 +110,8 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         progress = tag.getInt("progress");
         isActive = tag.getBoolean("active");
         technicalState = tag.getString("state");
+        heat = tag.getDouble("heat");
+        heatInit = tag.getBoolean("heatinit");
         super.fromTag(state, tag);
 
     }
@@ -118,6 +142,10 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
             tag.putBoolean("active", isActive);
             tag.putString("state", technicalState);
         }
+
+        tag.putDouble("heat", heat);
+        tag.putBoolean("heatinit", heatInit);
+
         return tag;
     }
 
@@ -157,5 +185,71 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return null;
+    }
+
+    public void calcHeat(){
+        HeatTransferHelper.simulateAmbientHeat(this, this.world.getBiome(pos));
+        simulateSurroundingHeat(pos, this);
+    }
+
+    public static <T extends MachineEntity & HeatHolder> void simulateSurroundingHeat(BlockPos pos, T bodyA){
+        BlockPos bodyB;
+        World world = bodyA.getWorld();
+
+        if(world == null)
+            return;
+
+        for(Direction direction : Direction.values()){
+            bodyB = pos.offset(direction);
+
+            if((world.getBlockEntity(bodyB) instanceof  HeatHolder)){
+                if(((MachineEntity) world.getBlockEntity(bodyB)).getMaterial() != null)
+                    HeatTransferHelper.simulateHeat(((MachineEntity) world.getBlockEntity(bodyB)).getMaterial(), (HeatHolder) world.getBlockEntity(bodyB), bodyA);
+                else if(bodyA.getMaterial() != null)
+                    HeatTransferHelper.simulateHeat(bodyA.getMaterial(), (HeatHolder) world.getBlockEntity(bodyB), bodyA);
+                else
+                    HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, (HeatHolder) world.getBlockEntity(bodyB), bodyA);
+            }
+            else if(HeatTransferHelper.isHeatSource(world.getBlockState(bodyB).getBlock())){
+                HeatTransferHelper.simulateHeat(HeatTransferHelper.HeatMaterial.AIR, bodyA, world.getBlockState(bodyB).getBlock());
+            }
+        }
+    }
+
+    protected void meltDown(boolean cold, @Nullable BlockState state){
+        if(cold && state != null){
+            world.setBlockState(pos, state);
+            world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f, false);
+            if(!world.isClient()){
+                ((ServerWorld) world).spawnParticles(ParticleTypes.SMOKE, pos.getX()+0.25, pos.up().getY(), pos.getZ()+0.25, 11, 0.25, 0, 0.25, 0);
+            }
+        }
+        else{
+            world.setBlockState(pos, Blocks.LAVA.getDefaultState());
+            world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 1.2f, 0.8f, false);
+            if(!world.isClient()){
+                ((ServerWorld) world).spawnParticles(ParticleTypes.LARGE_SMOKE, pos.getX()+0.25, pos.up().getY(), pos.getZ()+0.25, 11, 0.25, 0, 0.25, 0);
+            }
+        }
+    }
+
+    @Override
+    public double getHeat() {
+        return heat;
+    }
+
+    @Override
+    public void moveHeat(double change) {
+        heat += change;
+    }
+
+    @Override
+    public double getArea() {
+        return 1;
+    }
+
+    @Override
+    public HeatTransferHelper.HeatMaterial getMaterial() {
+        return material;
     }
 }

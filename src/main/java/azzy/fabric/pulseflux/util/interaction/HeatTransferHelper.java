@@ -8,8 +8,6 @@ import java.util.HashMap;
 
 public class HeatTransferHelper {
 
-    //HEY, REMEMBER TO CHECK THE HEAT TRANSFER FORMULA TO PREVENT EXCESSIVE CALCULATIONS
-
     private static final HashMap<Block, HeatSource> heatMap = new HashMap<>();
 
     public static void init() {
@@ -19,18 +17,22 @@ public class HeatTransferHelper {
 
     private static double calculateHeat(HeatMaterial medium, double bodyATemp, HeatSource bodyB) {
         double transfer;
-        transfer = medium.transfer * Math.pow(bodyB.size, 2) * (bodyATemp - bodyB.temp);
+        transfer = (medium.transfer / 419) * Math.pow(bodyB.size, 2) * (bodyATemp - bodyB.temp);
         return transfer;
     }
 
-    private static double calculateHeat(HeatMaterial medium, double bodyATemp, double bodyBTemp) {
+    private static double calculateHeat(HeatMaterial medium, double bodyATemp, double bodyBTemp, double area) {
         double transfer;
-        transfer = medium.transfer * 0.75 * (bodyATemp - bodyBTemp);
+        transfer = (medium.transfer / 419) * area * (bodyATemp - bodyBTemp);
         return transfer;
     }
 
     public static <T extends HeatHolder> void simulateHeat(HeatMaterial medium, T bodyA, T bodyB) {
-        double flux = calculateHeat(medium, bodyA.getHeat(), bodyB.getHeat());
+        double area = Math.min(bodyA.getArea(), bodyB.getArea());
+        if(bodyA.forceArea() || bodyB.forceArea()){
+            area = bodyA.forceArea() ? bodyA.getArea() : bodyB.getArea();
+        }
+        double flux = calculateHeat(medium, bodyA.getHeat(), bodyB.getHeat(), area);
         bodyA.moveHeat(-flux);
         bodyB.moveHeat(flux);
     }
@@ -57,13 +59,22 @@ public class HeatTransferHelper {
     }
 
     public static <T extends HeatHolder> void simulateAmbientHeat(T bodyA, Biome biome) {
-        double flux = calculateHeat(HeatMaterial.AIR, bodyA.getHeat(), translateBiomeHeat(biome));
+        double flux = calculateHeat(HeatMaterial.AIR, bodyA.getHeat(), translateBiomeHeat(biome), bodyA.getArea());
         bodyA.moveHeat(-flux);
     }
 
     public enum HeatMaterial {
         AIR(0.026),
-        IRON(52.0);
+        BRICK(0.6),
+        STEEL(50.2),
+        WATER(0.6),
+        DIAMOND(335.2),
+        ALUMINIUM(205),
+        GRANITE(1.73),
+        CERAMIC(41),
+        TITANIUM(6.7),
+        TUNGSTEN(164),
+        BEDROCK(400);
 
         private final double transfer;
 
@@ -73,15 +84,16 @@ public class HeatTransferHelper {
     }
 
     public enum HeatSource {
-        FIRE(800, Blocks.FIRE, 0.7),
-        MAGMA(500, Blocks.MAGMA_BLOCK, 1),
-        LAVA(1200, Blocks.LAVA, 1),
+        TEST(9999, Blocks.BARRIER, 1),
+        FIRE(900, Blocks.FIRE, 0.65),
+        MAGMA(600, Blocks.MAGMA_BLOCK, 1),
+        LAVA(1300, Blocks.LAVA, 1),
         GLOWSTONE(200, Blocks.GLOWSTONE, 1),
         TORCH(700, Blocks.TORCH, 0.125),
         WALLTORCH(700, Blocks.WALL_TORCH, 0.125),
-        SOULFIRE(900, Blocks.SOUL_FIRE, 0.7),
-        CAMPFIRE(750, Blocks.CAMPFIRE, 0.4),
-        SOULCAMPFIRE(800, Blocks.SOUL_CAMPFIRE, 0.4),
+        SOULFIRE(1000, Blocks.SOUL_FIRE, 0.65),
+        CAMPFIRE(850, Blocks.CAMPFIRE, 0.8),
+        SOULCAMPFIRE(1000, Blocks.SOUL_CAMPFIRE, 0.8),
         SOULTORCH(750, Blocks.SOUL_TORCH, 0.125),
         WALLSOULTORCH(750, Blocks.SOUL_WALL_TORCH, 0.125);
 
@@ -95,10 +107,14 @@ public class HeatTransferHelper {
             this.size = size;
         }
 
-        public HeatSource getSource(Block block) {
+        public static HeatSource getSource(Block block) {
             if (heatMap.containsKey(block))
                 return heatMap.get(block);
             return null;
+        }
+
+        public int getTemp() {
+            return temp;
         }
     }
 }
