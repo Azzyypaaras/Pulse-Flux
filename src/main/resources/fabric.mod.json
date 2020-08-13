@@ -1,41 +1,39 @@
 {
   "schemaVersion": 1,
-  "id": "",
-  "version": "SNAPSHOT-1-1.16",
+  "id": "pulseflux",
+  "version": "0.0.0",
 
-  "name": "Template",
-  "description": "",
+  "name": "Pulse Flux",
+  "description": "Listen, oh listen to the machines' heartbeat",
   "authors": [
-    "Azazelthedemonlord"
+    "Azazelthedemonlord",
+    "shedaniel"
   ],
   "contact": {
-    "homepage": "https://github.com/Dragonoidzero/",
-    "sources": ""
+    "homepage": "https://github.com/Dragonoidzero/Pulse-Flux",
+    "sources": "https://github.com/Dragonoidzero/Pulse-Flux"
   },
 
-  "license": "CC0-1.0",
+  "license": "Public Domain",
   "icon": "assets/circumstable/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "azzy.fabric."
+      "azzy.fabric.pulseflux.PulseFlux"
     ],
     "client": [
-      "azzy.fabric..ClientInit"
-    ],
-    "modmenu": [
-      "azzy.fabric.config.CConfig"
+      "azzy.fabric.pulseflux.ClientInit"
     ]
   },
   "mixins": [
-    ".mixins.json"
+    "pulseflux.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
-    "minecraft": "1.16.1",
+    "minecraft": "1.16.2",
     "libgui": "*"
   },
   "suggests": {

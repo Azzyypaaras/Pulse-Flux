@@ -58,7 +58,7 @@ dependencies {
 	//modApi "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
 
 	//include "alexiil.mc.lib:libblockattributes-all:"+libblockattributesver
-	include "io.github.cottonmc:LibGui:"+libguiver+"+1.16.1"
+	include "io.github.cottonmc:LibGui:"+libguiver
 	//include "me.shedaniel.cloth:config-2:"+clothconfver
 	//include "me.sargunvohra.mcmods:autoconfig1u:"+autoconfver
 
@@ -66,7 +66,7 @@ dependencies {
 	//modCompile "grondag:canvas-mc116:1.0.+"
 
 	//NOTE, TESTING ONLY, NOT LIBRARIES, DO NOT IMPLEMENT AS LIBRARIES, DO NOT USE IN CODE
-	modImplementation "io.github.prospector:modmenu:1.12.2+build.17"
+	modImplementation "io.github.prospector:modmenu:1.14.6+build.31"
 
 }
 
