@@ -70,6 +70,7 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     public MachineEntity(BlockEntityType<? extends MachineEntity> entityType, HeatTransferHelper.HeatMaterial material) {
         super(entityType);
         this.material = material;
+        this.heatInit = true;
         //fluidInv = new SimpleFixedFluidInv(0, new FluidAmount(0));
     }
 
@@ -92,7 +93,7 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
         for(int i = 0; i < 4; i++)
             calcHeat();
 
-        if (!world.isClient)
+        if (!world.isClient())
             sync();
     }
 
@@ -163,12 +164,14 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     public void fromClientTag(CompoundTag compoundTag) {
     //    fluidInv.fromTag(compoundTag.getCompound("fluid"));
         progress = compoundTag.getInt("progress");
+        heat = compoundTag.getDouble("heat");
     }
 
     @Override
     public CompoundTag toClientTag(CompoundTag compoundTag) {
     //    compoundTag.put("fluid", fluidInv.toTag());
         compoundTag.putInt("progress", progress);
+        compoundTag.putDouble("heat", heat);
         return compoundTag;
     }
 
