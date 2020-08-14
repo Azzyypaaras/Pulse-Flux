@@ -1,16 +1,12 @@
 package azzy.fabric.pulseflux.util.controller;
 
-import azzy.fabric.pulseflux.PulseFlux;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
-import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
-import io.github.cottonmc.cotton.gui.client.NinePatch;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.util.Identifier;
 
 public class BaseController extends SyncedGuiDescription {
     protected WPlainPanel root = new WPlainPanel();
@@ -24,7 +20,7 @@ public class BaseController extends SyncedGuiDescription {
         setRootPanel(root);
         root.setSize(sizeX, sizeY);
         assembleInventory(blockInventory.size(), spacing, spacing);
-        root.add(new WLabel(name, 16776693), alignment, 0);
+        root.add(new WLabel(name, 0x3f3f3f), alignment, 0);
         build();
     }
 
@@ -36,8 +32,8 @@ public class BaseController extends SyncedGuiDescription {
         slotX = 1;
         spacing = 1;
         name = "null";
-        sizeY = slotY * spacing + spacing;
-        sizeX = slotX * spacing;
+        sizeY = 96;
+        sizeX = 162;
         alignment = 1;
     }
 
@@ -50,14 +46,6 @@ public class BaseController extends SyncedGuiDescription {
                 s++;
             }
         }
-    }
-
-    @Override
-    public void addPainters() {
-        NinePatch paint = BackgroundPainter.createNinePatch(new Identifier(PulseFlux.MOD_ID, "textures/gui/background/ninepatch_basic.png"));
-        paint.setPadding(8);
-        paint.setMode(NinePatch.Mode.TILING);
-        root.setBackgroundPainter(paint);
     }
 
     protected void build() {
