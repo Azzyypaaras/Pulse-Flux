@@ -34,7 +34,6 @@ public class BaseMachine extends HorizontalFacingBlock implements BlockEntityPro
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof MachineEntity) {
-                // update comparators
                 world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);

@@ -16,6 +16,10 @@ public class BlastFurnaceMachineEntity extends MachineEntity {
 
     public BlastFurnaceMachineEntity() {
         super(BLAST_FURNACE_ENTITY, HeatTransferHelper.HeatMaterial.STEEL);
+    }
+
+    @Override
+    protected void initBlockEntity() {
         inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
     }
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "pulseflux",
-  "version": "0.0.0",
+  "version": "0.0.1",
 
   "name": "Pulse Flux",
   "description": "Listen, oh listen to the machines' heartbeat",
@@ -15,7 +15,7 @@
   },
 
   "license": "Public Domain",
-  "icon": "assets/circumstable/icon.png",
+  "icon": "assets/pulseflux/icon.png",
 
   "environment": "*",
   "entrypoints": {

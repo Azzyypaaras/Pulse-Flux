@@ -34,20 +34,18 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 
-public class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable, InventoryProvider, NamedScreenHandlerFactory, HeatHolder {
+public abstract class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable, InventoryProvider, NamedScreenHandlerFactory, HeatHolder {
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
 
     protected final HeatTransferHelper.HeatMaterial material;
 
-    public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(0, ItemStack.EMPTY);
-    protected String identity = "VOID";
+    public DefaultedList<ItemStack> inventory;
     //public SimpleFixedFluidInv fluidInv;
     protected boolean isActive = false;
     protected int progress = 0;
-    protected String technicalState = "default";
     protected double heat;
-    private boolean heatInit;
+    private boolean heatInit = true;
 
     final PropertyDelegate tankHolder = new PropertyDelegate() {
         @Override
@@ -69,10 +67,12 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     public MachineEntity(BlockEntityType<? extends MachineEntity> entityType, HeatTransferHelper.HeatMaterial material) {
         super(entityType);
+        initBlockEntity();
         this.material = material;
-        this.heatInit = true;
         //fluidInv = new SimpleFixedFluidInv(0, new FluidAmount(0));
     }
+
+    protected abstract void initBlockEntity();
 
     @Override
     public int[] getAvailableSlots(Direction var1) {
@@ -92,27 +92,22 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
         for(int i = 0; i < 4; i++)
             calcHeat();
-
-        if (!world.isClient())
-            sync();
     }
 
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
-
         //Inventory nbt
-        Inventories.fromTag(tag, inventory);
+        Inventories.fromTag(tag, this.inventory);
 
         //Fluid nbt
         //fluidInv.fromTag(tag.getCompound("fluid"));
 
 
         //State nbt
-        progress = tag.getInt("progress");
-        isActive = tag.getBoolean("active");
-        technicalState = tag.getString("state");
-        heat = tag.getDouble("heat");
-        heatInit = tag.getBoolean("heatinit");
+        this.progress = tag.getInt("progress");
+        this.isActive = tag.getBoolean("active");
+        this.heat = tag.getDouble("heat");
+        this.heatInit = tag.getBoolean("heatinit");
         super.fromTag(state, tag);
 
     }
@@ -129,25 +124,18 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
-        super.toTag(tag);
-
-        //Inventory nbt
-        Inventories.toTag(tag, inventory);
+        Inventories.toTag(tag, this.inventory);
 
         //Fluid nbt
         //tag.put("fluid", fluidInv.toTag());
 
-        //State nbt
-        if (isActive || !technicalState.equals("default")) {
-            tag.putInt("progress", progress);
-            tag.putBoolean("active", isActive);
-            tag.putString("state", technicalState);
-        }
+        tag.putInt("progress", this.progress);
+        tag.putBoolean("active", this.isActive);
 
-        tag.putDouble("heat", heat);
-        tag.putBoolean("heatinit", heatInit);
+        tag.putDouble("heat", this.heat);
+        tag.putBoolean("heatinit", this.heatInit);
 
-        return tag;
+        return super.toTag(tag);
     }
 
     @Override
@@ -163,15 +151,17 @@ public class MachineEntity extends BlockEntity implements Tickable, InventoryWra
     @Override
     public void fromClientTag(CompoundTag compoundTag) {
     //    fluidInv.fromTag(compoundTag.getCompound("fluid"));
-        progress = compoundTag.getInt("progress");
-        heat = compoundTag.getDouble("heat");
+        this.progress = compoundTag.getInt("progress");
+        this.heat = compoundTag.getDouble("heat");
+        this.heatInit = compoundTag.getBoolean("heatinit");
     }
 
     @Override
     public CompoundTag toClientTag(CompoundTag compoundTag) {
     //    compoundTag.put("fluid", fluidInv.toTag());
-        compoundTag.putInt("progress", progress);
-        compoundTag.putDouble("heat", heat);
+        compoundTag.putInt("progress", this.progress);
+        compoundTag.putDouble("heat", this.heat);
+        compoundTag.putBoolean("heatinit", this.heatInit);
         return compoundTag;
     }
 
