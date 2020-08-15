@@ -4,6 +4,7 @@ import azzy.fabric.pulseflux.staticentities.blockentity.MachineEntity;
 import azzy.fabric.pulseflux.util.interaction.HeatTransferHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.collection.DefaultedList;
@@ -15,12 +16,7 @@ import static azzy.fabric.pulseflux.registry.BlockEntityRegistry.BLAST_FURNACE_E
 public class BlastFurnaceMachineEntity extends MachineEntity {
 
     public BlastFurnaceMachineEntity() {
-        super(BLAST_FURNACE_ENTITY, HeatTransferHelper.HeatMaterial.STEEL);
-    }
-
-    @Override
-    protected void initBlockEntity() {
-        inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
+        super(BLAST_FURNACE_ENTITY, HeatTransferHelper.HeatMaterial.STEEL, () -> DefaultedList.ofSize(10, ItemStack.EMPTY));
     }
 
     @Override
@@ -30,7 +26,7 @@ public class BlastFurnaceMachineEntity extends MachineEntity {
         if(!this.hasWorld())
             return;
 
-        if(!isActive && this.getCachedState().get(LIT))
+        if(!(progress > 0) && this.getCachedState().get(LIT))
             world.setBlockState(pos, this.getCachedState().with(LIT, false));
 
         if(heat > 1680) {
@@ -41,6 +37,11 @@ public class BlastFurnaceMachineEntity extends MachineEntity {
     @Override
     public double getArea() {
         return 1;
+    }
+
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        return new int[0];
     }
 
     @Override

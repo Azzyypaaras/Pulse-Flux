@@ -3,186 +3,53 @@ package azzy.fabric.pulseflux.staticentities.blockentity;
 import azzy.fabric.pulseflux.util.InventoryWrapper;
 import azzy.fabric.pulseflux.util.interaction.HeatHolder;
 import azzy.fabric.pulseflux.util.interaction.HeatTransferHelper;
-import blue.endless.jankson.annotation.Nullable;
+import com.sun.istack.internal.Nullable;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.PropertyDelegate;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+
+import java.util.function.Supplier;
 
 
-public abstract class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, SidedInventory, PropertyDelegateHolder, BlockEntityClientSerializable, InventoryProvider, NamedScreenHandlerFactory, HeatHolder {
+public abstract class MachineEntity extends BlockEntity implements Tickable, InventoryWrapper, HeatHolder, PropertyDelegateHolder, BlockEntityClientSerializable, SidedInventory {
 
     //DEFAULT VALUES, DO NOT FORGET TO OVERRIDE THESE
 
     protected final HeatTransferHelper.HeatMaterial material;
-
-    public DefaultedList<ItemStack> inventory;
-    //public SimpleFixedFluidInv fluidInv;
-    protected boolean isActive = false;
-    protected int progress = 0;
+    protected DefaultedList<ItemStack> inventory;
+    protected final Supplier<DefaultedList<ItemStack>> invSupplier;
+    protected short progress;
+    protected boolean heatInit;
     protected double heat;
-    private boolean heatInit = true;
 
-    final PropertyDelegate tankHolder = new PropertyDelegate() {
-        @Override
-        public int get(int index) {
-            return 0;
-        }
-
-        @Override
-        public void set(int index, int value) {
-        }
-
-        @Override
-        public int size() {
-            return 0;
-        }
-    };
-
-    //ALSO OVERRIDE THIS
-
-    public MachineEntity(BlockEntityType<? extends MachineEntity> entityType, HeatTransferHelper.HeatMaterial material) {
-        super(entityType);
-        initBlockEntity();
+    public MachineEntity(BlockEntityType<?> type, HeatTransferHelper.HeatMaterial material, Supplier<DefaultedList<ItemStack>> invSupplier) {
+        super(type);
         this.material = material;
-        //fluidInv = new SimpleFixedFluidInv(0, new FluidAmount(0));
-    }
-
-    protected abstract void initBlockEntity();
-
-    @Override
-    public int[] getAvailableSlots(Direction var1) {
-        int[] result = new int[size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = i;
-        }
-        return result;
-    }
-
-    @Override
-    public void tick() {
-        if(heatInit) {
-            heat = HeatTransferHelper.translateBiomeHeat(this.getWorld().getBiome(pos));
-            heatInit = false;
-        }
-
-        for(int i = 0; i < 4; i++)
-            calcHeat();
-    }
-
-    @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
-        //Inventory nbt
-        Inventories.fromTag(tag, this.inventory);
-
-        //Fluid nbt
-        //fluidInv.fromTag(tag.getCompound("fluid"));
-
-
-        //State nbt
-        this.progress = tag.getInt("progress");
-        this.isActive = tag.getBoolean("active");
-        this.heat = tag.getDouble("heat");
-        this.heatInit = tag.getBoolean("heatinit");
-        super.fromTag(state, tag);
-
-    }
-
-    @Override
-    public boolean canInsert(int slot, ItemStack stack, Direction direction) {
-        return direction == Direction.UP;
-    }
-
-    @Override
-    public boolean canExtract(int slot, ItemStack stack, Direction direction) {
-        return direction == Direction.DOWN;
-    }
-
-    @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        Inventories.toTag(tag, this.inventory);
-
-        //Fluid nbt
-        //tag.put("fluid", fluidInv.toTag());
-
-        tag.putInt("progress", this.progress);
-        tag.putBoolean("active", this.isActive);
-
-        tag.putDouble("heat", this.heat);
-        tag.putBoolean("heatinit", this.heatInit);
-
-        return super.toTag(tag);
-    }
-
-    @Override
-    public PropertyDelegate getPropertyDelegate() {
-        return tankHolder;
-    }
-
-    @Override
-    public DefaultedList<ItemStack> getItems() {
-        return inventory;
-    }
-
-    @Override
-    public void fromClientTag(CompoundTag compoundTag) {
-    //    fluidInv.fromTag(compoundTag.getCompound("fluid"));
-        this.progress = compoundTag.getInt("progress");
-        this.heat = compoundTag.getDouble("heat");
-        this.heatInit = compoundTag.getBoolean("heatinit");
-    }
-
-    @Override
-    public CompoundTag toClientTag(CompoundTag compoundTag) {
-    //    compoundTag.put("fluid", fluidInv.toTag());
-        compoundTag.putInt("progress", this.progress);
-        compoundTag.putDouble("heat", this.heat);
-        compoundTag.putBoolean("heatinit", this.heatInit);
-        return compoundTag;
-    }
-
-    @Override
-    public SidedInventory getInventory(BlockState state, WorldAccess world, BlockPos pos) {
-        return this;
-    }
-
-    @Override
-    public Text getDisplayName() {
-        return new TranslatableText(getCachedState().getBlock().getTranslationKey());
-    }
-
-    @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return null;
+        this.invSupplier = invSupplier;
+        this.inventory = invSupplier.get();
     }
 
     public void calcHeat(){
-        HeatTransferHelper.simulateAmbientHeat(this, this.world.getBiome(pos));
-        simulateSurroundingHeat(pos, this);
+        for(int i = 0; i < 4; i++){
+            HeatTransferHelper.simulateAmbientHeat(this, this.world.getBiome(pos));
+            simulateSurroundingHeat(pos, this);
+        }
     }
 
     public static <T extends MachineEntity & HeatHolder> void simulateSurroundingHeat(BlockPos pos, T bodyA){
@@ -227,6 +94,11 @@ public abstract class MachineEntity extends BlockEntity implements Tickable, Inv
     }
 
     @Override
+    public DefaultedList<ItemStack> getItems() {
+        return inventory;
+    }
+
+    @Override
     public double getHeat() {
         return heat;
     }
@@ -237,12 +109,56 @@ public abstract class MachineEntity extends BlockEntity implements Tickable, Inv
     }
 
     @Override
-    public double getArea() {
-        return 1;
+    public HeatTransferHelper.HeatMaterial getMaterial() {
+        return material;
     }
 
     @Override
-    public HeatTransferHelper.HeatMaterial getMaterial() {
-        return material;
+    public void tick() {
+        if(!heatInit) {
+            this.heat = HeatTransferHelper.translateBiomeHeat(world.getBiome(pos));
+            heatInit = true;
+        }
+        calcHeat();
+        if(!world.isClient()) {
+            markDirty();
+            sync();
+        }
+    }
+
+    @Override
+    public CompoundTag toTag(CompoundTag tag) {
+        Inventories.toTag(tag, inventory);
+        tag.putDouble("heat", heat);
+        tag.putShort("progress", progress);
+        tag.putBoolean("heatinit", heatInit);
+
+        return super.toTag(tag);
+    }
+
+    @Override
+    public void fromTag(BlockState state, CompoundTag tag) {
+        super.fromTag(state, tag);
+
+        this.inventory = invSupplier.get();
+        Inventories.fromTag(tag, inventory);
+        heat = tag.getDouble("heat");
+        progress = tag.getShort("progress");
+        heatInit = tag.getBoolean("heatinit");
+    }
+
+    @Override
+    public void fromClientTag(CompoundTag compoundTag) {
+        compoundTag.putDouble("heat", heat);
+        compoundTag.putShort("progress", progress);
+        compoundTag.putBoolean("heatinit", heatInit);
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag compoundTag) {
+        heat = compoundTag.getDouble("heat");
+        progress = compoundTag.getShort("progress");
+        heatInit = compoundTag.getBoolean("heatinit");
+        return compoundTag;
     }
 }

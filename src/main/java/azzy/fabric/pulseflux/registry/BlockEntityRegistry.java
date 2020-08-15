@@ -14,7 +14,7 @@ import static azzy.fabric.pulseflux.registry.BlockRegistry.BLAST_FURNACE_MACHINE
 
 public class BlockEntityRegistry {
 
-    public static final BlockEntityType<BlastFurnaceMachineEntity> BLAST_FURNACE_ENTITY = register("blast_furnace_entity", BlastFurnaceMachineEntity::new, BLAST_FURNACE_MACHINE);
+    public static final BlockEntityType<BlastFurnaceMachineEntity> BLAST_FURNACE_ENTITY = register("blast_furnace_machine_entity", BlastFurnaceMachineEntity::new, BLAST_FURNACE_MACHINE);
 
     private static <T extends BlockEntity> BlockEntityType<T>  register(String name, Supplier<T> item, Block block){
         return Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, name), BlockEntityType.Builder.create(item, block).build(null));
